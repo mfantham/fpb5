@@ -1,0 +1,18 @@
+{
+  "atlasMode": "true",
+  "imageAlpha": "true",
+  "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4",
+  "pathToImages": "demo/mouseEmbryoHead-images/",
+  "uniqueName": "mouseEmbryoHead",
+  "imagePrefix": "mouseEmbryoHead_z",
+  "numberingFormat": "0000",
+  "fileType": "png",
+  "voxelSize": {"x": 13.5, "y": 13.5, "z": 15.0},
+  "numberOfImages": 224,
+  "sliceWidth": 332,
+  "sliceHeight": 341,
+  "opacity": 3.2,
+  "intensity": 1.8,
+  "threshold": 0.12,
+  "projection": 2
+}

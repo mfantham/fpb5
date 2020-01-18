@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo3D from './Logo3D';
-import {useStore} from './Fpb/FpbContext';
+import Loader from './Fpb/Loader';
 
 const LoadingHolder = styled.div`
   position: absolute;
@@ -14,20 +14,14 @@ const LoadingHolder = styled.div`
   align-items: center;
   justify-content: space-evenly;
   color: whtie;
+  pointer-events: none;
 `;
 
-export default () => {
-  const loaded = useStore(s => s.loaded);
-
-  if (loaded >= 1){
-    return null;
-  }
-
+export default ({setMetadataCallback}) => {
   return (
     <LoadingHolder>
       <Logo3D />
-      Loading {100 * loaded}%...
+      <Loader setMetadataCallback={setMetadataCallback} datasetName='mouse'/>
     </LoadingHolder>
   )
-
 }

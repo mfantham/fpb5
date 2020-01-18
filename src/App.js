@@ -1,4 +1,4 @@
-import React, {Suspense, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import FPBioimage from './Fpb/FPBioimage';
 

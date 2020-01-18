@@ -2,8 +2,6 @@ import React, {useRef} from 'react';
 import { extend, useThree, useFrame } from 'react-three-fiber';
 import {OrbitControls} from 'three-full';
 
-import {useFpbContext} from './FpbContext';
-
 extend({OrbitControls});
 
 export default ({domReference}) => {

@@ -1,58 +1,59 @@
 export default `
 uniform sampler2D u_textures[8];
+uniform vec3 u_dataResolution;
+uniform vec2 u_atlasResolution;
+uniform float u_opacity;
 uniform float u_intensity;
+uniform float u_threshold;
+uniform int u_steps;
 
 varying vec3 v_rayO;
 varying vec3 v_rayD;
 
-float u_slicesPerRow = 4.0;
-float u_imageHeight = 256.0;
-float u_imageWidth = 256.0;
-float u_atlasHeight = 1024.0;
-float u_atlasWidth = 1024.0;
+float slicesPerRow = floor(u_atlasResolution.x / u_dataResolution.x);
 
-vec3 u_volumeSizePixels = vec3(256, 256, 99);
-int u_steps = 500;
-
+const float numAtlases = 8.0;
 const vec3 boxMin = vec3(-0.5);
 const vec3 boxMax = vec3(+0.5);
 const int MAX_STEPS = 768;
 
+float meanPixel(vec3 rgbPixel){
+  return (rgbPixel.r + rgbPixel.g + rgbPixel.b);
+}
+
 vec4 sample3D(vec3 rayTip) {
-  vec3 rayTipPx = rayTip * u_volumeSizePixels;
-  rayTipPx.z = floor(rayTipPx.z + 0.5); // hmm some dodgy flooring differences...
+  vec3 rayTipPx = rayTip * u_dataResolution + 0.5;
+  rayTipPx.z = floor(rayTipPx.z);
 
-  int idx = int(mod(rayTipPx.z, 8.0));
-  float z = floor(rayTipPx.z / 8.0);
+  float idx = mod(rayTipPx.z, numAtlases); 
+  float z = floor(rayTipPx.z / numAtlases);
 
-  float xStart = mod(z, u_slicesPerRow) * u_imageWidth;
-  float yStart = floor(z / u_slicesPerRow) * u_imageHeight;
+  float xStart = mod(z, slicesPerRow) * u_dataResolution.x;
+  float yStart = floor(z / slicesPerRow) * u_dataResolution.y;
   float x = xStart + rayTipPx.x;
   float y = yStart + rayTipPx.y;
 
-  vec2 uv = vec2(x / u_atlasWidth, y / u_atlasHeight);
+  vec2 uv = vec2(x / u_atlasResolution.x, y / u_atlasResolution.y);
 
-  vec4 src = vec4(0);
+  vec4 src = vec4(0, 0.5, 0.5, 0.5);
   if (all(greaterThan(uv,vec2(0))) && all(lessThan(uv, vec2(1)))){
-    if (idx == 0) {
+    if (idx == 0.0) {
       src = texture2D(u_textures[0], uv);
-    } else if (idx == 1) {
+    } else if (idx == 1.0) {
       src = texture2D(u_textures[1], uv);
-    } else if (idx == 2) {
+    } else if (idx == 2.0) {
       src = texture2D(u_textures[2], uv);
-    } else if (idx == 3) {
+    } else if (idx == 3.0) {
       src = texture2D(u_textures[3], uv);
-    } else if (idx == 4) {
+    } else if (idx == 4.0) {
       src = texture2D(u_textures[4], uv);
-    } else if (idx == 5) {
+    } else if (idx == 5.0) {
       src = texture2D(u_textures[5], uv);
-    } else if (idx == 6) {
+    } else if (idx == 6.0) {
       src = texture2D(u_textures[6], uv);
-    } else if (idx == 7) {
+    } else if (idx == 7.0) {
       src = texture2D(u_textures[7], uv);
     }
-  } else {
-    src = vec4(1, 0, 1, 1);
   }
   return src;
 }
@@ -83,7 +84,7 @@ void main() {
 
   vec3 rayPosition = startPoint;
   vec3 rayDirection = endPoint - startPoint;
-  vec3 rayStep = 1.73 * normalize(rayDirection) / float(u_steps);
+  vec3 rayStep = 1.2 * normalize(rayDirection) / float(u_steps);
 
   vec4 rayColor = vec4(0);
 
@@ -100,7 +101,7 @@ void main() {
 
 
         // Composting shader
-        voxelColor.a *= 0.1; // opacity
+        voxelColor.a *= u_opacity / 8.0; // opacity
         voxelColor.rgb *= voxelColor.a;
         rayColor += (1.0 - rayColor.a) * voxelColor;
 
@@ -109,10 +110,10 @@ void main() {
       }
     }
   }
-  if (rayColor.r < 0.1){
+  if (meanPixel(rayColor.rgb) < u_threshold){
     discard;
   }
 
-  gl_FragColor = rayColor * u_intensity;
+  gl_FragColor = rayColor * u_intensity * 256.0 / float(u_steps);
 }
 `;

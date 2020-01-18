@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {useLoader} from 'react-three-fiber';
 import {TextureLoader, RepeatWrapping} from 'three';
 import wall from './grid.png';

@@ -1,0 +1,18 @@
+{
+  "atlasMode": "true",
+  "imageAlpha": "true",
+  "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4",
+  "pathToImages": "demo/keller-images/",
+  "uniqueName": "keller",
+  "imagePrefix": "keller_z",
+  "numberingFormat": "0000",
+  "fileType": "png",
+  "voxelSize": {"x": 0.66, "y": 1.32, "z": 0.67},
+  "numberOfImages": 240,
+  "sliceWidth": 232,
+  "sliceHeight": 317,
+  "opacity": 6.5,
+  "intensity": 1.5,
+  "threshold": 0.06,
+  "projection": 2
+}
