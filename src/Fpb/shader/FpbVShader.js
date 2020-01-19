@@ -2,7 +2,7 @@ export default `
 varying vec3 v_rayO;
 varying vec3 v_rayD;
 
-mat4 inverse(mat4 m) {
+mat4 inverse4by4(mat4 m) {
   float
   a00 = m[0][0], a01=m[0][1], a02 = m[0][2], a03 = m[0][3],
   a10 = m[1][0], a11=m[1][1], a12 = m[1][2], a13 = m[1][3],
@@ -56,7 +56,7 @@ vec4 objectToClipPosition(vec3 v, mat4 objectToWorld) {
  void main() {
    vec3 worldSpaceCameraPos = cameraPosition;
    mat4 objectToWorld = modelMatrix;
-   mat4 worldToObject = inverse(objectToWorld);
+   mat4 worldToObject = inverse4by4(objectToWorld);
 
    vec3 ray_d = -objSpaceViewDir(position, worldSpaceCameraPos, worldToObject);
    vec3 ray_o = position - ray_d;

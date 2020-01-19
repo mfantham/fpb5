@@ -23,7 +23,11 @@ export default ({metadata}) => {
   return (
     <>
       <CanvasContainer ref={canvasContainerRef}>
-        <Canvas pixelRatio={pixelRatio} camera={{position: [0, 0, -3]}} gl={{alpha: false}}>
+        <Canvas pixelRatio={pixelRatio}
+          camera={{position: [0, 0, -3]}}
+          gl={{alpha: false}}
+          gl2
+        >
           <ambientLight />
           <TestControls domReference={canvasContainerRef}/>
           <Suspense fallback={<mesh />}>

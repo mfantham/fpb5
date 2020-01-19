@@ -10,8 +10,6 @@ uniform int u_steps;
 varying vec3 v_rayO;
 varying vec3 v_rayD;
 
-float slicesPerRow = floor(u_atlasResolution.x / u_dataResolution.x);
-
 const float numAtlases = 8.0;
 const vec3 boxMin = vec3(-0.5);
 const vec3 boxMax = vec3(+0.5);
@@ -21,11 +19,11 @@ float meanPixel(vec3 rgbPixel){
   return (rgbPixel.r + rgbPixel.g + rgbPixel.b);
 }
 
-vec4 sample3D(vec3 rayTip) {
+vec4 sample3D(vec3 rayTip, float slicesPerRow) {
   vec3 rayTipPx = rayTip * u_dataResolution + 0.5;
   rayTipPx.z = floor(rayTipPx.z);
 
-  float idx = mod(rayTipPx.z, numAtlases); 
+  float idx = mod(rayTipPx.z, numAtlases);
   float z = floor(rayTipPx.z / numAtlases);
 
   float xStart = mod(z, slicesPerRow) * u_dataResolution.x;
@@ -69,6 +67,7 @@ vec2 volumeIntersects(vec3 rayOrigin, vec3 rayDirection){
 }
 
 void main() {
+  float slicesPerRow = floor(u_atlasResolution.x / u_dataResolution.x);
   vec2 hitDistance = volumeIntersects(v_rayO, v_rayD);
   float hitNear = hitDistance.x;
   float hitFar = hitDistance.y;
@@ -92,7 +91,7 @@ void main() {
     if (s < u_steps){
       vec3 rayPosition = startPoint + float(s) * rayStep;
       if (all(lessThan(rayPosition, vec3(1))) && all(greaterThan(rayPosition, vec3(0)))) {
-        vec4 voxelColor = sample3D(rayPosition);
+        vec4 voxelColor = sample3D(rayPosition, slicesPerRow);
 
         // grayscale max intensity shader
         // if (voxelColor.r > rayColor.r){
