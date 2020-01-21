@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
-import {useSlider} from './useSlider';
+import { useSlider } from "./useSlider";
 
 const Panel = styled.div`
   position: absolute;
@@ -21,10 +21,10 @@ const RightPanel = styled(Panel)`
 `;
 
 export default () => {
-  const quality = useSlider(0.1, 1, 0.05, 0.5, 'Quality', 'qualitySlider');
-  const intensity = useSlider(1, 10, 0.5, 3, 'Itensity', 'intensitySlider');
+  const quality = useSlider(0.1, 1, 0.05, 0.5, "Quality", "qualitySlider");
+  const intensity = useSlider(1, 10, 0.5, 3, "Itensity", "intensitySlider");
 
-  return(
+  return (
     <>
       <LeftPanel>
         <input {...quality} />
@@ -34,6 +34,5 @@ export default () => {
         <input {...intensity} />
       </RightPanel>
     </>
-  )
-
-}
+  );
+};

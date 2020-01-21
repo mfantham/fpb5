@@ -7,7 +7,7 @@
   "imagePrefix": "mouse_z",
   "numberingFormat": "0000",
   "fileType": "png",
-  "voxelSize": {"x": 1.0, "y": 1.0, "z": 1.0},
+  "voxelSize": { "x": 1.0, "y": 1.0, "z": 1.0 },
   "numberOfImages": 255,
   "sliceWidth": 336,
   "sliceHeight": 255,

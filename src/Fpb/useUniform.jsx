@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from "react";
 
 export const useUniform = (uniform, controlVariable, ref) => {
   useEffect(() => {

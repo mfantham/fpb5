@@ -1,18 +1,18 @@
-import React from 'react';
-import {useLoader} from 'react-three-fiber';
-import {TextureLoader, RepeatWrapping} from 'three';
-import wall from './grid.png';
+import React from "react";
+import { useLoader } from "react-three-fiber";
+import { TextureLoader, RepeatWrapping } from "three";
+import wall from "./grid.png";
 
-const {PI} = Math;
+const { PI } = Math;
 
-export default ({boxSize = 10, dispatch}) => {
+export default ({ boxSize = 10, dispatch }) => {
   const faces = [
-    {position: [0, 0, boxSize/2], rotation: [0, PI, 0]},
-    {position: [0, 0, -boxSize/2], rotation: [0, 0, 0]},
-    {position: [boxSize/2, 0, 0], rotation: [0, -PI/2, 0]},
-    {position: [-boxSize/2, 0, 0], rotation: [0, PI/2, 0]},
-    {position: [0, boxSize/2, 0], rotation: [PI/2, 0, 0]},
-    {position: [0, -boxSize/2, 0], rotation: [-PI/2, 0, 0]}
+    { position: [0, 0, boxSize / 2], rotation: [0, PI, 0] },
+    { position: [0, 0, -boxSize / 2], rotation: [0, 0, 0] },
+    { position: [boxSize / 2, 0, 0], rotation: [0, -PI / 2, 0] },
+    { position: [-boxSize / 2, 0, 0], rotation: [0, PI / 2, 0] },
+    { position: [0, boxSize / 2, 0], rotation: [PI / 2, 0, 0] },
+    { position: [0, -boxSize / 2, 0], rotation: [-PI / 2, 0, 0] }
   ];
 
   const texture = useLoader(TextureLoader, wall);
@@ -23,16 +23,17 @@ export default ({boxSize = 10, dispatch}) => {
 
   const meshes = faces.map((face, i) => {
     return (
-      <mesh key={i} position={face.position} rotation={face.rotation} scale={[boxSize, boxSize, boxSize]}>
+      <mesh
+        key={i}
+        position={face.position}
+        rotation={face.rotation}
+        scale={[boxSize, boxSize, boxSize]}
+      >
         <planeBufferGeometry attach="geometry" args={[1, 1]} />
         <meshStandardMaterial attach="material" map={texture} />
       </mesh>
     );
   });
 
-  return (
-    <object3D>
-      {meshes}
-    </object3D>
-  );
-}
+  return <object3D>{meshes}</object3D>;
+};

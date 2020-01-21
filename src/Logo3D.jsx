@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, {keyframes} from 'styled-components';
+import React from "react";
+import styled, { keyframes } from "styled-components";
 
-import logo from './logo-1000.png';
+import logo from "./logo-1000.png";
 
 const rotate = keyframes`
   from {transform: rotateX(0deg) rotateY(0deg);}
@@ -51,17 +51,16 @@ const Bottom = styled(CubeFace)`
 `;
 
 export default () => {
-
-return (
-  <CubeHolder>
-    <Cube>
-      <Front />
-      <Back />
-      <Left />
-      <Right />
-      <Top />
-      <Bottom />
-    </Cube>
-  </CubeHolder>
-  )
-}
+  return (
+    <CubeHolder>
+      <Cube>
+        <Front />
+        <Back />
+        <Left />
+        <Right />
+        <Top />
+        <Bottom />
+      </Cube>
+    </CubeHolder>
+  );
+};

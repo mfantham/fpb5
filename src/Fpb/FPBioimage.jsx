@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
-import FpbCanvas from './FpbCanvas';
+import FpbCanvas from "./FpbCanvas";
 
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from "../LoadingScreen";
 
-import Logo3D from '../Logo3D';
+import Logo3D from "../Logo3D";
 
 const FPBioimageHolder = styled.div`
   position: absolute;
@@ -17,9 +17,11 @@ export default () => {
   const [metadata, setMetadata] = useState(null);
 
   return (
-      <FPBioimageHolder>
-        <FpbCanvas metadata={metadata} />
-        {metadata === null && <LoadingScreen setMetadataCallback={d => setMetadata(d)} />}
-      </FPBioimageHolder>
+    <FPBioimageHolder>
+      <FpbCanvas metadata={metadata} />
+      {metadata === null && (
+        <LoadingScreen setMetadataCallback={d => setMetadata(d)} />
+      )}
+    </FPBioimageHolder>
   );
-}
+};
