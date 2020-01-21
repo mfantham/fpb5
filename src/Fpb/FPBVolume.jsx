@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {useLoader} from 'react-three-fiber';
-import {TextureLoader} from 'three';
+import {DataTexture3D, RGBAFormat} from 'three';
 import {useControl} from 'react-three-gui';
 
 import FpbMaterial from './FpbMaterial';
@@ -14,26 +14,15 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 }
 
-const ceil2 = v => {
-  v--;
-  v |= v >> 1;
-  v |= v >> 2;
-  v |= v >> 4;
-  v |= v >> 8;
-  v |= v >> 16;
-  v++;
-  return v;
-}
-
 export default ({metadata}) => {
   if (metadata === null){
     return null;
   }
 
   const {images, voxelSize, sliceWidth, sliceHeight, numberOfImages, ...rest} = metadata;
-  const textureList = useLoader(TextureLoader, images);
+  const texture3d = new DataTexture3D(images, sliceWidth, sliceHeight, numberOfImages);
 
-  const dataResolution = [ceil2(sliceWidth), ceil2(sliceHeight), numberOfImages];
+  const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
   const qualityZ = useControl('Quality-Z', {type: 'number', value: 0.5, min: 0, max: 1.5});
   const opacity = useControl('Opacity', {type: 'number', value: metadata.opacity, min: 0, max: 8});
   const intensity = useControl('Intensity', {type: 'number', value: metadata.intensity, min: 0, max: 5.0});
@@ -42,9 +31,9 @@ export default ({metadata}) => {
   const scale = calculateScale(voxelSize, dataResolution, size);
 
   return (
-    <mesh position={[0,0,0]} scale={scale}>
+    <mesh position={[0,0,0]} rotation={[Math.PI,0,0]} scale={scale}>
       <boxBufferGeometry attach="geometry" args={[1, 1]} />
-      <FpbMaterial textureList={textureList} steps={512 * qualityZ} dataResolution={dataResolution} opacity={opacity} intensity={intensity} threshold={threshold} />
+      <FpbMaterial texture3d={texture3d} steps={512 * qualityZ} opacity={opacity} intensity={intensity} threshold={threshold} />
     </mesh>
   )
 }
