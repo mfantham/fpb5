@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
-import {useLocation} from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
-import path from 'path';
+import path from "path";
 import { useFetch } from "loti-request";
 
 import { PNG } from "pngjs";
@@ -105,8 +105,11 @@ export default ({ datasetUrl, setMetadataCallback }) => {
     if (parameterData !== null) {
       const { pathToImages, imagePrefix, numberingFormat } = parameterData;
 
-      const {join, dirname, relative} = path;
-      const imageDirectory = join(dirname(relative(location.pathname, datasetUrl)), pathToImages);
+      const { join, dirname, relative } = path;
+      const imageDirectory = join(
+        dirname(relative(location.pathname, datasetUrl)),
+        pathToImages
+      );
       const baseUrl = `${imageDirectory}/${imagePrefix}`;
 
       const fetchComponents = [...Array(numAtlases).keys()].map(idx => {

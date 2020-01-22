@@ -15,7 +15,7 @@ const CanvasContainer = styled.div`
 `;
 
 export default ({ metadata }) => {
-  if (metadata === null){
+  if (metadata === null) {
     return null;
   }
 

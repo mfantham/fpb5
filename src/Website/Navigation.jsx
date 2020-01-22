@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Header = styled.nav`
   position: fixed;
@@ -23,7 +23,7 @@ const NavLink = styled(Link)`
   flex-grow: 1;
   text-align: center;
 
-  :hover{
+  :hover {
     background-color: #333;
   }
 
@@ -36,7 +36,7 @@ const HomeLink = styled(NavLink)`
 
 const ExamplesHolder = styled(NavLink)`
   position: relative;
-  :hover div{
+  :hover div {
     visibility: visible;
     opacity: 100;
   }
@@ -54,15 +54,13 @@ const ExamplesList = styled.div`
   min-width: 300px;
 `;
 
-
-
 const Example = styled(Link)`
   color: white;
   text-decoration: none;
   padding: 12px;
   text-align: left;
 
-  :hover{
+  :hover {
     background-color: #666;
   }
 `;
@@ -71,17 +69,18 @@ export default () => {
   return (
     <Header>
       <HomeLink to="">FPBioimage</HomeLink>
-      <ExamplesHolder as="span" to="#">Examples
+      <ExamplesHolder as="span" to="#">
+        Examples
         <ExamplesList>
-          <Example to='/data/brain'>MRI Brain</Example>
-          <Example to='/data/mouse'>Mouse embryo</Example>
-          <Example to='/data/worm'>C. Elegans embryo</Example>
-          <Example to='/data/keller'>Drosophilla embryo</Example>
-          <Example to='/data/mouseHead'>Mouse embryo head</Example>
+          <Example to="/data/brain">MRI Brain</Example>
+          <Example to="/data/mouse">Mouse embryo</Example>
+          <Example to="/data/worm">C. Elegans embryo</Example>
+          <Example to="/data/keller">Drosophilla embryo</Example>
+          <Example to="/data/mouseHead">Mouse embryo head</Example>
         </ExamplesList>
       </ExamplesHolder>
       <NavLink to="/videos">Videos</NavLink>
       <NavLink to="/project">Project page</NavLink>
     </Header>
   );
-}
+};

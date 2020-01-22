@@ -1,9 +1,9 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import FPBioimage from './Fpb/FPBioimage';
-import Navigation from './Website/Navigation';
-import Homepage from './Website/Homepage';
+import React from "react";
+import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import styled from "styled-components";
+import FPBioimage from "./Fpb/FPBioimage";
+import Navigation from "./Website/Navigation";
+import Homepage from "./Website/Homepage";
 
 const App = styled.div`
   background-color: #222;
@@ -21,11 +21,11 @@ const FPBioimagePage = () => {
   const datasetUrl = `/demo/${datasetName}.json`;
 
   return (
-    <div style={{position: "absolute", height: "100%", width: "100%"}}>
+    <div style={{ position: "absolute", height: "100%", width: "100%" }}>
       <FPBioimage datasetUrl={datasetUrl} />
     </div>
-  )
-}
+  );
+};
 
 export default () => {
   return (
@@ -43,4 +43,4 @@ export default () => {
       </App>
     </BrowserRouter>
   );
-}
+};

@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Logo3D from './Logo3D';
-import Loader from './Fpb/Loader';
+import React from "react";
+import styled from "styled-components";
+import Logo3D from "./Logo3D";
+import Loader from "./Fpb/Loader";
 
 const LoadingHolder = styled.div`
   position: absolute;
@@ -17,11 +17,14 @@ const LoadingHolder = styled.div`
   pointer-events: none;
 `;
 
-export default ({datasetUrl, setMetadataCallback}) => {
+export default ({ datasetUrl, setMetadataCallback }) => {
   return (
     <LoadingHolder>
       <Logo3D />
-      <Loader setMetadataCallback={setMetadataCallback} datasetUrl={datasetUrl}/>
+      <Loader
+        setMetadataCallback={setMetadataCallback}
+        datasetUrl={datasetUrl}
+      />
     </LoadingHolder>
-  )
-}
+  );
+};
