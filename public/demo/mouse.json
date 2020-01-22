@@ -2,7 +2,7 @@
   "atlasMode": "true",
   "imageAlpha": "true",
   "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4",
-  "pathToImages": "demo/mouse-images/",
+  "pathToImages": "./mouse-images/",
   "uniqueName": "mouse",
   "imagePrefix": "mouse_z",
   "numberingFormat": "0000",
@@ -11,7 +11,7 @@
   "numberOfImages": 255,
   "sliceWidth": 336,
   "sliceHeight": 255,
-  "opacity": 8.0,
+  "opacity": 4.0,
   "intensity": 1.3,
   "threshold": 0.2,
   "projection": 2

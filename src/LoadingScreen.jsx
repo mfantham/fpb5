@@ -17,11 +17,11 @@ const LoadingHolder = styled.div`
   pointer-events: none;
 `;
 
-export default ({setMetadataCallback}) => {
+export default ({datasetUrl, setMetadataCallback}) => {
   return (
     <LoadingHolder>
       <Logo3D />
-      <Loader setMetadataCallback={setMetadataCallback} datasetName='mouse'/>
+      <Loader setMetadataCallback={setMetadataCallback} datasetUrl={datasetUrl}/>
     </LoadingHolder>
   )
 }

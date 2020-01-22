@@ -1,7 +1,6 @@
 import React from "react";
 
-import { useLoader } from "react-three-fiber";
-import { DataTexture3D, RGBAFormat } from "three";
+import { DataTexture3D } from "three";
 import { useControl } from "react-three-gui";
 
 import FpbMaterial from "./FpbMaterial";
@@ -24,8 +23,7 @@ export default ({ metadata }) => {
     voxelSize,
     sliceWidth,
     sliceHeight,
-    numberOfImages,
-    ...rest
+    numberOfImages
   } = metadata;
   const texture3d = new DataTexture3D(
     images,
@@ -38,14 +36,14 @@ export default ({ metadata }) => {
   const qualityZ = useControl("Quality-Z", {
     type: "number",
     value: 0.5,
-    min: 0,
+    min: 0.1,
     max: 1.5
   });
   const opacity = useControl("Opacity", {
     type: "number",
-    value: metadata.opacity,
+    value: metadata.opacity / 8,
     min: 0,
-    max: 8
+    max: 1
   });
   const intensity = useControl("Intensity", {
     type: "number",

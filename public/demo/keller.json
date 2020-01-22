@@ -2,7 +2,7 @@
   "atlasMode": "true",
   "imageAlpha": "true",
   "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4",
-  "pathToImages": "demo/keller-images/",
+  "pathToImages": "./keller-images/",
   "uniqueName": "keller",
   "imagePrefix": "keller_z",
   "numberingFormat": "0000",

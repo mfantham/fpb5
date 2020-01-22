@@ -35,6 +35,8 @@ vec2 volumeIntersects(vec3 rayOrigin, vec3 rayDirection){
 }
 
 void main() {
+  float normalised_opacity = 256.0 * saturate(u_opacity / float(u_steps));
+
   vec2 hitDistance = volumeIntersects(v_rayO, v_rayD);
   float hitNear = hitDistance.x;
   float hitFar = hitDistance.y;
@@ -69,7 +71,7 @@ void main() {
 
         // Composting shader
         if (voxelGray > u_threshold){
-          voxelColor.a *= u_opacity / 8.0; // opacity
+          voxelColor.a *= normalised_opacity; // opacity
           voxelColor.rgb *= voxelColor.a;
           rayColor += (1.0 - rayColor.a) * voxelColor;
         }
@@ -81,6 +83,6 @@ void main() {
   }
   if (meanColor(rayColor.rgb) < u_threshold) discard;
 
-  gl_FragColor = rayColor * u_intensity * 256.0 / float(u_steps);
+  gl_FragColor = rayColor * u_intensity;
 }
 `;

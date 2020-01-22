@@ -1,4 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
+import {useLocation} from 'react-router-dom';
+
+import path from 'path';
 import { useFetch } from "loti-request";
 
 import { PNG } from "pngjs";
@@ -14,14 +17,13 @@ const ceil2 = v => {
   return v;
 };
 
-const FetchParameters = ({ datasetName, fetchCallback }) => {
-  const url = `demo/${datasetName}.json`;
-  const fetchHook = useFetch({ url: url, responseType: "json" });
+const FetchParameters = ({ datasetUrl, fetchCallback }) => {
+  const fetchHook = useFetch({ url: datasetUrl, responseType: "json" });
   const { status, data } = fetchHook;
   if (status === "FAILED") {
     return (
       <span>
-        Failed to fetch <pre>${datasetName}.json</pre>
+        Failed to fetch data from <pre>${datasetUrl}</pre>
       </span>
     );
   }
@@ -78,9 +80,10 @@ const initialReducerState = numAtlases => {
   };
 };
 
-export default ({ datasetName, setMetadataCallback }) => {
+export default ({ datasetUrl, setMetadataCallback }) => {
   const numAtlases = 8;
 
+  const location = useLocation();
   const [parameterData, setParameterData] = useState(null);
   const [fetches, setFetches] = useState(null);
   const [converting, setConverting] = useState(false);
@@ -92,16 +95,19 @@ export default ({ datasetName, setMetadataCallback }) => {
   useEffect(() => {
     setFetches(
       <FetchParameters
-        datasetName={datasetName}
+        datasetUrl={datasetUrl}
         fetchCallback={pData => setParameterData(pData)}
       />
     );
-  }, [datasetName]);
+  }, [datasetUrl]);
 
   useEffect(() => {
     if (parameterData !== null) {
       const { pathToImages, imagePrefix, numberingFormat } = parameterData;
-      const baseUrl = `${pathToImages}/${imagePrefix}`;
+
+      const {join, dirname, relative} = path;
+      const imageDirectory = join(dirname(relative(location.pathname, datasetUrl)), pathToImages);
+      const baseUrl = `${imageDirectory}/${imagePrefix}`;
 
       const fetchComponents = [...Array(numAtlases).keys()].map(idx => {
         const i = String(idx).padStart(numberingFormat.length, "0");
@@ -181,8 +187,6 @@ export default ({ datasetName, setMetadataCallback }) => {
           }
         );
       }
-    } else {
-      // do nothing.
     }
   }, [converting]);
 

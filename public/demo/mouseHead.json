@@ -2,7 +2,7 @@
   "atlasMode": "true",
   "imageAlpha": "true",
   "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4",
-  "pathToImages": "demo/mouseEmbryoHead-images/",
+  "pathToImages": "./mouseEmbryoHead-images/",
   "uniqueName": "mouseEmbryoHead",
   "imagePrefix": "mouseEmbryoHead_z",
   "numberingFormat": "0000",

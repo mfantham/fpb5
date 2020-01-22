@@ -1,7 +1,7 @@
 import React, { useRef, Suspense } from "react";
 import styled from "styled-components";
 import { Canvas } from "react-three-fiber";
-import { Controls, useControl } from "react-three-gui";
+import { useControl } from "react-three-gui";
 
 import TestCube from "./TestCube";
 import BoundaryCube from "./BoundaryCube";
@@ -15,6 +15,10 @@ const CanvasContainer = styled.div`
 `;
 
 export default ({ metadata }) => {
+  if (metadata === null){
+    return null;
+  }
+
   const xyQuality = useControl("Quality", {
     type: "number",
     value: 0.3,
@@ -26,25 +30,22 @@ export default ({ metadata }) => {
   const canvasContainerRef = useRef(null);
 
   return (
-    <>
-      <CanvasContainer ref={canvasContainerRef}>
-        <Canvas
-          pixelRatio={pixelRatio}
-          camera={{ position: [0, 0, -3] }}
-          gl={{ alpha: false }}
-          gl2
-        >
-          <ambientLight />
-          <TestControls domReference={canvasContainerRef} />
-          <Suspense fallback={<mesh />}>
-            <BoundaryCube />
-          </Suspense>
-          <Suspense fallback={<mesh />}>
-            <FPBVolume metadata={metadata} />
-          </Suspense>
-        </Canvas>
-      </CanvasContainer>
-      <Controls />
-    </>
+    <CanvasContainer ref={canvasContainerRef}>
+      <Canvas
+        pixelRatio={pixelRatio}
+        camera={{ position: [0, 0, -3] }}
+        gl={{ alpha: false }}
+        gl2
+      >
+        <ambientLight />
+        <TestControls domReference={canvasContainerRef} />
+        <Suspense fallback={<mesh />}>
+          <BoundaryCube />
+        </Suspense>
+        <Suspense fallback={<mesh />}>
+          <FPBVolume metadata={metadata} />
+        </Suspense>
+      </Canvas>
+    </CanvasContainer>
   );
 };
