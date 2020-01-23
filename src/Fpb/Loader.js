@@ -127,7 +127,7 @@ export default ({ datasetUrl, setMetadataCallback }) => {
       });
       setFetches(fetchComponents);
     }
-  }, [parameterData]);
+  }, [parameterData, datasetUrl, location.pathname]);
 
   useEffect(() => {
     if (converting) {

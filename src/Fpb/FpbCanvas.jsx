@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { Canvas } from "react-three-fiber";
 import { useControl } from "react-three-gui";
 
-import TestCube from "./TestCube";
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
 import TestControls from "./TestControls";
+
+import {VRButton} from "three/examples/jsm/webxr/VRButton";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -36,6 +37,8 @@ export default ({ metadata }) => {
         camera={{ position: [0, 0, -3] }}
         gl={{ alpha: false }}
         gl2
+        vr={('xr' in navigator)}
+        onCreated={({ gl }) => ('xr' in navigator) && document.body.appendChild(VRButton.createButton())}
       >
         <ambientLight />
         <TestControls domReference={canvasContainerRef} />
