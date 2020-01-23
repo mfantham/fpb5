@@ -13,7 +13,7 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({ metadata }) => {
+export default ({ metadata, clippingPlane }) => {
   if (metadata === null) {
     return null;
   }
@@ -66,7 +66,7 @@ export default ({ metadata }) => {
   const scale = calculateScale(voxelSize, dataResolution, size);
 
   return (
-    <mesh position={[0, 0, 0]} rotation={[Math.PI, 0, 0]} scale={scale}>
+    <mesh position={[0, 0, 0]} rotation={[Math.PI, 0, 0]} scale={scale} renderOrder={2}>
       <boxBufferGeometry attach="geometry" args={[1, 1]} />
       <FpbMaterial
         texture3d={texture3d}
@@ -74,6 +74,7 @@ export default ({ metadata }) => {
         opacity={opacity}
         intensity={intensity}
         threshold={threshold}
+        clippingPlane={clippingPlane}
       />
     </mesh>
   );

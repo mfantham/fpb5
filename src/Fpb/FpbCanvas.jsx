@@ -6,6 +6,7 @@ import { useControl } from "react-three-gui";
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
 import TestControls from "./TestControls";
+import CuttingPlane from "./CuttingPlane";
 
 import {VRButton} from "three/examples/jsm/webxr/VRButton";
 
@@ -30,6 +31,12 @@ export default ({ metadata }) => {
 
   const canvasContainerRef = useRef(null);
 
+  const cutXRotation = useControl("rx", {type: "number", value: 0, min: 0, max: 2 * Math.PI});
+  const cutYRotation = useControl("ry", {type: "number", value: 0, min: 0, max: 2 * Math.PI});
+  const cutOffset = useControl("offset", {type: "number", value: -0.5, min: -0.5, max: 0.5});
+
+  const plane=[cutXRotation, cutYRotation, cutOffset];
+
   return (
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
@@ -46,7 +53,8 @@ export default ({ metadata }) => {
           <BoundaryCube />
         </Suspense>
         <Suspense fallback={<mesh />}>
-          <FPBVolume metadata={metadata} />
+          <FPBVolume metadata={metadata} clippingPlane={plane} />
+          <CuttingPlane plane={plane}/>
         </Suspense>
       </Canvas>
     </CanvasContainer>
