@@ -38,7 +38,7 @@ export default ({ metadata }) => {
         gl={{ alpha: false }}
         gl2
         vr={('xr' in navigator)}
-        onCreated={({ gl }) => ('xr' in navigator) && document.body.appendChild(VRButton.createButton())}
+        onCreated={({ gl }) => ('xr' in navigator) && document.body.appendChild(VRButton.createButton(gl))}
       >
         <ambientLight />
         <TestControls domReference={canvasContainerRef} />
