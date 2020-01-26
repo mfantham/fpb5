@@ -40,6 +40,8 @@ vec2 volumeIntersects(vec3 rayOrigin, vec3 rayDirection){
 }
 
 void main() {
+  float threshold = 3.0 * u_threshold;
+
   float normalised_opacity = 256.0 * saturate(u_opacity / float(u_steps));
 
   vec2 hitDistance = volumeIntersects(v_rayO, v_rayD);
@@ -68,7 +70,7 @@ void main() {
       if (!clip && all(lessThan(rayPosition, vec3(0.5))) && all(greaterThan(rayPosition, vec3(-0.5)))) {
         vec4 voxelColor = sample3D(rayPosition + 0.5);
         float voxelGray = meanColor(voxelColor.rgb);
-        if (voxelGray < u_threshold) continue;
+        if (voxelGray < threshold) continue;
 
         if (u_projection == 0){
           // Composting shader
@@ -94,7 +96,7 @@ void main() {
       }
     }
   }
-  if (meanColor(rayColor.rgb) < u_threshold) discard;
+  if (meanColor(rayColor.rgb) < threshold) discard;
   if (u_projection == 1 || u_projection == 2) rayColor.a = u_opacity;
 
   gl_FragColor = rayColor * u_intensity;

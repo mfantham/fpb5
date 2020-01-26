@@ -13,6 +13,6 @@
   "sliceHeight": 255,
   "opacity": 4.0,
   "intensity": 1.3,
-  "threshold": 0.2,
+  "threshold": 0.05,
   "projection": 0
 }
