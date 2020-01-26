@@ -68,20 +68,26 @@ void main() {
       if (!clip && all(lessThan(rayPosition, vec3(0.5))) && all(greaterThan(rayPosition, vec3(-0.5)))) {
         vec4 voxelColor = sample3D(rayPosition + 0.5);
         float voxelGray = meanColor(voxelColor.rgb);
+        if (voxelGray < u_threshold) continue;
 
-        if (u_projection == 0 && voxelGray > u_threshold){
+        if (u_projection == 0){
           // Composting shader
           voxelColor.a *= normalised_opacity; // opacity
           voxelColor.rgb *= voxelColor.a;
           rayColor += (1.0 - rayColor.a) * voxelColor;
         }
 
-        if (u_projection == 1 && voxelGray > meanColor(rayColor.rgb)){
-          // max intensity shader
-          rayColor = vec4(voxelColor.rgb, u_opacity);
+        if (u_projection == 1){
+          // max intensity
+          rayColor = max(voxelColor, rayColor);
         }
 
-        if (u_projection == 2){
+        if (u_projection == 2 && voxelGray > meanColor(rayColor.rgb)){
+          // max intensity average
+          rayColor = vec4(voxelColor.rgb, 1);
+        }
+
+        if (u_projection == 3){
           // rainbow test cube
           rayColor = vec4(rayPosition, 1);
         }
@@ -89,6 +95,7 @@ void main() {
     }
   }
   if (meanColor(rayColor.rgb) < u_threshold) discard;
+  if (u_projection == 1 || u_projection == 2) rayColor.a = u_opacity;
 
   gl_FragColor = rayColor * u_intensity;
 }

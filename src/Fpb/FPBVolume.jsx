@@ -14,7 +14,7 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-const projections = ["Transparency", "Max. projection", "Iso-surface"];
+const projections = ["Transparency", "Max. projection", "Max. RGB average", "Iso-surface"];
 
 export default ({ metadata, clippingMatrix }) => {
   if (metadata === null) {
