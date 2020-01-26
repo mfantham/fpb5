@@ -8,6 +8,9 @@ uniform float u_opacity;
 uniform float u_intensity;
 uniform float u_threshold;
 uniform int u_steps;
+uniform bool u_clipping_on;
+uniform vec3 u_clipping_normal;
+uniform float u_clipping_offset;
 
 varying vec3 v_rayO;
 varying vec3 v_rayD;
@@ -15,12 +18,14 @@ varying vec3 v_rayD;
 const vec3 boxMin = vec3(-0.5);
 const vec3 boxMax = vec3(+0.5);
 const int MAX_STEPS = 768;
+const float sqrt3 = 1.73205080757;
 
 float meanColor(vec3 rgbPixel){
   return (rgbPixel.r + rgbPixel.g + rgbPixel.b);
 }
 
 vec4 sample3D(vec3 rayTip) {
+  rayTip.y = 1.0 - rayTip.y;
   return texture(u_texture3d, rayTip);
 }
 
@@ -47,20 +52,21 @@ void main() {
     hitNear = 0.0;
   }
 
-  vec3 startPoint = 0.5 + v_rayO + v_rayD * hitNear;
-  vec3 endPoint = 0.5 +  v_rayO + v_rayD * hitFar;
+  vec3 startPoint = v_rayO + v_rayD * hitNear;
+  vec3 endPoint = v_rayO + v_rayD * hitFar;
 
   vec3 rayPosition = startPoint;
   vec3 rayDirection = endPoint - startPoint;
-  vec3 rayStep = 1.2 * normalize(rayDirection) / float(u_steps);
+  vec3 rayStep = sqrt3 * normalize(rayDirection) / float(u_steps);
 
   vec4 rayColor = vec4(0);
 
   for (int s = 0; s < MAX_STEPS; s++){
     if (s < u_steps){
       vec3 rayPosition = startPoint + float(s) * rayStep;
-      if (all(lessThan(rayPosition, vec3(1))) && all(greaterThan(rayPosition, vec3(0)))) {
-        vec4 voxelColor = sample3D(rayPosition);
+      bool clip = u_clipping_on && dot(rayPosition, u_clipping_normal) < -u_clipping_offset;
+      if (!clip && all(lessThan(rayPosition, vec3(0.5))) && all(greaterThan(rayPosition, vec3(-0.5)))) {
+        vec4 voxelColor = sample3D(rayPosition + 0.5);
         float voxelGray = meanColor(voxelColor.rgb);
 
         // grayscale max intensity shader
