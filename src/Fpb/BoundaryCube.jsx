@@ -1,11 +1,26 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { useLoader } from "react-three-fiber";
+import {useControl} from "react-three-gui";
 import { TextureLoader, RepeatWrapping } from "three";
 import wall from "./grid.png";
 
 const { PI } = Math;
 
-export default ({ boxSize = 10, dispatch }) => {
+export default ({ boxSize = 10 }) => {
+  const showBoundary = useControl("Boundary", {
+    type: "boolean",
+    value: true
+  });
+
+  const [color, setColor] = useState('#FFFFFF');
+  useEffect(() => {
+    if (showBoundary){
+      setColor('#FFFFFF');
+    } else {
+      setColor('#000000');
+    }
+  }, [showBoundary]);
+
   const faces = [
     { position: [0, 0, boxSize / 2], rotation: [0, PI, 0] },
     { position: [0, 0, -boxSize / 2], rotation: [0, 0, 0] },
@@ -30,7 +45,7 @@ export default ({ boxSize = 10, dispatch }) => {
         scale={[boxSize, boxSize, boxSize]}
       >
         <planeBufferGeometry attach="geometry" args={[1, 1]} />
-        <meshStandardMaterial attach="material" map={texture} />
+        <meshStandardMaterial attach="material" color={color} map={texture} />
       </mesh>
     );
   });
