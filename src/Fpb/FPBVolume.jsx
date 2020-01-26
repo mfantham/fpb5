@@ -14,6 +14,8 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
+const projections = ["Transparency", "Max. projection", "Iso-surface"];
+
 export default ({ metadata, clippingMatrix }) => {
   if (metadata === null) {
     return null;
@@ -42,6 +44,10 @@ export default ({ metadata, clippingMatrix }) => {
     min: 0.1,
     max: 1.5
   });
+  const projection = useControl("Projection", {
+    type: "select",
+    items: projections
+  })
   const opacity = useControl("Opacity", {
     type: "number",
     value: metadata.opacity / 8,
@@ -75,6 +81,7 @@ export default ({ metadata, clippingMatrix }) => {
       <FpbMaterial
         texture3d={texture3d}
         steps={512 * qualityZ}
+        projection={projections.indexOf(projection)}
         opacity={opacity}
         intensity={intensity}
         threshold={threshold}

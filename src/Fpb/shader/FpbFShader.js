@@ -2,12 +2,12 @@ export default `
 precision highp float;
 precision mediump sampler3D;
 
-
 uniform sampler3D u_texture3d;
+uniform int u_steps;
+uniform int u_projection;
 uniform float u_opacity;
 uniform float u_intensity;
 uniform float u_threshold;
-uniform int u_steps;
 uniform bool u_clipping_on;
 uniform vec3 u_clipping_normal;
 uniform float u_clipping_offset;
@@ -69,21 +69,22 @@ void main() {
         vec4 voxelColor = sample3D(rayPosition + 0.5);
         float voxelGray = meanColor(voxelColor.rgb);
 
-        // grayscale max intensity shader
-        // if (voxelColor.r > rayColor.r){
-        //   rayColor = vec4(voxelColor.rgb, 1);
-        // }
-
-
-        // Composting shader
-        if (voxelGray > u_threshold){
+        if (u_projection == 0 && voxelGray > u_threshold){
+          // Composting shader
           voxelColor.a *= normalised_opacity; // opacity
           voxelColor.rgb *= voxelColor.a;
           rayColor += (1.0 - rayColor.a) * voxelColor;
         }
 
-        // rainbow test cube
-        // rayColor = vec4(rayPosition, 1);
+        if (u_projection == 1 && voxelGray > meanColor(rayColor.rgb)){
+          // max intensity shader
+          rayColor = vec4(voxelColor.rgb, u_opacity);
+        }
+
+        if (u_projection == 2){
+          // rainbow test cube
+          rayColor = vec4(rayPosition, 1);
+        }
       }
     }
   }
