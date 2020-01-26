@@ -8,6 +8,7 @@ uniform float u_opacity;
 uniform float u_intensity;
 uniform float u_threshold;
 uniform int u_steps;
+uniform bool u_clipping_on;
 uniform vec3 u_clipping_normal;
 uniform float u_clipping_offset;
 
@@ -63,7 +64,7 @@ void main() {
   for (int s = 0; s < MAX_STEPS; s++){
     if (s < u_steps){
       vec3 rayPosition = startPoint + float(s) * rayStep;
-      bool clip = dot(rayPosition, u_clipping_normal) < -u_clipping_offset;
+      bool clip = u_clipping_on && dot(rayPosition, u_clipping_normal) < -u_clipping_offset;
       if (!clip && all(lessThan(rayPosition, vec3(0.5))) && all(greaterThan(rayPosition, vec3(-0.5)))) {
         vec4 voxelColor = sample3D(rayPosition + 0.5);
         float voxelGray = meanColor(voxelColor.rgb);

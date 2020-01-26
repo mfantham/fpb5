@@ -4,12 +4,17 @@ import {useControl} from "react-three-gui";
 import {Vector3, Matrix3, Plane} from "three";
 
 export default ({callback}) => {
+  const planeActive = useControl("Clipping plane on", {
+    type: "boolean",
+    value: false
+  });
+
   const rotation = useControl("Clipping plane", {
     type: "xypad",
     value: {x: 0, y: 0},
     distance: Math.PI,
     scrub: true,
-  })
+  });
 
   const d = useControl("Clipping offset", {
     type: "number",
@@ -41,12 +46,13 @@ export default ({callback}) => {
 
     const p = new Plane(normal, -d);
     setPlane(p);
+    p.active = planeActive;
     callback(p);
 
     return () => {
       if (timeout) clearTimeout(timeout);
     }
-  }, [rotation.x, rotation.y, d]);
+  }, [rotation.x, rotation.y, d, planeActive]);
 
   const [plane, setPlane] = useState(new Plane());
 
