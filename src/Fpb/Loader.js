@@ -47,7 +47,7 @@ const FetchImage = ({ url, fetchCallback }) => {
   }
 
   fetchCallback({
-    progress: progress.loaded / progress.total / 2,
+    progress: progress.loaded / progress.total,
     status,
     image
   });
@@ -59,9 +59,17 @@ const imageReducer = (state, action) => {
   let newStatuses = [...state.statuses];
   let newImages = [...state.images];
 
-  newProgresses[action.index] = action.value.progress;
-  newStatuses[action.index] = action.value.status;
-  newImages[action.index] = action.value.image;
+  const {progress, status, image} = action.value;
+
+  if (progress){
+    newProgresses[action.index] = progress;
+  }
+  if (status){
+    newStatuses[action.index] = status;
+  }
+  if (image){
+    newImages[action.index] = image;
+  }
   return {
     progresses: newProgresses,
     statuses: newStatuses,
@@ -144,6 +152,9 @@ export default ({ datasetUrl, setMetadataCallback }) => {
             if (error !== null) {
               console.log(error);
             } else {
+              // Would be nice to get updates about how much file has been parsed...
+              // dispatch({ value: {progress: 0.875}, index: i });
+
               const atlasWidth = decodedImage.width;
               const atlasHeight = decodedImage.height;
               const paddedWidth = ceil2(sliceWidth);
@@ -179,6 +190,8 @@ export default ({ datasetUrl, setMetadataCallback }) => {
                 }
 
                 converted[i] = true;
+                dispatch({ value: {progress: 1}, index: i });
+
                 if (converted.every(done => done)) {
                   setMetadataCallback({
                     images: dataImage3d,
@@ -188,40 +201,39 @@ export default ({ datasetUrl, setMetadataCallback }) => {
               }
             }
           }
-        );
+        )
       }
     }
   }, [converting]);
 
-  if (imagesState.statuses.some(status => status === "FAILED")) {
-    return (
-      <>
-        <span>A fetch error occured. Please try refreshing the page!</span>
-      </>
-    );
-  }
-
-  if (
-    imagesState.statuses.every(
-      status => status === "SUCCESS" && parameterData !== null
-    )
-  ) {
-    if (!converting) {
-      setConverting(true);
-    }
-    return (
-      <>
-        <span>Slices converting to 3D volume</span>
-      </>
-    );
-  }
-
   const totalProgress =
     (imagesState.progresses.reduce((a, b) => a + b, 0) * 100) / numAtlases;
+
+  let statusText = "";
+  let progressText = "";
+
+  const downloadsFinished = imagesState.statuses.every(
+    status => status === "SUCCESS") && parameterData !== null;
+
+  if (imagesState.statuses.some(status => status === "FAILED")) {
+    statusText = "A fetch error occured. Please try refreshing the page!";
+    progressText = ":(";
+  } else if (downloadsFinished){
+    statusText = "Converting slices to 3D volume";
+    progressText = "...";
+    if (!converting){
+      setConverting(true);
+    }
+  } else {
+    statusText = "Downloading 3D dataset image slices";
+    progressText = `${totalProgress.toFixed(1)}%`;
+  }
+
   return (
     <>
-      {fetches}
-      <span>{totalProgress.toFixed(1)}%</span>
+      {!downloadsFinished && fetches}
+      <span>{statusText}</span>
+      <span>{progressText}</span>
     </>
   );
 };
