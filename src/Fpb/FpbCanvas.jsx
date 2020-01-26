@@ -7,7 +7,7 @@ import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
 import TestControls from "./TestControls";
 
-import {VRButton} from "three/examples/jsm/webxr/VRButton";
+import { VRButton } from "three/examples/jsm/webxr/VRButton";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -37,8 +37,11 @@ export default ({ metadata }) => {
         camera={{ position: [0, 0, -3] }}
         gl={{ alpha: false }}
         gl2
-        vr={('xr' in navigator)}
-        onCreated={({ gl }) => ('xr' in navigator) && document.body.appendChild(VRButton.createButton(gl))}
+        vr={"xr" in navigator}
+        onCreated={({ gl }) =>
+          "xr" in navigator &&
+          document.body.appendChild(VRButton.createButton(gl))
+        }
       >
         <ambientLight />
         <TestControls domReference={canvasContainerRef} />

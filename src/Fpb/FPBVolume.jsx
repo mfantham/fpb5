@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import { DataTexture3D, Plane, Vector3 } from "three";
 import { useControl } from "react-three-gui";
@@ -14,14 +14,21 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-const projections = ["Transparency", "Max. projection", "Max. RGB average", "Iso-surface"];
+const projections = [
+  "Transparency",
+  "Max. projection",
+  "Max. RGB average",
+  "Iso-surface"
+];
 
 export default ({ metadata, clippingMatrix }) => {
   if (metadata === null) {
     return null;
   }
 
-  const [clippingPlane, setClippingPlane] = useState(new Plane(new Vector3(0, 0, 0), 0));
+  const [clippingPlane, setClippingPlane] = useState(
+    new Plane(new Vector3(0, 0, 0), 0)
+  );
 
   const {
     images,
@@ -47,7 +54,7 @@ export default ({ metadata, clippingMatrix }) => {
   const projection = useControl("Projection", {
     type: "select",
     items: projections
-  })
+  });
   const opacity = useControl("Opacity", {
     type: "number",
     value: metadata.opacity / 8,
@@ -76,20 +83,19 @@ export default ({ metadata, clippingMatrix }) => {
 
   return (
     <object3D scale={scale} renderOrder={2}>
-    <mesh>
-      <boxBufferGeometry attach="geometry" args={[1, 1]} />
-      <FpbMaterial
-        texture3d={texture3d}
-        steps={512 * qualityZ}
-        projection={projections.indexOf(projection)}
-        opacity={opacity}
-        intensity={intensity}
-        threshold={threshold}
-        clippingPlane={clippingPlane}
-      />
+      <mesh>
+        <boxBufferGeometry attach="geometry" args={[1, 1]} />
+        <FpbMaterial
+          texture3d={texture3d}
+          steps={512 * qualityZ}
+          projection={projections.indexOf(projection)}
+          opacity={opacity}
+          intensity={intensity}
+          threshold={threshold}
+          clippingPlane={clippingPlane}
+        />
       </mesh>
       <CuttingPlane callback={matrix => setClippingPlane(matrix)} />
-
-      </object3D>
+    </object3D>
   );
 };

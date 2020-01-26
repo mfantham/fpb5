@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useLoader } from "react-three-fiber";
-import {useControl} from "react-three-gui";
+import { useControl } from "react-three-gui";
 import { TextureLoader, RepeatWrapping } from "three";
 import wall from "./grid.png";
 
@@ -12,12 +12,12 @@ export default ({ boxSize = 10 }) => {
     value: true
   });
 
-  const [color, setColor] = useState('#FFFFFF');
+  const [color, setColor] = useState("#FFFFFF");
   useEffect(() => {
-    if (showBoundary){
-      setColor('#FFFFFF');
+    if (showBoundary) {
+      setColor("#FFFFFF");
     } else {
-      setColor('#000000');
+      setColor("#000000");
     }
   }, [showBoundary]);
 

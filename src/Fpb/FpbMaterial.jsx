@@ -3,20 +3,28 @@ import React, { useRef } from "react";
 import FpbShader from "./shader/FpbShader";
 import { useUniform } from "./useUniform";
 
-export default ({ texture3d, steps, projection, opacity, intensity, threshold, clippingPlane }) => {
+export default ({
+  texture3d,
+  steps,
+  projection,
+  opacity,
+  intensity,
+  threshold,
+  clippingPlane
+}) => {
   const materialRef = useRef();
 
   let shader = FpbShader;
   shader.uniforms = {
     u_steps: { value: steps },
-    u_projection: {value: projection },
+    u_projection: { value: projection },
     u_opacity: { value: opacity },
     u_intensity: { value: intensity },
     u_threshold: { value: threshold },
     u_texture3d: { value: texture3d },
-    u_clipping_on: {value: clippingPlane.active},
-    u_clipping_normal: {value: clippingPlane.normal },
-    u_clipping_offset: {value: clippingPlane.constant}
+    u_clipping_on: { value: clippingPlane.active },
+    u_clipping_normal: { value: clippingPlane.normal },
+    u_clipping_offset: { value: clippingPlane.constant }
   };
 
   useUniform("u_steps", steps, materialRef);

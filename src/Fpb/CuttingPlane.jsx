@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
-import {useControl} from "react-three-gui";
+import React, { useEffect, useState } from "react";
+import { useControl } from "react-three-gui";
 
-import {Vector3, Matrix3, Plane} from "three";
+import { Vector3, Matrix3, Plane } from "three";
 
-export default ({callback}) => {
+export default ({ callback }) => {
   const planeActive = useControl("Clipping plane on", {
     type: "boolean",
     value: false
@@ -11,9 +11,9 @@ export default ({callback}) => {
 
   const rotation = useControl("Clipping plane", {
     type: "xypad",
-    value: {x: 0, y: 0},
+    value: { x: 0, y: 0 },
     distance: Math.PI,
-    scrub: true,
+    scrub: true
   });
 
   const d = useControl("Clipping offset", {
@@ -51,14 +51,14 @@ export default ({callback}) => {
 
     return () => {
       if (timeout) clearTimeout(timeout);
-    }
+    };
   }, [rotation.x, rotation.y, d, planeActive]);
 
   const [plane, setPlane] = useState(new Plane());
 
   return (
     <object3D>
-      {showing && <planeHelper plane={plane} args={[plane, 1.5, '#777777']}/>}
+      {showing && <planeHelper plane={plane} args={[plane, 1.5, "#777777"]} />}
     </object3D>
   );
-}
+};
