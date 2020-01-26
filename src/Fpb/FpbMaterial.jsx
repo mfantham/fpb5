@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 import FpbShader from "./shader/FpbShader";
 import { useUniform } from "./useUniform";
@@ -6,7 +6,6 @@ import { useControl } from "react-three-gui";
 
 export default ({ texture3d, steps, opacity, intensity, threshold, clippingPlane }) => {
   const materialRef = useRef();
-  const [x, y, d] = clippingPlane;
 
   let shader = FpbShader;
   shader.uniforms = {
@@ -15,8 +14,8 @@ export default ({ texture3d, steps, opacity, intensity, threshold, clippingPlane
     u_intensity: { value: intensity },
     u_threshold: { value: threshold },
     u_texture3d: { value: texture3d },
-    u_clip_rotation: {value: [x, y]},
-    u_clip_offset: {value: d}
+    u_clipping_normal: {value: clippingPlane.normal },
+    u_clipping_offset: {value: clippingPlane.constant}
   };
 
   useUniform("u_steps", steps, materialRef);
@@ -24,8 +23,8 @@ export default ({ texture3d, steps, opacity, intensity, threshold, clippingPlane
   useUniform("u_intensity", intensity, materialRef);
   useUniform("u_threshold", threshold, materialRef);
 
-  useUniform("u_clip_rotation", [x, y], materialRef);
-  useUniform("u_clip_offset", d, materialRef);
+  useUniform("u_clipping_normal", clippingPlane.normal, materialRef);
+  useUniform("u_clipping_offset", clippingPlane.constant, materialRef);
 
   return <shaderMaterial attach="material" ref={materialRef} args={[shader]} />;
 };

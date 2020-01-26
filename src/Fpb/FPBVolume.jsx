@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 
-import { DataTexture3D } from "three";
+import { DataTexture3D, Plane, Vector3 } from "three";
 import { useControl } from "react-three-gui";
 
+import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";
 
 const calculateScale = (voxelSize, res, size) => {
@@ -13,10 +14,12 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({ metadata, clippingPlane }) => {
+export default ({ metadata, clippingMatrix }) => {
   if (metadata === null) {
     return null;
   }
+
+  const [clippingPlane, setClippingPlane] = useState(new Plane(new Vector3(0, 0, 0), 0));
 
   const {
     images,
@@ -63,10 +66,17 @@ export default ({ metadata, clippingPlane }) => {
     min: 0.1,
     max: 5
   });
+  const rotation= useControl("Rotate", {
+    type: "number",
+    value: 0,
+    min: 0,
+    max: 6.5,
+  });
   const scale = calculateScale(voxelSize, dataResolution, size);
 
   return (
-    <mesh position={[0, 0, 0]} rotation={[Math.PI, 0, 0]} scale={scale} renderOrder={2}>
+    <object3D scale={scale}>
+    <mesh position={[0, 0, 0]} rotation={[0, 0, 0]} renderOrder={2}>
       <boxBufferGeometry attach="geometry" args={[1, 1]} />
       <FpbMaterial
         texture3d={texture3d}
@@ -76,6 +86,8 @@ export default ({ metadata, clippingPlane }) => {
         threshold={threshold}
         clippingPlane={clippingPlane}
       />
-    </mesh>
+      <CuttingPlane callback={matrix => setClippingPlane(matrix)} />
+      </mesh>
+      </object3D>
   );
 };
