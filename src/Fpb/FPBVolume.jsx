@@ -21,7 +21,7 @@ const projections = [
   "Iso-surface"
 ];
 
-export default ({ metadata, clippingMatrix }) => {
+export default ({ metadata, qualityZ }) => {
   if (metadata === null) {
     return null;
   }
@@ -45,12 +45,6 @@ export default ({ metadata, clippingMatrix }) => {
   );
 
   const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
-  const qualityZ = useControl("Quality-Z", {
-    type: "number",
-    value: 0.5,
-    min: 0.1,
-    max: 1.5
-  });
   const projection = useControl("Projection", {
     type: "select",
     items: projections

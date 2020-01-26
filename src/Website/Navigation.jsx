@@ -72,11 +72,11 @@ export default () => {
       <ExamplesHolder as="span" to="#">
         Examples
         <ExamplesList>
-          <Example to="/data/brain">MRI Brain</Example>
-          <Example to="/data/mouse">Mouse embryo</Example>
-          <Example to="/data/worm">C. Elegans embryo</Example>
-          <Example to="/data/keller">Drosophilla embryo</Example>
-          <Example to="/data/mouseHead">Mouse embryo head</Example>
+          <Example to="?demo=brain">MRI Brain</Example>
+          <Example to="?demo=mouse">Mouse embryo</Example>
+          <Example to="?demo=worm">C. Elegans embryo</Example>
+          <Example to="?demo=keller">Drosophilla embryo</Example>
+          <Example to="?demo=mouseHead">Mouse embryo head</Example>
         </ExamplesList>
       </ExamplesHolder>
       <NavLink to="/videos">Videos</NavLink>

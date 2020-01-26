@@ -20,11 +20,17 @@ export default ({ metadata }) => {
     return null;
   }
 
-  const xyQuality = useControl("Quality", {
+  const xyQuality = useControl("Quality-XY", {
     type: "number",
     value: 0.3,
     min: 0.1,
     max: 1.1
+  });
+  const qualityZ = useControl("Quality-Z", {
+    type: "number",
+    value: 0.5,
+    min: 0.1,
+    max: 1.5
   });
   const pixelRatio = xyQuality;
 
@@ -49,7 +55,7 @@ export default ({ metadata }) => {
           <BoundaryCube />
         </Suspense>
         <Suspense fallback={<mesh />}>
-          <FPBVolume metadata={metadata} />
+          <FPBVolume metadata={metadata} qualityZ={qualityZ} />
         </Suspense>
       </Canvas>
     </CanvasContainer>
