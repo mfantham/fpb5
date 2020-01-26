@@ -16,7 +16,7 @@ const Header = styled.nav`
   box-shadow: 0px 1px 5px 0px #0007;
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled.a`
   color: white;
   text-decoration: none;
   padding: 12px;
@@ -68,7 +68,7 @@ const Example = styled(Link)`
 export default () => {
   return (
     <Header>
-      <HomeLink to="">FPBioimage</HomeLink>
+      <HomeLink as={Link} to="">FPBioimage</HomeLink>
       <ExamplesHolder as="span" to="#">
         Examples
         <ExamplesList>
@@ -79,8 +79,8 @@ export default () => {
           <Example to="?demo=mouseHead">Mouse embryo head</Example>
         </ExamplesList>
       </ExamplesHolder>
-      <NavLink to="/videos">Videos</NavLink>
-      <NavLink to="/project">Project page</NavLink>
+      <NavLink target="_blank" href="https://fpb.ceb.cam.ac.uk/demo/videos.html">Videos</NavLink>
+      <NavLink target="_blank" href="https://fpb.ceb.cam.ac.uk">Project page</NavLink>
     </Header>
   );
 };

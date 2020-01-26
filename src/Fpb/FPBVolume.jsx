@@ -47,7 +47,8 @@ export default ({ metadata, qualityZ }) => {
   const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
   const projection = useControl("Projection", {
     type: "select",
-    items: projections
+    items: projections,
+    value: projections[metadata.projection],
   });
   const opacity = useControl("Opacity", {
     type: "number",
