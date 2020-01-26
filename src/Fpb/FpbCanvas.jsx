@@ -6,7 +6,6 @@ import { useControl } from "react-three-gui";
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
 import TestControls from "./TestControls";
-import CuttingPlane from "./CuttingPlane";
 
 import {VRButton} from "three/examples/jsm/webxr/VRButton";
 

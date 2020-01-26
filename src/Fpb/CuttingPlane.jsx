@@ -1,58 +1,58 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {useControl} from "react-three-gui";
-import {useFrame} from "react-three-fiber";
-import {DoubleSide} from "three";
 
-import {Euler, Vector3, Matrix3, Plane} from "three";
+import {Vector3, Matrix3, Plane} from "three";
 
 export default ({callback}) => {
-  // Control of the plane is still poor.
-  // But alignment with the graphics card is bon.
+  const rotation = useControl("Clipping plane", {
+    type: "xypad",
+    value: {x: 0, y: 0},
+    distance: Math.PI,
+    scrub: true,
+  })
 
-  const ref = useRef();
-
-  const d = useControl("Offset", {
+  const d = useControl("Clipping offset", {
     type: "number",
     value: 0,
     min: -0.5,
     max: 0.5
   });
 
-  const r1 = useControl("rX", {
-    type: "number",
-    value: 0,
-    min: -Math.PI,
-    max: Math.PI,
-  });
-
-  const r2 = useControl("rY", {
-    type: "number",
-    value: 0,
-    min: -Math.PI,
-    max: Math.PI,
-  });
+  const delay = 2000;
+  let timeout;
+  const [showing, setShowing] = useState(false);
 
   useEffect(() => {
-    const mX = new Matrix3().set(1, 0, 0, 0, Math.cos(r1), Math.sin(r1), 0, -Math.sin(r1), Math.cos(r1));
-    const mY = new Matrix3().set(Math.cos(r2), 0, -Math.sin(r2), 0, 1, 0, Math.sin(r2), 0, Math.cos(r2));
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    setShowing(true);
+    timeout = setTimeout(() => setShowing(false), delay);
 
-    const normal = new Vector3(0, 0, 1).applyMatrix3(mX).applyMatrix3(mY); // combine these into 1
+    const c1 = Math.cos(rotation.y);
+    const s1 = Math.sin(rotation.y);
+    const s2 = Math.sin(-rotation.x);
+    const c2 = Math.cos(-rotation.x);
+
+    const mX = new Matrix3().set(1, 0, 0, 0, c1, s1, 0, -s1, c1);
+    const mY = new Matrix3().set(c2, 0, -s2, 0, 1, 0, s2, 0, c2);
+
+    const normal = new Vector3(0, 0, 1).applyMatrix3(mX).applyMatrix3(mY);
 
     const p = new Plane(normal, -d);
     setPlane(p);
     callback(p);
-  }, [r1, r2, d]);
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    }
+  }, [rotation.x, rotation.y, d]);
 
   const [plane, setPlane] = useState(new Plane());
 
-
-  // <mesh ref={ref} rotation={[r1, r2, 0]} position={[0, 0, -d]}>
-  //   <planeBufferGeometry attach="geometry" args={[1.5, 1.5]} />
-  //   <meshStandardMaterial attach="material" color='#777777' side={DoubleSide} transparent opacity={0.5} />
-  // </mesh>
   return (
     <object3D>
-      <planeHelper plane={plane} args={[plane, 1.5, '#777777']}/>
+      {showing && <planeHelper plane={plane} args={[plane, 1.5, '#777777']}/>}
     </object3D>
   );
 }

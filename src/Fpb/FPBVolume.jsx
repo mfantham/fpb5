@@ -66,17 +66,11 @@ export default ({ metadata, clippingMatrix }) => {
     min: 0.1,
     max: 5
   });
-  const rotation= useControl("Rotate", {
-    type: "number",
-    value: 0,
-    min: 0,
-    max: 6.5,
-  });
   const scale = calculateScale(voxelSize, dataResolution, size);
 
   return (
-    <object3D scale={scale}>
-    <mesh position={[0, 0, 0]} rotation={[0, 0, 0]} renderOrder={2}>
+    <object3D scale={scale} renderOrder={2}>
+    <mesh>
       <boxBufferGeometry attach="geometry" args={[1, 1]} />
       <FpbMaterial
         texture3d={texture3d}
@@ -86,8 +80,9 @@ export default ({ metadata, clippingMatrix }) => {
         threshold={threshold}
         clippingPlane={clippingPlane}
       />
-      <CuttingPlane callback={matrix => setClippingPlane(matrix)} />
       </mesh>
+      <CuttingPlane callback={matrix => setClippingPlane(matrix)} />
+
       </object3D>
   );
 };

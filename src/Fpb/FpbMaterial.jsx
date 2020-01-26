@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 
 import FpbShader from "./shader/FpbShader";
 import { useUniform } from "./useUniform";
-import { useControl } from "react-three-gui";
 
 export default ({ texture3d, steps, opacity, intensity, threshold, clippingPlane }) => {
   const materialRef = useRef();

@@ -24,6 +24,7 @@ float meanColor(vec3 rgbPixel){
 }
 
 vec4 sample3D(vec3 rayTip) {
+  rayTip.y = 1.0 - rayTip.y;
   return texture(u_texture3d, rayTip);
 }
 
