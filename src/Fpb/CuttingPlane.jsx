@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useControl } from "react-three-gui";
+import { useControl } from "./react-three-gui-fork";
 
 import { Vector3, Matrix3, Plane } from "three";
 

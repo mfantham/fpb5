@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { Controls } from "react-three-gui";
+import { Controls } from "./react-three-gui-fork";
 
 import FpbCanvas from "./FpbCanvas";
 import LoadingScreen from "../LoadingScreen";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { DataTexture3D, Plane, Vector3 } from "three";
-import { useControl } from "react-three-gui";
+import { useControl } from "./react-three-gui-fork";
 
 import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";

@@ -1,7 +1,7 @@
 import React, { useRef, Suspense } from "react";
 import styled from "styled-components";
 import { Canvas } from "react-three-fiber";
-import { useControl } from "react-three-gui";
+import { useControl } from "./react-three-gui-fork";
 
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
@@ -22,13 +22,13 @@ export default ({ metadata }) => {
 
   const xyQuality = useControl("Quality-XY", {
     type: "number",
-    value: 0.3,
+    value: 0.4,
     min: 0.1,
     max: 1.1
   });
   const qualityZ = useControl("Quality-Z", {
     type: "number",
-    value: 0.5,
+    value: 0.7,
     min: 0.1,
     max: 1.5
   });
