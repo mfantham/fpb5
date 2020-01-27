@@ -5,7 +5,8 @@ import RouteManager from "./Website/RouteManager";
 
 const App = styled.div`
   background-color: #222;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;

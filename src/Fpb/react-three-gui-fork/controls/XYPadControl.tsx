@@ -52,6 +52,7 @@ export const XYPadControl = React.memo(({ control, value }: any) => {
 
   return (
     <BaseControl
+      style={{touchAction: "none"}}
       stack
       label={control.name}
       value={`x: ${value.x.toFixed(1)}, y: ${value.y.toFixed(1)}`}

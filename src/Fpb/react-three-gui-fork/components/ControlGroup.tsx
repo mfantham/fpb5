@@ -35,6 +35,8 @@ const Heading = styled.h2<{ open: boolean }>`
 const Container = styled.div<{ open: boolean }>`
   padding: 16px;
   display: ${props => props.open ? 'block' : 'none'};
+  max-height: calc(100vh - 190px);
+  overflow-y: auto;
 `;
 
 export const ControlGroup = ({ title, controls }: any) => {

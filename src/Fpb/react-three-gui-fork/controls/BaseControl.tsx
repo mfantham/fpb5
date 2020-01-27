@@ -48,6 +48,7 @@ type BaseControlProps = {
   children?: any;
   stack?: boolean;
   htmlFor?: any;
+  style?: object;
 };
 
 export function BaseControl({
@@ -57,10 +58,11 @@ export function BaseControl({
   value,
   stack,
   children,
+  style,
 }: BaseControlProps) {
   if (stack) {
     return (
-      <div>
+      <div style={style}>
         <Row>
           <Label flexLabel={flexLabel}>{label}</Label>
           <Value stack flexLabel={flexLabel}>
