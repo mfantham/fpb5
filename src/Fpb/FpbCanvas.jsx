@@ -20,13 +20,13 @@ export default ({ metadata }) => {
     return null;
   }
 
-  const xyQuality = useControl("Quality-XY", {
+  const [xyQuality] = useControl("Quality-XY", {
     type: "number",
     value: 0.4,
     min: 0.1,
     max: 1.1
   });
-  const qualityZ = useControl("Quality-Z", {
+  const [qualityZ] = useControl("Quality-Z", {
     type: "number",
     value: 0.7,
     min: 0.1,

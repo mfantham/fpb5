@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 
 import { DataTexture3D, Plane, Vector3 } from "three";
 import { useControl } from "./react-three-gui-fork";
@@ -45,36 +45,56 @@ export default ({ metadata, qualityZ }) => {
   );
 
   const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
-  const projection = useControl("Projection", {
+  const [projection] = useControl("Projection", {
     type: "select",
     items: projections,
     value: projections[metadata.projection]
   });
-  const opacity = useControl("Opacity", {
+  const [opacity, setOpacity] = useControl("Opacity", {
     type: "number",
     value: metadata.opacity / 8,
     min: 0,
     max: 1
   });
-  const intensity = useControl("Intensity", {
+  const [intensity] = useControl("Intensity", {
     type: "number",
     value: metadata.intensity,
     min: 0,
     max: 5.0
   });
-  const threshold = useControl("Cutoff", {
+  const [threshold] = useControl("Cutoff", {
     type: "number",
     value: metadata.threshold,
     min: 0,
     max: 1.0
   });
-  const size = useControl("Size", {
+  const [size] = useControl("Size", {
     type: "number",
     value: 3.5,
     min: 0.1,
     max: 5
   });
   const scale = calculateScale(voxelSize, dataResolution, size);
+
+  const handleUserKeyPress = useCallback(
+    // Should I have a useFrame somewhere?
+    event => {
+      const { key, keyCode } = event;
+      if (key === ",") {
+        setOpacity(opacity - 0.01);
+      } else if (key === ".") {
+        setOpacity(opacity + 0.01);
+      }
+    },
+    [opacity]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
 
   return (
     <object3D scale={scale} renderOrder={2}>

@@ -9,7 +9,7 @@ export default ({ callback }) => {
   const [showing, setShowing] = useState(false);
   const [plane, setPlane] = useState(new Plane());
 
-  const { enabled, x, y, z } = useControl("Clipping plane", {
+  const [{ enabled, x, y, z }] = useControl("Clipping plane", {
     type: "clipping",
     value: { enabled: false, x: 0, y: 0, z: 0 },
     distance: Math.PI,

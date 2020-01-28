@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSpring } from "react-spring/three";
 import { controls, controlsEmitter } from "../index";
 import { ControlConfig, ControlItem } from "../types";
-import { defaultConfig, defaultValue } from "../utils";
+import { clamp, defaultConfig, defaultValue } from "../utils";
 
 let uid = 0;
 
@@ -23,6 +23,14 @@ export const useControl = (
     value = config.state[0];
     set = config.state[1];
   }
+
+  const externalSet = (v: any) => {
+    // should be min and max from config here.
+    v = clamp(v, 0, 1); // config.min, config.max); // urgh, typescript.
+    console.log(controls.get(id));
+    controls.get(id)!.set(v);
+    set(v);
+  };
 
   useEffect(() => {
     const control: ControlItem = {
@@ -53,5 +61,5 @@ export const useControl = (
     return spring.value;
   }
 
-  return value;
+  return [value, externalSet];
 };

@@ -7,7 +7,7 @@ import wall from "./grid.png";
 const { PI } = Math;
 
 export default ({ boxSize = 10 }) => {
-  const boundaryColor = useControl("Boundary", {
+  const [boundaryColor, setBoundaryColor] = useControl("Boundary", {
     type: "color",
     value: "#000000"
   });
