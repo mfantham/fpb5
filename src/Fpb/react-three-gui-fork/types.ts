@@ -1,5 +1,5 @@
-import { Dispatch, RefObject, SetStateAction } from 'react';
-import { SpringConfig } from 'react-spring/three';
+import { Dispatch, RefObject, SetStateAction } from "react";
+import { SpringConfig } from "react-spring/three";
 
 export type ControlId = RefObject<number>;
 
@@ -13,7 +13,7 @@ export type ControlItem = {
 };
 
 type ControlConfigNumber = {
-  type: 'number';
+  type: "number";
   /* Minimum value */
   min?: number;
   /* Maximum value */
@@ -27,24 +27,24 @@ type ControlConfigNumber = {
 };
 
 type ControlConfigString = {
-  type: 'string';
+  type: "string";
   /* Initial value */
   value?: string;
 };
 
 type ControlConfigButton = {
-  type: 'button';
+  type: "button";
   /* Fired on button click */
   onClick?(): void;
 };
 
 type ControlConfigBoolean = {
-  type: 'boolean';
+  type: "boolean";
   value?: boolean;
 };
 
 type ControlConfigSelect = {
-  type: 'select';
+  type: "select";
   /* List of items to select from */
   items: string[];
   /* Initial value */
@@ -52,13 +52,13 @@ type ControlConfigSelect = {
 };
 
 type ControlConfigColor = {
-  type: 'color';
+  type: "color";
   /* Initial value as HEX code */
   value?: string;
 };
 
 type ControlConfigXYPad = {
-  type: 'xypad';
+  type: "xypad";
   /* Initial value as { x, y } object */
   value?: { x: number; y: number };
   /* Pad drag distance */
@@ -66,12 +66,12 @@ type ControlConfigXYPad = {
 };
 
 type ControlConfigClipping = {
-  type: 'clipping';
+  type: "clipping";
   value?: { enabled: boolean; x: number; y: number; z: number };
-}
+};
 
 type ControlConfigCustom = {
-  type: 'custom';
+  type: "custom";
   /* Custom React component */
   component?: any;
 };
@@ -98,4 +98,5 @@ export type ControlConfig = ControlConfigBase &
     | ControlConfigColor
     | ControlConfigSelect
     | ControlConfigXYPad
-    | ControlConfigClipping);
+    | ControlConfigClipping
+  );

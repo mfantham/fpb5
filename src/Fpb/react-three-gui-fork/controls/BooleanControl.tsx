@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BaseControl } from './BaseControl';
+import React from "react";
+import styled from "styled-components";
+import { BaseControl } from "./BaseControl";
 
 export const FakeCheckbox = styled.label`
   height: 16px;
@@ -18,7 +18,7 @@ export const Checkbox = styled.input`
   margin-right: -15px;
   & + ${FakeCheckbox}:after {
     position: absolute;
-    content: '';
+    content: "";
     display: inline-block;
     height: 4px;
     width: 8px;

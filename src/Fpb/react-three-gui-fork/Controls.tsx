@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ControlGroup } from './components/ControlGroup';
-import { controls, controlsEmitter } from './index';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { ControlGroup } from "./components/ControlGroup";
+import { controls, controlsEmitter } from "./index";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHamburger } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHamburger } from "@fortawesome/free-solid-svg-icons";
 
 const Float = styled.div<{ open: boolean }>`
   display: block;
   position: fixed;
   top: 50px;
-  right: ${p => p.open ? 0 : "-300px"};
+  right: ${p => (p.open ? 0 : "-300px")};
   width: 300px;
   max-width: 100vw;
   background-color: #2228;
@@ -34,24 +34,24 @@ const Toggle = styled.button`
   border-radius: 100vh;
   backdrop-filter: blur(20px);
 
-  :hover{
+  :hover {
     background: rgba(255, 255, 255, 0.5);
   }
 
-  :focus{
+  :focus {
     outline: 0;
     /*box-shadow: 0 0 10px 6px rgba(255, 255, 255, 0.3);*/ /* don't like it. */
   }
 
   transition: 0.2s ease;
-  transition-property: background, box-shadow; 
+  transition-property: background, box-shadow;
 `;
 
 const Items = styled.div`
   padding: 42px 0 0 0;
 `;
 
-const DEFAULT_GROUP = 'DEFAULT_GROUP';
+const DEFAULT_GROUP = "DEFAULT_GROUP";
 
 const groupByGroup = (items: any): any => {
   return Array.from(items).reduce((acc: any, item: any) => {
@@ -60,7 +60,7 @@ const groupByGroup = (items: any): any => {
     acc[groupName].push(item);
     return acc;
   }, {} as { [key: string]: any });
-}
+};
 
 export const Controls = React.memo(() => {
   const [open, setOpen] = useState<boolean>(window.innerWidth > 600);
@@ -77,12 +77,24 @@ export const Controls = React.memo(() => {
     <>
       <Float open={open}>
         <Items>
-          {Object.entries(groupByGroup(controls)).map(([groupName, items]: any) => (
-            <ControlGroup key={groupName} title={groupName} controls={items} />
-          ))}
+          {Object.entries(groupByGroup(controls)).map(
+            ([groupName, items]: any) => (
+              <ControlGroup
+                key={groupName}
+                title={groupName}
+                controls={items}
+              />
+            )
+          )}
         </Items>
       </Float>
-      <Toggle onClick={() => {setOpen(!open)}}><FontAwesomeIcon icon={faHamburger} size="lg" /></Toggle>
+      <Toggle
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        <FontAwesomeIcon icon={faHamburger} size="lg" />
+      </Toggle>
     </>
   );
 });

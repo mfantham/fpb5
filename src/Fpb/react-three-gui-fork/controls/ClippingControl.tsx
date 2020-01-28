@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { animated, interpolate, useSpring } from 'react-spring';
-import { useDrag } from 'react-use-gesture';
-import { clamp, map, wrap180 } from '../utils';
-import { Checkbox, FakeCheckbox } from './BooleanControl';
-import { InputRange } from './NumberControl';
+import React from "react";
+import styled from "styled-components";
+import { animated, interpolate, useSpring } from "react-spring";
+import { useDrag } from "react-use-gesture";
+import { clamp, map, wrap180 } from "../utils";
+import { Checkbox, FakeCheckbox } from "./BooleanControl";
+import { InputRange } from "./NumberControl";
 
 const THRESHOLD = 0.00001;
 
@@ -23,7 +23,7 @@ const LabelHolder = styled.div`
 const ControlHolder = styled.div<{ open: boolean }>`
   display: flex;
   flex-direction: row;
-  height: ${p=>p.open ? '155px' : '0px'};
+  height: ${p => (p.open ? "155px" : "0px")};
   overflow: hidden;
   transition: all 0.4s ease;
 `;
@@ -75,20 +75,22 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
   const [cursor, setCursor] = useSpring(() => ({
     from: {
       x: value.x,
-      y: value.y,
+      y: value.y
     },
     onFrame({ x, y }: any) {
       if (!scrub) {
-        const vx = clamp(map(x, 0, width / 2, 0, distance), -distance, distance) || 0;
-        const vy = clamp(map(y, 0, height / 2, 0, distance), -distance, distance) || 0
+        const vx =
+          clamp(map(x, 0, width / 2, 0, distance), -distance, distance) || 0;
+        const vy =
+          clamp(map(y, 0, height / 2, 0, distance), -distance, distance) || 0;
         control.set(() => ({
           x: vx < THRESHOLD && vx > -THRESHOLD ? 0 : vx,
           y: vy < THRESHOLD && vy > -THRESHOLD ? 0 : vy,
           z: value.z,
-          enabled: value.enabled,
+          enabled: value.enabled
         }));
       }
-    },
+    }
   }));
 
   const bind = useDrag(({ down, movement }) => {
@@ -107,7 +109,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
           (stage as any).current.y +
           map(movement[1], 0, height / 2, 0, distance),
         z: value.z,
-        enabled: value.enabled,
+        enabled: value.enabled
       }));
     }
   });
@@ -117,8 +119,8 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
       x: value.x,
       y: value.y,
       z: v,
-      enabled: value.enabled,
-    }))
+      enabled: value.enabled
+    }));
   };
 
   const handleToggle = (v: boolean) => {
@@ -126,12 +128,14 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
       x: value.x,
       y: value.y,
       z: value.z,
-      enabled: v,
-    }))
-  }
+      enabled: v
+    }));
+  };
 
   const x = cursor.x.interpolate((n: number) => clamp(n + width / 2, 0, width));
-  const y = cursor.y.interpolate((n: number) => clamp(n + height / 2, 0, height));
+  const y = cursor.y.interpolate((n: number) =>
+    clamp(n + height / 2, 0, height)
+  );
 
   const checkboxId = `Control${control.id.current}`;
 
@@ -140,18 +144,23 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
       <LabelHolder>
         <Label htmlFor={checkboxId}>{control.name}</Label>
         <CheckboxHolder>
-          <Checkbox id={checkboxId} type="checkbox" checked={value.enabled} onChange={e => handleToggle(e.currentTarget.checked)} />
-          <FakeCheckbox htmlFor={checkboxId}/>
+          <Checkbox
+            id={checkboxId}
+            type="checkbox"
+            checked={value.enabled}
+            onChange={e => handleToggle(e.currentTarget.checked)}
+          />
+          <FakeCheckbox htmlFor={checkboxId} />
         </CheckboxHolder>
       </LabelHolder>
       <ControlHolder open={value.enabled}>
         <animated.svg
           ref={ref as any}
           style={{
-            userSelect: 'none',
-            touchAction: 'none',
+            userSelect: "none",
+            touchAction: "none",
             borderRadius: 8,
-            border: '1px solid #f0f0f0',
+            border: "1px solid #f0f0f0"
           }}
           width={width}
           height={height}
@@ -163,7 +172,10 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
           <animated.line x1={0} x2="100%" y1={y} y2={y} stroke="#ccc" />
           <animated.g
             style={{
-              transform: interpolate([x, y], (x, y) => `translate(${x}px, ${y}px)`),
+              transform: interpolate(
+                [x, y],
+                (x, y) => `translate(${x}px, ${y}px)`
+              )
             }}
           >
             <circle r={8} fill="#ccc" />
@@ -180,12 +192,12 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
             max={max.z}
           />
         </SliderHolder>
-        <ValueHolder style={{marginLeft: "auto"}}>
+        <ValueHolder style={{ marginLeft: "auto" }}>
           <Value>Rx:</Value>
           <Value>Ry:</Value>
           <Value>z:</Value>
         </ValueHolder>
-        <ValueHolder style={{width: "35px"}}>
+        <ValueHolder style={{ width: "35px" }}>
           <Value>{wrap180(value.x)}°</Value>
           <Value>{wrap180(value.y)}°</Value>
           <Value>{value.z.toFixed(2)}</Value>

@@ -14,9 +14,9 @@ export default ({ callback }) => {
     value: { enabled: false, x: 0, y: 0, z: 0 },
     distance: Math.PI,
     scrub: true,
-    min: {z: -1},
-    max: {z: 1}
-  })
+    min: { z: -1 },
+    max: { z: 1 }
+  });
 
   useEffect(() => {
     if (timeout) {
@@ -35,7 +35,7 @@ export default ({ callback }) => {
 
     const normal = new Vector3(0, 0, 1).applyMatrix3(mX).applyMatrix3(mY);
 
-    const p = new Plane(normal, -z/2);
+    const p = new Plane(normal, -z / 2);
     setPlane(p);
     p.active = enabled;
     callback(p);
@@ -47,7 +47,9 @@ export default ({ callback }) => {
 
   return (
     <object3D>
-      {enabled && showing && <planeHelper plane={plane} args={[plane, 1.5, "#777777"]} />}
+      {enabled && showing && (
+        <planeHelper plane={plane} args={[plane, 1.5, "#777777"]} />
+      )}
     </object3D>
   );
 };

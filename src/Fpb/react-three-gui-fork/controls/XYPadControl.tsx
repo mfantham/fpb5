@@ -1,8 +1,8 @@
-import React from 'react';
-import { animated, interpolate, useSpring } from 'react-spring';
-import { useDrag } from 'react-use-gesture';
-import { clamp, map } from '../utils';
-import { BaseControl } from './BaseControl';
+import React from "react";
+import { animated, interpolate, useSpring } from "react-spring";
+import { useDrag } from "react-use-gesture";
+import { clamp, map } from "../utils";
+import { BaseControl } from "./BaseControl";
 
 const THRESHOLD = 0.00001;
 
@@ -14,18 +14,20 @@ export const XYPadControl = React.memo(({ control, value }: any) => {
   const [cursor, setCursor] = useSpring(() => ({
     from: {
       x: value.x,
-      y: value.y,
+      y: value.y
     },
     onFrame({ x, y }: any) {
       if (!scrub) {
-        const vx = clamp(map(x, 0, width / 2, 0, distance), -distance, distance) || 0;
-        const vy = clamp(map(y, 0, height / 2, 0, distance), -distance, distance) || 0
+        const vx =
+          clamp(map(x, 0, width / 2, 0, distance), -distance, distance) || 0;
+        const vy =
+          clamp(map(y, 0, height / 2, 0, distance), -distance, distance) || 0;
         control.set(() => ({
           x: vx < THRESHOLD && vx > -THRESHOLD ? 0 : vx,
-          y: vy < THRESHOLD && vy > -THRESHOLD ? 0 : vy,
+          y: vy < THRESHOLD && vy > -THRESHOLD ? 0 : vy
         }));
       }
-    },
+    }
   }));
 
   const bind = useDrag(({ down, movement }) => {
@@ -42,13 +44,15 @@ export const XYPadControl = React.memo(({ control, value }: any) => {
           map(movement[0], 0, width / 2, 0, distance),
         y:
           (stage as any).current.y +
-          map(movement[1], 0, height / 2, 0, distance),
+          map(movement[1], 0, height / 2, 0, distance)
       }));
     }
   });
 
   const x = cursor.x.interpolate((n: number) => clamp(n + width / 2, 0, width));
-  const y = cursor.y.interpolate((n: number) => clamp(n + height / 2, 0, height));
+  const y = cursor.y.interpolate((n: number) =>
+    clamp(n + height / 2, 0, height)
+  );
 
   return (
     <BaseControl
@@ -59,10 +63,10 @@ export const XYPadControl = React.memo(({ control, value }: any) => {
       <animated.svg
         ref={ref as any}
         style={{
-          userSelect: 'none',
-          touchAction: 'none',
+          userSelect: "none",
+          touchAction: "none",
           borderRadius: 8,
-          border: '1px solid #f0f0f0',
+          border: "1px solid #f0f0f0"
         }}
         width={width}
         height={height}
@@ -74,7 +78,10 @@ export const XYPadControl = React.memo(({ control, value }: any) => {
         <animated.line x1={0} x2="100%" y1={y} y2={y} stroke="#ccc" />
         <animated.g
           style={{
-            transform: interpolate([x, y], (x, y) => `translate(${x}px, ${y}px)`),
+            transform: interpolate(
+              [x, y],
+              (x, y) => `translate(${x}px, ${y}px)`
+            )
           }}
         >
           <circle r={8} fill="#ccc" />

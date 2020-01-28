@@ -48,7 +48,7 @@ export default ({ metadata, qualityZ }) => {
   const projection = useControl("Projection", {
     type: "select",
     items: projections,
-    value: projections[metadata.projection],
+    value: projections[metadata.projection]
   });
   const opacity = useControl("Opacity", {
     type: "number",

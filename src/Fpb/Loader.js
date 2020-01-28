@@ -59,15 +59,15 @@ const imageReducer = (state, action) => {
   let newStatuses = [...state.statuses];
   let newImages = [...state.images];
 
-  const {progress, status, image} = action.value;
+  const { progress, status, image } = action.value;
 
-  if (progress){
+  if (progress) {
     newProgresses[action.index] = progress;
   }
-  if (status){
+  if (status) {
     newStatuses[action.index] = status;
   }
-  if (image){
+  if (image) {
     newImages[action.index] = image;
   }
   return {
@@ -190,7 +190,7 @@ export default ({ datasetUrl, setMetadataCallback }) => {
                 }
 
                 converted[i] = true;
-                dispatch({ value: {progress: 1}, index: i });
+                dispatch({ value: { progress: 1 }, index: i });
 
                 if (converted.every(done => done)) {
                   setMetadataCallback({
@@ -201,7 +201,7 @@ export default ({ datasetUrl, setMetadataCallback }) => {
               }
             }
           }
-        )
+        );
       }
     }
   }, [converting]);
@@ -212,16 +212,17 @@ export default ({ datasetUrl, setMetadataCallback }) => {
   let statusText = "";
   let progressText = "";
 
-  const downloadsFinished = imagesState.statuses.every(
-    status => status === "SUCCESS") && parameterData !== null;
+  const downloadsFinished =
+    imagesState.statuses.every(status => status === "SUCCESS") &&
+    parameterData !== null;
 
   if (imagesState.statuses.some(status => status === "FAILED")) {
     statusText = "A fetch error occured. Please try refreshing the page!";
     progressText = ":(";
-  } else if (downloadsFinished){
+  } else if (downloadsFinished) {
     statusText = "Converting slices to 3D volume";
     progressText = "...";
-    if (!converting){
+    if (!converting) {
       setConverting(true);
     }
   } else {

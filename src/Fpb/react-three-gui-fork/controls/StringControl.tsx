@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BaseControl } from './BaseControl';
+import React from "react";
+import styled from "styled-components";
+import { BaseControl } from "./BaseControl";
 
 const Input = styled.input`
   display: block;

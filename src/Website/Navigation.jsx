@@ -68,7 +68,9 @@ const Example = styled(Link)`
 export default () => {
   return (
     <Header>
-      <HomeLink as={Link} to="">FPBioimage</HomeLink>
+      <HomeLink as={Link} to="">
+        FPBioimage
+      </HomeLink>
       <ExamplesHolder as="span" to="#">
         Examples
         <ExamplesList>
@@ -79,8 +81,15 @@ export default () => {
           <Example to="?demo=mouseHead">Mouse embryo head</Example>
         </ExamplesList>
       </ExamplesHolder>
-      <NavLink target="_blank" href="https://fpb.ceb.cam.ac.uk/demo/videos.html">Videos</NavLink>
-      <NavLink target="_blank" href="https://fpb.ceb.cam.ac.uk">Project page</NavLink>
+      <NavLink
+        target="_blank"
+        href="https://fpb.ceb.cam.ac.uk/demo/videos.html"
+      >
+        Videos
+      </NavLink>
+      <NavLink target="_blank" href="https://fpb.ceb.cam.ac.uk">
+        Project page
+      </NavLink>
     </Header>
   );
 };

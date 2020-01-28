@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ChromePicker } from 'react-color';
-import styled from 'styled-components';
-import { BaseControl } from './BaseControl';
+import React, { useEffect, useRef, useState } from "react";
+import { ChromePicker } from "react-color";
+import styled from "styled-components";
+import { BaseControl } from "./BaseControl";
 
 const ColorPicker = styled.div`
   position: relative;
@@ -22,9 +22,9 @@ const Picker = styled.div<{ open: boolean }>`
   right: -8px;
   z-index: 100;
   overflow: hidden;
-  width: ${p => p.open ? "225px" : "0px"};
-  height: ${p => p.open ? "234.25px" : "0px"};
-  opacity: ${p => p.open ? "100%" : "0%"};
+  width: ${p => (p.open ? "225px" : "0px")};
+  height: ${p => (p.open ? "234.25px" : "0px")};
+  opacity: ${p => (p.open ? "100%" : "0%")};
   transition: all 0.4s ease;
 `;
 
@@ -38,9 +38,9 @@ export function ColorControl({ control, value }: any) {
   };
 
   useEffect(() => {
-    document.body.addEventListener('click', handleClick);
+    document.body.addEventListener("click", handleClick);
     return () => {
-      document.body.removeEventListener('click', handleClick);
+      document.body.removeEventListener("click", handleClick);
     };
   }, []);
 

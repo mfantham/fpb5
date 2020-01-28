@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { clamp, map } from '../utils';
-import { BaseControl } from './BaseControl';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { clamp, map } from "../utils";
+import { BaseControl } from "./BaseControl";
 
 export const InputRange = styled.input`
   -webkit-appearance: none;
@@ -53,7 +53,9 @@ export function NumberControl({ control, value }: any) {
   if (!distance) {
     distance = config.scrub ? 2 : max - min;
   }
-  const [val, setVal] = useState(config.scrub ? CENTER : map(value, min, max, 0, PRECISION));
+  const [val, setVal] = useState(
+    config.scrub ? CENTER : map(value, min, max, 0, PRECISION)
+  );
 
   const handleChange = useCallback(() => {
     if (config.scrub) {
@@ -65,11 +67,11 @@ export function NumberControl({ control, value }: any) {
   useEffect(() => {
     const el = ref.current;
     if (el) {
-      el.addEventListener('change', handleChange);
+      el.addEventListener("change", handleChange);
     }
     return () => {
       if (el) {
-        el.removeEventListener('change', handleChange);
+        el.removeEventListener("change", handleChange);
       }
     };
   }, [handleChange, ref]);

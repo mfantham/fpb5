@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSpring } from 'react-spring/three';
-import { controls, controlsEmitter } from '../index';
-import { ControlConfig, ControlItem } from '../types';
-import { defaultConfig, defaultValue } from '../utils';
+import { useEffect, useRef, useState } from "react";
+import { useSpring } from "react-spring/three";
+import { controls, controlsEmitter } from "../index";
+import { ControlConfig, ControlItem } from "../types";
+import { defaultConfig, defaultValue } from "../utils";
 
 let uid = 0;
 
@@ -16,7 +16,7 @@ export const useControl = (
 
   const [spring, setSpring] = useSpring(() => ({
     value,
-    config: typeof config.spring === 'object' ? config.spring : undefined,
+    config: typeof config.spring === "object" ? config.spring : undefined
   }));
 
   if (config.state) {
@@ -33,7 +33,7 @@ export const useControl = (
       config,
       addEventListener(fn: Function) {
         listener.current = fn;
-      },
+      }
     };
     controls.set(id, control);
     controlsEmitter.update();
