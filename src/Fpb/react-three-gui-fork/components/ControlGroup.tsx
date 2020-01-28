@@ -37,6 +37,7 @@ const Container = styled.div<{ open: boolean }>`
   display: ${props => props.open ? 'block' : 'none'};
   max-height: calc(100vh - 190px);
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const ControlGroup = ({ title, controls }: any) => {

@@ -18,7 +18,7 @@ const Label = styled.label<SCProps>`
   font-family: sans-serif;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.4);
-  width: 56px;
+  width: 69px;
   user-select: none;
   ${props => (props.flexLabel === true ? 'flex: 1;' : '')}
 `;
@@ -37,6 +37,7 @@ const Value = styled.div<SCProps>`
   font-size: 14px;
   color: rgba(255, 255, 255, 0.75);
   justify-content: flex-end;
+  user-select: none;
   ${props => (props.stack ? 'flex: 1;' : '')}
   ${props => (props.stack ? '' : 'width: 42px;')}
 `;

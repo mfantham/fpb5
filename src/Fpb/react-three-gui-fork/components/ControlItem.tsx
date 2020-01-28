@@ -6,6 +6,7 @@ import { NumberControl } from '../controls/NumberControl';
 import { SelectControl } from '../controls/SelectControl';
 import { StringControl } from '../controls/StringControl';
 import { XYPadControl } from '../controls/XYPadControl';
+import { ClippingControl } from '../controls/ClippingControl';
 import { defaultValue } from '../utils';
 
 const ControlType = {
@@ -16,6 +17,7 @@ const ControlType = {
   string: StringControl,
   button: ButtonControl,
   xypad: XYPadControl,
+  clipping: ClippingControl,
 };
 
 export function ControlItem({ control }: any) {

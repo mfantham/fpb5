@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import { clamp, map } from '../utils';
 import { BaseControl } from './BaseControl';
 
-const InputRange = styled.input`
+export const InputRange = styled.input`
   -webkit-appearance: none;
-  width: 100%;
   background: transparent;
   display: inline-block;
 

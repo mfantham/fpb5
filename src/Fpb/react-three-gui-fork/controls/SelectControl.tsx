@@ -30,7 +30,7 @@ const Option = styled.option`
 export function SelectControl({ control, value }: any) {
   return (
     <BaseControl label={control.name}>
-      <Select value={value} onChange={e => control.set(e.currentTarget.value)}>
+      <Select style={{padding: "0 0 8px 0", marginRight: "-8px"}} value={value} onChange={e => control.set(e.currentTarget.value)}>
         {control.config.items.map((item: string, i: number) => (
           <Option key={i}>{item}</Option>
         ))}

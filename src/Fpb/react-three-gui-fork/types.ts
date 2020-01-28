@@ -65,6 +65,11 @@ type ControlConfigXYPad = {
   distance?: number;
 };
 
+type ControlConfigClipping = {
+  type: 'clipping';
+  value?: { enabled: boolean; x: number; y: number; z: number };
+}
+
 type ControlConfigCustom = {
   type: 'custom';
   /* Custom React component */
@@ -92,4 +97,5 @@ export type ControlConfig = ControlConfigBase &
     | ControlConfigButton
     | ControlConfigColor
     | ControlConfigSelect
-    | ControlConfigXYPad);
+    | ControlConfigXYPad
+    | ControlConfigClipping);

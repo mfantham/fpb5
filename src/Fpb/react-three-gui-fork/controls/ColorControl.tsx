@@ -10,16 +10,22 @@ const ColorPicker = styled.div`
 const ColorBox = styled.div`
   width: 32px;
   height: 16px;
+  margin-right: -8px;
   border: 2px solid white;
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
   cursor: pointer;
 `;
 
-const Picker = styled.div<{ hidden: boolean }>`
+const Picker = styled.div<{ open: boolean }>`
   position: absolute;
-  top: 24px;
-  right: 0px;
+  bottom: 0px;
+  right: -8px;
   z-index: 100;
+  overflow: hidden;
+  width: ${p => p.open ? "225px" : "0px"};
+  height: ${p => p.open ? "234.25px" : "0px"};
+  opacity: ${p => p.open ? "100%" : "0%"};
+  transition: all 0.4s ease;
 `;
 
 export function ColorControl({ control, value }: any) {
@@ -43,9 +49,11 @@ export function ColorControl({ control, value }: any) {
       <ColorPicker>
         <ColorBox
           style={{ backgroundColor: value }}
-          onClick={() => setOpen(lastValue => !lastValue)}
+          onClick={() => {
+            setOpen(!open);
+          }}
         />
-        <Picker hidden={open !== true} ref={pickerRef as any}>
+        <Picker open={open} ref={pickerRef as any}>
           <ChromePicker
             color={value}
             onChange={color => control.set(color.hex)}

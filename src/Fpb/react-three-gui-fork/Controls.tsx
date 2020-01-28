@@ -17,7 +17,7 @@ const Float = styled.div<{ open: boolean }>`
   backdrop-filter: blur(20px);
   border-radius: 8px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
-  transition: right 0.2s ease;
+  transition: right 0.4s ease;
 `;
 
 const Toggle = styled.button`
@@ -40,8 +40,11 @@ const Toggle = styled.button`
 
   :focus{
     outline: 0;
-    box-shadow: 0 0 10px 6px rgba(255, 255, 255, 0.3);
+    /*box-shadow: 0 0 10px 6px rgba(255, 255, 255, 0.3);*/ /* don't like it. */
   }
+
+  transition: 0.2s ease;
+  transition-property: background, box-shadow; 
 `;
 
 const Items = styled.div`
@@ -60,7 +63,7 @@ const groupByGroup = (items: any): any => {
 }
 
 export const Controls = React.memo(() => {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(window.innerWidth > 600);
   const [, set] = useState<number>(0);
 
   useEffect(() => {

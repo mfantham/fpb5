@@ -2,18 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseControl } from './BaseControl';
 
-const FakeCheckbox = styled.label`
+export const FakeCheckbox = styled.label`
   height: 16px;
   width: 16px;
   border: 2px solid rgba(255, 255, 255, 0.065);
   border-radius: 4px;
   position: relative;
   margin-top: -1px;
-  transition: ease-in-out 125ms;
+  transition: ease-in-out 0.3s;
   transition-property: background-color, border-color;
 `;
 
-const Checkbox = styled.input`
+export const Checkbox = styled.input`
   opacity: 0;
   margin-right: -15px;
   & + ${FakeCheckbox}:after {
@@ -28,7 +28,7 @@ const Checkbox = styled.input`
     top: 4px;
     opacity: 0;
     transform: translate(0px, 2px) rotate(-45deg);
-    transition: ease-in-out 125ms;
+    transition: ease-in-out 0.3s;
     transition-property: opacity, transform;
   }
   &:checked + ${FakeCheckbox}:after {

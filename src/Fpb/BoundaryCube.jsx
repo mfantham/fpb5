@@ -7,19 +7,10 @@ import wall from "./grid.png";
 const { PI } = Math;
 
 export default ({ boxSize = 10 }) => {
-  const showBoundary = useControl("Boundary", {
-    type: "boolean",
-    value: true
+  const boundaryColor = useControl("Boundary", {
+    type: "color",
+    value: "#000000"
   });
-
-  const [color, setColor] = useState("#FFFFFF");
-  useEffect(() => {
-    if (showBoundary) {
-      setColor("#FFFFFF");
-    } else {
-      setColor("#000000");
-    }
-  }, [showBoundary]);
 
   const faces = [
     { position: [0, 0, boxSize / 2], rotation: [0, PI, 0] },
@@ -45,7 +36,7 @@ export default ({ boxSize = 10 }) => {
         scale={[boxSize, boxSize, boxSize]}
       >
         <planeBufferGeometry attach="geometry" args={[1, 1]} />
-        <meshStandardMaterial attach="material" color={color} map={texture} />
+        <meshStandardMaterial attach="material" color={boundaryColor} map={texture} />
       </mesh>
     );
   });
