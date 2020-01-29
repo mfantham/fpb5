@@ -36,6 +36,17 @@ export default ({ metadata }) => {
 
   const canvasContainerRef = useRef(null);
 
+  const setupXR = obj => {
+    const { gl } = obj;
+    console.log(obj);
+    if ("xr" in navigator || "vr" in navigator) {
+      if ("xr" in navigator) {
+        gl.domElement.getContext("webgl2").makeXRCompatible();
+      }
+      document.body.appendChild(VRButton.createButton(gl));
+    }
+  };
+
   return (
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
@@ -43,11 +54,8 @@ export default ({ metadata }) => {
         camera={{ position: [0, 0, -3] }}
         gl={{ alpha: false }}
         gl2
-        vr={"xr" in navigator}
-        onCreated={({ gl }) =>
-          "xr" in navigator &&
-          document.body.appendChild(VRButton.createButton(gl))
-        }
+        vr={"xr" in navigator || "vr" in navigator}
+        onCreated={setupXR}
       >
         <ambientLight />
         <TestControls domReference={canvasContainerRef} />

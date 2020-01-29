@@ -8,5 +8,13 @@ export default ({ domReference }) => {
   const ref = useRef();
   const { camera } = useThree();
   useFrame(() => ref.current.update());
-  return <orbitControls ref={ref} args={[camera, domReference.current]} />;
+  return (
+    <orbitControls
+      ref={ref}
+      screenSpacePanning={true}
+      maxDistance={15}
+      minDistance={0.1}
+      args={[camera, domReference.current]}
+    />
+  );
 };
