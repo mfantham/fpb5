@@ -50,51 +50,39 @@ export default ({ metadata, qualityZ }) => {
     items: projections,
     value: projections[metadata.projection]
   });
-  const [opacity, setOpacity] = useControl("Opacity", {
+  const [opacity] = useControl("Opacity", {
     type: "number",
     value: metadata.opacity / 8,
     min: 0,
-    max: 1
+    max: 1,
+    up: "Period",
+    down: "Comma"
   });
   const [intensity] = useControl("Intensity", {
     type: "number",
     value: metadata.intensity,
     min: 0,
-    max: 5.0
+    max: 5.0,
+    up: "KeyM",
+    down: "KeyN"
   });
   const [threshold] = useControl("Cutoff", {
     type: "number",
     value: metadata.threshold,
     min: 0,
-    max: 1.0
+    max: 1.0,
+    up: "KeyB",
+    down: "KeyV"
   });
   const [size] = useControl("Size", {
     type: "number",
     value: 3.5,
     min: 0.1,
-    max: 5
+    max: 5,
+    up: "Equal",
+    down: "Minus"
   });
   const scale = calculateScale(voxelSize, dataResolution, size);
-
-  const handleUserKeyPress = useCallback(
-    // Should I have a useFrame somewhere?
-    event => {
-      const { key, keyCode } = event;
-      if (key === ",") {
-        setOpacity(opacity - 0.01);
-      } else if (key === ".") {
-        setOpacity(opacity + 0.01);
-      }
-    },
-    [opacity]
-  );
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleUserKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleUserKeyPress);
-    };
-  }, [handleUserKeyPress]);
 
   return (
     <object3D scale={scale} renderOrder={2}>

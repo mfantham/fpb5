@@ -46,7 +46,9 @@ export function NumberControl({ control, value }: any) {
   const { config } = control;
   const {
     min = config.scrub ? -Infinity : 0,
-    max = config.scrub ? Infinity : Math.PI
+    max = config.scrub ? Infinity : Math.PI,
+    up,
+    down
   } = config;
 
   let distance = config.distance;
@@ -56,6 +58,32 @@ export function NumberControl({ control, value }: any) {
   const [val, setVal] = useState(
     config.scrub ? CENTER : map(value, min, max, 0, PRECISION)
   );
+
+  const handleUserKeyPress = useCallback(
+    e => {
+      const { code } = e;
+      if (code === up || code === down) {
+        const direction = code === down ? -1 : 1;
+        const amplification = e.getModifierState("Shift")
+          ? 5
+          : e.getModifierState("Alt")
+          ? 0.2
+          : 1;
+        const step = 0.01 * amplification * direction * (max - min);
+        const v = value + step;
+        const newV = clamp(v, min, max);
+        control.set(newV);
+        setVal(map(newV, min, max, 0, PRECISION));
+      }
+    },
+    [value]
+  );
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
 
   const handleChange = useCallback(() => {
     if (config.scrub) {
