@@ -44,7 +44,7 @@ export default ({ metadata }) => {
       document.body.appendChild(VRButton.createButton(gl));
     }
   };
-  const shiftForVr = [0, 1.6, 3];
+  const shiftForVr = [0, 1.6, -3];
 
   return (
     <CanvasContainer ref={canvasContainerRef}>
