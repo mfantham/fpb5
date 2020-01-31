@@ -19,7 +19,6 @@
     "react-useportal": "^1.0.13",
     "styled-components": "^5.0.0",
     "three": "^0.112.1",
-    "three-full": "^17.1.0",
     "use-global-hook": "^0.1.12",
     "zustand": "^2.2.2"
   },

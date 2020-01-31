@@ -36,9 +36,7 @@ export default ({ metadata }) => {
 
   const canvasContainerRef = useRef(null);
 
-  const setupXR = obj => {
-    const { gl } = obj;
-    console.log(obj);
+  const setupXR = ({ gl }) => {
     if ("xr" in navigator || "vr" in navigator) {
       if ("xr" in navigator) {
         gl.domElement.getContext("webgl2").makeXRCompatible();
@@ -46,25 +44,28 @@ export default ({ metadata }) => {
       document.body.appendChild(VRButton.createButton(gl));
     }
   };
+  const shiftForVr = [0, 1.6, 3];
 
   return (
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
         pixelRatio={pixelRatio}
-        camera={{ position: [0, 0, -3] }}
+        camera={{ position: [0, 1.6, 0] }}
         gl={{ alpha: false }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}
         onCreated={setupXR}
       >
         <ambientLight />
-        <TestControls domReference={canvasContainerRef} />
-        <Suspense fallback={<mesh />}>
-          <BoundaryCube />
-        </Suspense>
-        <Suspense fallback={<mesh />}>
-          <FPBVolume metadata={metadata} qualityZ={qualityZ} />
-        </Suspense>
+        <TestControls target={shiftForVr} domReference={canvasContainerRef} />
+        <group position={shiftForVr}>
+          <Suspense fallback={<mesh />}>
+            <BoundaryCube />
+          </Suspense>
+          <Suspense fallback={<mesh />}>
+            <FPBVolume metadata={metadata} qualityZ={qualityZ} />
+          </Suspense>
+        </group>
       </Canvas>
     </CanvasContainer>
   );
