@@ -15,7 +15,8 @@ export default ({ callback }) => {
     distance: Math.PI,
     scrub: true,
     min: { z: -1 },
-    max: { z: 1 }
+    max: { z: 1 },
+    index: 4
   });
 
   useEffect(() => {

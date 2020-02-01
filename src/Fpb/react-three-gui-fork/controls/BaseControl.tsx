@@ -6,11 +6,13 @@ type SCProps = {
   flexLabel?: boolean;
 };
 
-const Row = styled.div`
+const Row = styled.div<{ show?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 8px 0;
+  overflow: hidden;
+  transition: all 2s ease;
 `;
 
 const Label = styled.label<SCProps>`
@@ -76,7 +78,7 @@ export function BaseControl({
   }
 
   return (
-    <Row>
+    <Row style={style}>
       <Label flexLabel={flexLabel} htmlFor={htmlFor}>
         {label}
       </Label>

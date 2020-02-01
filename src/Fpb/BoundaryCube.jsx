@@ -9,7 +9,8 @@ const { PI } = Math;
 export default ({ boxSize = 10 }) => {
   const [boundaryColor, setBoundaryColor] = useControl("Boundary", {
     type: "color",
-    value: "#000000"
+    value: "#000000",
+    index: 5
   });
 
   const faces = [

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ControlItem } from "./ControlItem";
 
-const Heading = styled.h2<{ open: boolean }>`
+const Heading = styled.h2`
   display: block;
   font-family: sans-serif;
   font-size: 13px;
@@ -32,7 +32,7 @@ const Heading = styled.h2<{ open: boolean }>`
   }
 `;
 
-const Container = styled.div<{ open: boolean }>`
+const Container = styled.div`
   padding: 16px;
   display: ${props => (props.open ? "block" : "none")};
   max-height: calc(100vh - 190px);
@@ -40,9 +40,16 @@ const Container = styled.div<{ open: boolean }>`
   overflow-x: hidden;
 `;
 
-export const ControlGroup = ({ title, controls }: any) => {
+export const ControlGroup = ({ title, controls }) => {
   const [open, setOpen] = useState(true);
   const isDefault = title !== "DEFAULT_GROUP";
+  controls.sort((a, b) => {
+    if (a[1].config.index === undefined || b[1].config.index === undefined) {
+      return 0;
+    }
+    return a[1].config.index - b[1].config.index;
+  });
+
   return (
     <div>
       {isDefault && (
@@ -51,7 +58,7 @@ export const ControlGroup = ({ title, controls }: any) => {
         </Heading>
       )}
       <Container open={open}>
-        {Array.from(controls).map(([id, control]: any) => (
+        {Array.from(controls).map(([id, control]) => (
           <ControlItem key={id.current} control={control} />
         ))}
       </Container>

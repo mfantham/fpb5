@@ -37,6 +37,7 @@ export default ({ metadata, qualityZ }) => {
     sliceHeight,
     numberOfImages
   } = metadata;
+
   const texture3d = new DataTexture3D(
     images,
     sliceWidth,
@@ -48,7 +49,8 @@ export default ({ metadata, qualityZ }) => {
   const [projection] = useControl("Projection", {
     type: "select",
     items: projections,
-    value: projections[metadata.projection]
+    value: projections[metadata.projection],
+    index: 0
   });
   const [opacity] = useControl("Opacity", {
     type: "number",
@@ -56,7 +58,9 @@ export default ({ metadata, qualityZ }) => {
     min: 0,
     max: 1,
     up: "Period",
-    down: "Comma"
+    down: "Comma",
+    index: 1,
+    visible: true // ah, don't have a way to set this yet...
   });
   const [intensity] = useControl("Intensity", {
     type: "number",
@@ -64,7 +68,8 @@ export default ({ metadata, qualityZ }) => {
     min: 0,
     max: 5.0,
     up: "KeyM",
-    down: "KeyN"
+    down: "KeyN",
+    index: 2
   });
   const [threshold] = useControl("Cutoff", {
     type: "number",
@@ -72,7 +77,8 @@ export default ({ metadata, qualityZ }) => {
     min: 0,
     max: 1.0,
     up: "KeyB",
-    down: "KeyV"
+    down: "KeyV",
+    index: 3
   });
   const [size] = useControl("Size", {
     type: "number",
@@ -80,7 +86,8 @@ export default ({ metadata, qualityZ }) => {
     min: 0.1,
     max: 5,
     up: "Equal",
-    down: "Minus"
+    down: "Minus",
+    index: 3
   });
   const scale = calculateScale(voxelSize, dataResolution, size);
 

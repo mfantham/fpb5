@@ -22,15 +22,17 @@ export default ({ metadata }) => {
 
   const [xyQuality] = useControl("Quality-XY", {
     type: "number",
-    value: 0.4,
+    value: 0.1,
     min: 0.1,
-    max: 1.1
+    max: 1.1,
+    index: 6
   });
   const [qualityZ] = useControl("Quality-Z", {
     type: "number",
-    value: 0.7,
+    value: 0.1,
     min: 0.1,
-    max: 1.5
+    max: 1.5,
+    index: 7
   });
   const pixelRatio = xyQuality;
 
@@ -44,13 +46,14 @@ export default ({ metadata }) => {
       document.body.appendChild(VRButton.createButton(gl));
     }
   };
-  const shiftForVr = [0, 1.6, -3];
+  // const shiftForVr = [0, 1.6, -3];
+  const shiftForVr = [0, 0, 0];
 
   return (
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
         pixelRatio={pixelRatio}
-        camera={{ position: [0, 1.6, 0] }}
+        camera={{ position: [0, 1.6, -3] }}
         gl={{ alpha: false }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}

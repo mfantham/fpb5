@@ -48,7 +48,8 @@ export function NumberControl({ control, value }: any) {
     min = config.scrub ? -Infinity : 0,
     max = config.scrub ? Infinity : Math.PI,
     up,
-    down
+    down,
+    visible = true
   } = config;
 
   let distance = config.distance;
@@ -104,8 +105,12 @@ export function NumberControl({ control, value }: any) {
     };
   }, [handleChange, ref]);
 
+  const style = visible
+    ? { maxHeight: "16px" }
+    : { maxHeight: "0px", padding: "0" };
+
   return (
-    <BaseControl label={control.name} value={value.toFixed(2)}>
+    <BaseControl label={control.name} value={value.toFixed(2)} style={style}>
       <InputRange
         ref={ref}
         type="range"
