@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -36,10 +36,17 @@ const HomeLink = styled(NavLink)`
 
 const ExamplesHolder = styled(NavLink)`
   position: relative;
-  :hover div {
+  cursor: default;
+
+  ${p =>
+    !p.touchable
+      ? `:hover div {
     visibility: visible;
-    opacity: 100;
-  }
+    opacity: 100;}`
+      : p.touched
+      ? ` div {visibility: visible;
+    opacity: 100;}`
+      : ``}
 `;
 
 const ExamplesList = styled.div`
@@ -66,12 +73,27 @@ const Example = styled(Link)`
 `;
 
 export default () => {
+  const [touchable, setTouchable] = useState(false);
+  const [touched, setTouched] = useState(false);
+
   return (
     <Header>
       <HomeLink as={Link} to="">
         FPBioimage
       </HomeLink>
-      <ExamplesHolder as="span" to="#">
+      <ExamplesHolder
+        as="span"
+        to="#"
+        touchable={touchable}
+        touched={touched}
+        onTouchStart={() => {
+          setTouched(!touched);
+          setTouchable(true);
+        }}
+        onMouseEnter={() => {
+          setTouchable(false);
+        }}
+      >
         Examples
         <ExamplesList>
           <Example to="?demo=brain">MRI Brain</Example>

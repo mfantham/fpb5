@@ -2,7 +2,6 @@ import React, { useEffect, useRef, Suspense, useMemo } from "react";
 import styled from "styled-components";
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
 import { Canvas } from "react-three-fiber";
-import { useControl } from "./react-three-gui-fork";
 
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
@@ -24,6 +23,10 @@ export default ({ metadata }) => {
   const pixelRatio = xyQuality;
 
   const canvasContainerRef = useRef(null);
+
+  useEffect(() => {
+    canvasContainerRef.current.focus();
+  }, []);
 
   const setupXR = ({ gl }) => {
     if ("xr" in navigator || "vr" in navigator) {
