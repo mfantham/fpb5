@@ -1,13 +1,13 @@
-import React, { useRef, Suspense } from "react";
+import React, { useEffect, useRef, Suspense, useMemo } from "react";
 import styled from "styled-components";
+import { VRButton } from "three/examples/jsm/webxr/VRButton";
 import { Canvas } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
 
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
 import TestControls from "./TestControls";
-
-import { VRButton } from "three/examples/jsm/webxr/VRButton";
+import { useQuality } from "./hooks/useQuality";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -20,20 +20,7 @@ export default ({ metadata }) => {
     return null;
   }
 
-  const [xyQuality] = useControl("Quality-XY", {
-    type: "number",
-    value: 0.1,
-    min: 0.1,
-    max: 1.1,
-    index: 6
-  });
-  const [qualityZ] = useControl("Quality-Z", {
-    type: "number",
-    value: 0.1,
-    min: 0.1,
-    max: 1.5,
-    index: 7
-  });
+  const [xyQuality, zQuality] = useQuality();
   const pixelRatio = xyQuality;
 
   const canvasContainerRef = useRef(null);
@@ -66,7 +53,7 @@ export default ({ metadata }) => {
             <BoundaryCube />
           </Suspense>
           <Suspense fallback={<mesh />}>
-            <FPBVolume metadata={metadata} qualityZ={qualityZ} />
+            <FPBVolume metadata={metadata} qualityZ={zQuality} />
           </Suspense>
         </group>
       </Canvas>

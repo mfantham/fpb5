@@ -87,7 +87,8 @@ export default ({ metadata, qualityZ }) => {
     max: 5,
     up: "Equal",
     down: "Minus",
-    index: 3
+    index: 3,
+    visible: false // Seems redundant when users can zoom
   });
   const scale = calculateScale(voxelSize, dataResolution, size);
 

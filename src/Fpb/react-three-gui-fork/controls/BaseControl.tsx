@@ -6,12 +6,11 @@ type SCProps = {
   flexLabel?: boolean;
 };
 
-const Row = styled.div<{ show?: boolean }>`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 8px 0;
-  overflow: hidden;
   transition: all 2s ease;
 `;
 

@@ -107,7 +107,7 @@ export function NumberControl({ control, value }: any) {
 
   const style = visible
     ? { maxHeight: "16px" }
-    : { maxHeight: "0px", padding: "0" };
+    : { maxHeight: "0px", padding: "0", overflow: "hidden" };
 
   return (
     <BaseControl label={control.name} value={value.toFixed(2)} style={style}>

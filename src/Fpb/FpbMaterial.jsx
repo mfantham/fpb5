@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import FpbShader from "./shader/FpbShader";
-import { useUniform } from "./useUniform";
+import { useUniform } from "./hooks/useUniform";
 
 export default ({
   texture3d,

@@ -89,6 +89,7 @@ export const Controls = React.memo(() => {
         </Items>
       </Float>
       <Toggle
+        title={open ? "Hide" : "Control menu"}
         onClick={() => {
           setOpen(!open);
         }}
