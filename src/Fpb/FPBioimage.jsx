@@ -5,6 +5,7 @@ import { Controls } from "./react-three-gui-fork";
 
 import FpbCanvas from "./FpbCanvas";
 import LoadingScreen from "../LoadingScreen";
+import RecordingControls from "./leftMenu/RecordingControls";
 
 const FPBioimageHolder = styled.div`
   width: 100%;
@@ -30,6 +31,7 @@ const FPBioimageApp = ({ datasetUrl }) => {
   return (
     <>
       <FpbCanvas metadata={metadata} />
+      <RecordingControls />
       <Controls />
     </>
   );
