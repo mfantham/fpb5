@@ -50,7 +50,7 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-export default () => {
+export default ({ addBookmarkCallback, restoreBookmarkCallback }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
@@ -58,7 +58,10 @@ export default () => {
       <Float style={{ height: 400 }} open={open}>
         <Items>
           <Screenshot />
-          <Bookmarks />
+          <Bookmarks
+            addBookmarkCallback={addBookmarkCallback}
+            restoreBookmarkCallback={restoreBookmarkCallback}
+          />
           <Video />
         </Items>
       </Float>

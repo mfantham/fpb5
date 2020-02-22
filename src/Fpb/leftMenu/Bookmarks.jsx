@@ -17,7 +17,7 @@ const browserBookmarks = [
   { label: "goodbye", position: "x: 8, y: 3" }
 ];
 
-export default () => {
+export default ({ addBookmarkCallback, restoreBookmarkCallback }) => {
   const bookmarkButtons = browserBookmarks.map(({ position, label }, idx) => {
     return (
       <Button

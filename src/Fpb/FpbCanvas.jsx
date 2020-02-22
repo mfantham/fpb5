@@ -21,7 +21,6 @@ export default ({ metadata }) => {
   }
 
   const [xyQuality, zQuality] = useQuality();
-  const pixelRatio = xyQuality;
 
   const canvasContainerRef = useRef(null);
 
@@ -43,9 +42,9 @@ export default ({ metadata }) => {
   return (
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
-        pixelRatio={pixelRatio}
-        camera={{ position: [0, 0, 3] }}
-        gl={{ alpha: false }}
+        pixelRatio={xyQuality}
+        camera={{ position: [0, 1.6, -3] }}
+        gl={{ alpha: false, preserveDrawingBuffer: true }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}
         onCreated={setupXR}

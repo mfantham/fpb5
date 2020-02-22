@@ -1,9 +1,11 @@
 import React from "react";
-import styled from "styled-components";
+import { useThree } from "react-three-fiber";
 import Button from "./Button";
 
 const takeScreenshot = () => {
-  const canvas = document.getElementsByTagName("canvas")[0]; // very unreactful :(
+  const { gl } = useThree();
+  console.log(gl);
+  const canvas = document.getElementsByTagName("canvas")[0]; // very unreactful :( useThree() ? nop. not in canvas. move to canvas?
   const link = document.createElement("a");
   link.download = "screenshot.png";
 
