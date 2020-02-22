@@ -11,14 +11,14 @@ export const useQuality = () => {
 
   const [xyQuality] = useControl("Quality-XY", {
     type: "number",
-    value: lsXYQuality || 0.1,
+    value: lsXYQuality || 0.4,
     min: 0.1,
     max: 1.1,
     index: 6
   });
   const [zQuality] = useControl("Quality-Z", {
     type: "number",
-    value: lsZQuality || 0.1,
+    value: lsZQuality || 0.4,
     min: 0.1,
     max: 1.5,
     index: 7
