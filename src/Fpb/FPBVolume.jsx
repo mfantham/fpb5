@@ -5,6 +5,14 @@ import { useControl } from "./react-three-gui-fork";
 
 import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";
+import { useRendering } from "./hooks/useRendering";
+
+const PROJECTIONS = [
+  "Transparency",
+  "Max. projection",
+  "Max. RGB average",
+  "Iso-surface"
+];
 
 const calculateScale = (voxelSize, res, size) => {
   const { x, y, z } = voxelSize;
@@ -13,13 +21,6 @@ const calculateScale = (voxelSize, res, size) => {
   const scale = rawScale.map(v => (v * size) / maxScale);
   return scale;
 };
-
-const projections = [
-  "Transparency",
-  "Max. projection",
-  "Max. RGB average",
-  "Iso-surface"
-];
 
 export default ({ metadata, qualityZ }) => {
   if (metadata === null) {
@@ -46,51 +47,14 @@ export default ({ metadata, qualityZ }) => {
   );
 
   const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
-  const [projection] = useControl("Projection", {
-    type: "select",
-    items: projections,
-    value: projections[metadata.projection],
-    index: 0
-  });
-  const [opacity] = useControl("Opacity", {
-    type: "number",
-    value: metadata.opacity / 8,
-    min: 0,
-    max: 1,
-    up: "Period",
-    down: "Comma",
-    index: 1,
-    visible: true // ah, don't have a way to set this yet...
-  });
-  const [intensity] = useControl("Intensity", {
-    type: "number",
-    value: metadata.intensity,
-    min: 0,
-    max: 5.0,
-    up: "KeyM",
-    down: "KeyN",
-    index: 2
-  });
-  const [threshold] = useControl("Cutoff", {
-    type: "number",
-    value: metadata.threshold,
-    min: 0,
-    max: 1.0,
-    up: "KeyB",
-    down: "KeyV",
-    index: 3
-  });
-  const [size] = useControl("Size", {
-    type: "number",
-    value: 3.5,
-    min: 0.1,
-    max: 5,
-    up: "Equal",
-    down: "Minus",
-    index: 3,
-    visible: false // Seems redundant when users can zoom
-  });
-  const scale = calculateScale(voxelSize, dataResolution, size);
+  const {projection, opacity, intensity, threshold, size} = useRendering(metadata, PROJECTIONS);
+
+  const scale = calculateScale(voxelSize, dataResolution, size.value);
+
+  useEffect(() => {
+    opacity.setVisible(projection.value === PROJECTIONS[0]); // This doesn't actually work yet!
+    // opacity.set(projection.value === PROJECTIONS[0] ? 0.1 : 5.7); // This works, but is useful for bookmarking - ie not here!
+  }, [projection.value]);
 
   return (
     <object3D scale={scale} renderOrder={2}>
@@ -99,10 +63,10 @@ export default ({ metadata, qualityZ }) => {
         <FpbMaterial
           texture3d={texture3d}
           steps={512 * qualityZ}
-          projection={projections.indexOf(projection)}
-          opacity={opacity}
-          intensity={intensity}
-          threshold={threshold}
+          projection={PROJECTIONS.indexOf(projection.value)}
+          opacity={opacity.value}
+          intensity={intensity.value}
+          threshold={threshold.value}
           clippingPlane={clippingPlane}
         />
       </mesh>

@@ -8,6 +8,7 @@ export type ControlItem = {
   name: string;
   set: any;
   value: any;
+  visible: boolean;
   config: ControlConfig;
   addEventListener: any;
 };
@@ -82,6 +83,8 @@ type ControlConfigBase = {
   spring?: boolean | SpringConfig;
   /* Group this control */
   group?: string;
+  /* Is this visible? */
+  visible?: boolean;
   /* Use your own state */
   state?: [any, Dispatch<SetStateAction<any>>];
   /* onChange callback */

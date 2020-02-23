@@ -2,7 +2,8 @@ import { ControlConfig } from "../types";
 
 export const defaultConfig = {
   type: "number" as "number",
-  value: 0
+  value: 0,
+  visible: true
 };
 
 export const defaultValue = (config: ControlConfig) => {

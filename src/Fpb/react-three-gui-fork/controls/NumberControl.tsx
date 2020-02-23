@@ -49,7 +49,7 @@ export function NumberControl({ control, value }: any) {
     max = config.scrub ? Infinity : Math.PI,
     up,
     down,
-    visible = true
+    visible = true,
   } = config;
 
   let distance = config.distance;
@@ -59,6 +59,12 @@ export function NumberControl({ control, value }: any) {
   const [val, setVal] = useState(
     config.scrub ? CENTER : map(value, min, max, 0, PRECISION)
   );
+
+  useEffect(() => {
+    if (value !== val){
+      setVal(map(value, min, max, 0, PRECISION));
+    }
+  }, [value, val]);
 
   const handleUserKeyPress = useCallback(
     e => {
