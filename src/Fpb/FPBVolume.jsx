@@ -22,7 +22,7 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({ metadata, qualityZ }) => {
+export default ({ metadata, qualityZ, domObject }) => {
   if (metadata === null) {
     return null;
   }
@@ -58,7 +58,7 @@ export default ({ metadata, qualityZ }) => {
     // opacity.set(projection.value === PROJECTIONS[0] ? 0.1 : 5.7); // This works, but is useful for bookmarking - ie not here!
   }, [projection.value]);
 
-  useRotationControls(objectRef.current);
+  useRotationControls(objectRef.current, domObject);
 
   return (
     <object3D ref={objectRef} scale={scale} renderOrder={2}>

@@ -43,20 +43,20 @@ export default ({ metadata }) => {
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
         pixelRatio={pixelRatio}
-        camera={{ position: [0, 1.6, 3] }}
+        camera={{ position: [0, 0, 3] }}
         gl={{ alpha: false }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}
         onCreated={setupXR}
       >
         <ambientLight />
-        <FPControls domReference={canvasContainerRef} />
+        <FPControls domObject={canvasContainerRef.current} />
         <group position={shiftForVr}>
           <Suspense fallback={<mesh />}>
             <BoundaryCube />
           </Suspense>
           <Suspense fallback={<mesh />}>
-            <FPBVolume metadata={metadata} qualityZ={zQuality} />
+            <FPBVolume metadata={metadata} qualityZ={zQuality} domObject={canvasContainerRef.current} />
           </Suspense>
         </group>
       </Canvas>
