@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 import styled from "styled-components";
 import { BaseControl } from "./BaseControl";
 
@@ -42,6 +42,22 @@ export const Checkbox = styled.input`
 `;
 
 export function BooleanControl({ control, value }: any) {
+  const { toggle } = control.config.keys;
+  const handleUserKeyPress = useCallback(
+    e => {
+      const { code } = e;
+      if (code === toggle){
+        control.set(!value);
+      }
+    }, [value]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
+
   const htmlFor = `Control${control.id.current}`;
   return (
     <BaseControl flexLabel label={control.name} htmlFor={htmlFor}>

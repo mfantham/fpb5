@@ -5,7 +5,7 @@ import { Canvas } from "react-three-fiber";
 
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
-import TestControls from "./TestControls";
+import FPControls from "./FPControls";
 import { useQuality } from "./hooks/useQuality";
 
 const CanvasContainer = styled.div`
@@ -43,14 +43,14 @@ export default ({ metadata }) => {
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
         pixelRatio={pixelRatio}
-        camera={{ position: [0, 1.6, -3] }}
+        camera={{ position: [0, 1.6, 3] }}
         gl={{ alpha: false }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}
         onCreated={setupXR}
       >
         <ambientLight />
-        <TestControls target={shiftForVr} domReference={canvasContainerRef} />
+        <FPControls domReference={canvasContainerRef} />
         <group position={shiftForVr}>
           <Suspense fallback={<mesh />}>
             <BoundaryCube />
