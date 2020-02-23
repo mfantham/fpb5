@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLoader } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
 import { TextureLoader, RepeatWrapping } from "three";

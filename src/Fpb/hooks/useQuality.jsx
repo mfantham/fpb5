@@ -4,10 +4,10 @@ import { useControl } from "../react-three-gui-fork";
 export const useQuality = () => {
   const lsXYQuality = useMemo(() => {
     return Number(localStorage.getItem("xyQuality"));
-  });
+  }, []);
   const lsZQuality = useMemo(() => {
     return Number(localStorage.getItem("zQuality"));
-  });
+  }, []);
 
   const [xyQuality] = useControl("Quality-XY", {
     type: "number",

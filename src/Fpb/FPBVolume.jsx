@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { DataTexture3D, Plane, Vector3 } from "three";
-import { useControl } from "./react-three-gui-fork";
 
 import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";
 import { useRendering } from "./hooks/useRendering";
+import {useRotationControls} from "./hooks/useRotationControls";
 
 const PROJECTIONS = [
   "Transparency",
@@ -26,6 +26,8 @@ export default ({ metadata, qualityZ }) => {
   if (metadata === null) {
     return null;
   }
+
+  const objectRef = useRef(null);
 
   const [clippingPlane, setClippingPlane] = useState(
     new Plane(new Vector3(0, 0, 0), 0)
@@ -56,8 +58,10 @@ export default ({ metadata, qualityZ }) => {
     // opacity.set(projection.value === PROJECTIONS[0] ? 0.1 : 5.7); // This works, but is useful for bookmarking - ie not here!
   }, [projection.value]);
 
+  useRotationControls(objectRef.current);
+
   return (
-    <object3D scale={scale} renderOrder={2}>
+    <object3D ref={objectRef} scale={scale} renderOrder={2}>
       <mesh>
         <boxBufferGeometry attach="geometry" args={[1, 1]} />
         <FpbMaterial

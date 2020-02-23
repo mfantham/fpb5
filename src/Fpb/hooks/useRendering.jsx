@@ -1,4 +1,3 @@
-import React, { useEffect, useMemo } from "react";
 import { useControl } from "../react-three-gui-fork";
 
 export const useRendering = (metadata, projections = []) => {
