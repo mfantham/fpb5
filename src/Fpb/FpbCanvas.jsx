@@ -11,6 +11,7 @@ import { useQuality } from "./hooks/useQuality";
 const CanvasContainer = styled.div`
   width: 100%;
   height: 100%;
+  touch-action: none;
   z-index: 0;
 `;
 

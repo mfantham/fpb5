@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {Vector3} from 'three';
 import { useThree } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
 
 const CAMERA_ROTATE_SPEED = -0.003;
 const SCROLL_ZOOM_SPEED = 0.1;
+const TOUCH_SPEED = -0.01;
 
 export default ({ domObject }) => {
   const { camera } = useThree();
@@ -34,6 +35,51 @@ export default ({ domObject }) => {
       window.removeEventListener('pointermove', handlePointerMove);
     })
   }, [firstPersonMode]);
+
+  const fingers = useRef(null);
+
+  const handleDoubleTouchMove = e => {
+    const {touches} = e;
+    if (fingers.current) {
+      const o0 = fingers.current[0];
+      const o1 = fingers.current[1];
+      const n0 = touches[0];
+      const n1 = touches[1];
+
+      const oldAmplitude = Math.hypot(o0.clientX - o1.clientX, o0.clientY - o1.clientY);
+      const newAmplitude = Math.hypot(n0.clientX - n1.clientX, n0.clientY - n1.clientY);
+      const deltaAmplitude = newAmplitude - oldAmplitude;
+
+      const movementX = (n0.clientX + n1.clientX - o0.clientX - o1.clientX) / 2;
+      const movementY = (n0.clientY + n1.clientY - o0.clientY - o1.clientY) / 2;
+
+      camera.translateZ(TOUCH_SPEED * deltaAmplitude);
+      camera.translateX(TOUCH_SPEED * movementX);
+      camera.translateY(-TOUCH_SPEED * movementY);
+    }
+    fingers.current = touches;
+  }
+
+  const handleTouchStart = e => {
+    e.preventDefault();
+    if (e.touches.length === 2) {
+      window.addEventListener('touchmove', handleDoubleTouchMove);
+      window.addEventListener('touchend', handleTouchEnd);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    window.removeEventListener('touchmove', handleDoubleTouchMove);
+    window.removeEventListener('touchend', handleTouchEnd);
+    fingers.current = null;
+  }
+
+  useEffect(() => {
+    window.addEventListener('touchstart', handleTouchStart);
+    return (() => {
+      window.removeEventListener('touchstart', handleTouchStart);
+    })
+  }, []);
 
   const handleScroll = useCallback(
     e => {
