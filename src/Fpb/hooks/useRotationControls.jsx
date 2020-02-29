@@ -16,6 +16,44 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
     objectToRotate.rotateOnAxis(localAxisY, OBJECT_ROTATE_SPEED * movementY);
   }, [objectToRotate, camera.quaternion]);
 
+  const handleUserKeyPress = useCallback(e => {
+    const { code } = e;
+    let movementX = 0;
+    let movementY = 0;
+    if (code === "ArrowRight"){
+      movementX += 1;
+    }
+    if (code === "ArrowLeft"){
+      movementX -= 1;
+    }
+    if (code === "ArrowUp"){
+      movementY -= 1;
+    }
+    if (code === "ArrowDown"){
+      movementY += 1;
+    }
+    const amplification = e.getModifierState("Shift")
+      ? 5
+      : e.getModifierState("Alt")
+      ? 0.2
+      : 1;
+    movementX *= amplification * 0.1;
+    movementY *= amplification * 0.1;
+
+    const worldAxisY = new Vector3(1, 0, 0).applyQuaternion( camera.quaternion );
+    const localAxisY = objectToRotate.worldToLocal(worldAxisY).normalize();
+
+    objectToRotate.rotateOnWorldAxis(new Vector3(0, 1, 0), movementX);
+    objectToRotate.rotateOnAxis(localAxisY, movementY);
+  }, [objectToRotate, camera.quaternion]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress, objectToRotate, camera.quaternion]);
+
   const finger = useRef(null);
   const handleTouchMove = useCallback(e => {
     const {touches} = e;
@@ -30,7 +68,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       objectToRotate.rotateOnAxis(localAxisY, OBJECT_ROTATE_SPEED * movementY);
     };
     finger.current = touches;
-  })
+  });
 
   const handlePointerUp = useCallback(() => {
     domObject.removeEventListener("pointermove", handlePointerMove);
