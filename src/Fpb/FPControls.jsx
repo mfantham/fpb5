@@ -6,6 +6,7 @@ import { useControl } from "./react-three-gui-fork";
 const CAMERA_ROTATE_SPEED = -0.003;
 const SCROLL_ZOOM_SPEED = 0.1;
 const TOUCH_SPEED = -0.01;
+const PAN_SPEED = 0.01;
 
 export default ({ domObject }) => {
   const { camera } = useThree();
@@ -18,22 +19,16 @@ export default ({ domObject }) => {
   });
 
   const handlePointerMove = useCallback(e => {
-    const {movementX, movementY} = e;
-    camera.rotateOnWorldAxis(new Vector3(0, 1, 0), CAMERA_ROTATE_SPEED * movementX);
-    if (camera.rotation.x < 1.5 && camera.rotation.x > -1.5 || camera.rotation.x > 1.5 && movementY > 0 || camera.rotation.x < -1.5 && movementY < 0) {
-      camera.rotateOnAxis(new Vector3(1, 0, 0), CAMERA_ROTATE_SPEED * movementY);
+    const {movementX, movementY, buttons} = e;
+    if (firstPersonMode && buttons === 0) {
+      camera.rotateOnWorldAxis(new Vector3(0, 1, 0), CAMERA_ROTATE_SPEED * movementX);
+      if (camera.rotation.x < 1.5 && camera.rotation.x > -1.5 || camera.rotation.x > 1.5 && movementY > 0 || camera.rotation.x < -1.5 && movementY < 0) {
+        camera.rotateOnAxis(new Vector3(1, 0, 0), CAMERA_ROTATE_SPEED * movementY);
+      }
+    } else if (buttons === 2) {
+      camera.translateX(PAN_SPEED * movementX);
+      camera.translateY(-PAN_SPEED * movementY);
     }
-  }, []);
-
-  useEffect(() => {
-    if (firstPersonMode){
-      window.addEventListener('pointermove', handlePointerMove);
-    } else {
-      window.removeEventListener('pointermove', handlePointerMove);
-    }
-    return (() => {
-      window.removeEventListener('pointermove', handlePointerMove);
-    })
   }, [firstPersonMode]);
 
   const fingers = useRef(null);
@@ -73,6 +68,13 @@ export default ({ domObject }) => {
     window.removeEventListener('touchend', handleTouchEnd);
     fingers.current = null;
   }
+
+  useEffect(() => {
+    window.addEventListener('pointermove', handlePointerMove);
+    return (() => {
+      window.removeEventListener('pointermove', handlePointerMove);
+    });
+  }, [firstPersonMode]);
 
   useEffect(() => {
     window.addEventListener('touchstart', handleTouchStart);
