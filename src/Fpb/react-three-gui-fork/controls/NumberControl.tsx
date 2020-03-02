@@ -49,7 +49,7 @@ export function NumberControl({ control, value }: any) {
     max = config.scrub ? Infinity : Math.PI,
     up,
     down,
-    visible = true,
+    visible = true
   } = config;
 
   let distance = config.distance;
@@ -61,7 +61,7 @@ export function NumberControl({ control, value }: any) {
   );
 
   useEffect(() => {
-    if (value !== val){
+    if (value !== val) {
       setVal(map(value, min, max, 0, PRECISION));
     }
   }, [value, val]);

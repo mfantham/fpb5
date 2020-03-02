@@ -27,11 +27,17 @@ export const useControl = (
   }
 
   useEffect(() => {
-    console.log(`Feature coming soon: setting visibility of ${name} to ${visible}`);
+    console.log(
+      `Feature coming soon: setting visibility of ${name} to ${visible}`
+    );
   }, [visible]);
 
   const externalSet = (v: any) => {
-    if (config.type === "number" && config.min !== undefined && config.max !== undefined) {
+    if (
+      config.type === "number" &&
+      config.min !== undefined &&
+      config.max !== undefined
+    ) {
       v = clamp(v, config.min, config.max);
     }
     controls.get(id)!.set(v);

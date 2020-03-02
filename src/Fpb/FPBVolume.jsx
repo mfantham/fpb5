@@ -5,7 +5,7 @@ import { DataTexture3D, Plane, Vector3 } from "three";
 import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";
 import { useRendering } from "./hooks/useRendering";
-import {useRotationControls} from "./hooks/useRotationControls";
+import { useRotationControls } from "./hooks/useRotationControls";
 
 const PROJECTIONS = [
   "Transparency",
@@ -49,7 +49,10 @@ export default ({ metadata, qualityZ, domObject }) => {
   );
 
   const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
-  const {projection, opacity, intensity, threshold, size} = useRendering(metadata, PROJECTIONS);
+  const { projection, opacity, intensity, threshold, size } = useRendering(
+    metadata,
+    PROJECTIONS
+  );
 
   const scale = calculateScale(voxelSize, dataResolution, size.value);
 

@@ -57,7 +57,11 @@ export default ({ metadata }) => {
             <BoundaryCube />
           </Suspense>
           <Suspense fallback={<mesh />}>
-            <FPBVolume metadata={metadata} qualityZ={zQuality} domObject={canvasContainerRef.current} />
+            <FPBVolume
+              metadata={metadata}
+              qualityZ={zQuality}
+              domObject={canvasContainerRef.current}
+            />
           </Suspense>
         </group>
       </Canvas>

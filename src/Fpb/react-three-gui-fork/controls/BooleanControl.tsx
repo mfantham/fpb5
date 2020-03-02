@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { BaseControl } from "./BaseControl";
 
@@ -46,10 +46,12 @@ export function BooleanControl({ control, value }: any) {
   const handleUserKeyPress = useCallback(
     e => {
       const { code } = e;
-      if (code === toggle){
+      if (code === toggle) {
         control.set(!value);
       }
-    }, [value]);
+    },
+    [value]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
