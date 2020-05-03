@@ -49,13 +49,17 @@ export default ({ metadata, useBookmarks }) => {
         onCreated={setupXR}
       >
         <ambientLight />
-        <FPControls domObject={canvasContainerRef.current} />
+        <FPControls
+          domObject={canvasContainerRef.current}
+          useBookmarks={useBookmarks}
+        />
         <group position={shiftForVr}>
           <Suspense fallback={<mesh />}>
             <BoundaryCube />
           </Suspense>
           <Suspense fallback={<mesh />}>
             <FPBVolume
+              useBookmarks={useBookmarks}
               metadata={metadata}
               qualityZ={zQuality}
               domObject={canvasContainerRef.current}
