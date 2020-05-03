@@ -13,7 +13,7 @@ const LoadingHolder = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  color: whtie;
+  color: white;
   pointer-events: none;
 `;
 
