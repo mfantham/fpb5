@@ -50,7 +50,7 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-export default ({ addBookmarkCallback, restoreBookmarkCallback }) => {
+export default ({ addBookmarkCallback, restoreBookmarkCallback, useBookmarks }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
@@ -61,6 +61,7 @@ export default ({ addBookmarkCallback, restoreBookmarkCallback }) => {
           <Bookmarks
             addBookmarkCallback={addBookmarkCallback}
             restoreBookmarkCallback={restoreBookmarkCallback}
+            useBookmarks={useBookmarks}
           />
           <Video />
         </Items>

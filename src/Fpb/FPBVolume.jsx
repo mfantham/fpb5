@@ -4,15 +4,10 @@ import { DataTexture3D, Plane, Vector3 } from "three";
 
 import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";
-import { useRendering } from "./hooks/useRendering";
-import { useRotationControls } from "./hooks/useRotationControls";
 
-const PROJECTIONS = [
-  "Transparency",
-  "Max. projection",
-  "Max. RGB average",
-  "Iso-surface"
-];
+import {useRotationControls} from "./hooks/useRotationControls";
+import { useRendering } from "./hooks/useRendering";
+import { PROJECTIONS } from "./constants";
 
 const calculateScale = (voxelSize, res, size) => {
   const { x, y, z } = voxelSize;
@@ -22,7 +17,7 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({ metadata, qualityZ, domObject }) => {
+export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
   if (metadata === null) {
     return null;
   }
@@ -32,6 +27,21 @@ export default ({ metadata, qualityZ, domObject }) => {
   const [clippingPlane, setClippingPlane] = useState(
     new Plane(new Vector3(0, 0, 0), 0)
   );
+
+  const {bookmark, addToBookmark, bookmarkInCreation} = useBookmarks;
+  const [setRotation] = useRotationControls(objectRef.current, domObject);
+  const [rendering, setRendering] = useRendering(metadata, PROJECTIONS);
+  const {projection, opacity, intensity, threshold, size} = rendering;
+
+  useEffect(() => {
+    if (bookmarkInCreation.idx !== null){
+      const value = {
+        rotation: objectRef.current.rotation,
+        rendering: {projection, opacity, intensity, threshold}
+      };
+      addToBookmark('data', value);
+    }
+  }, [bookmarkInCreation.idx]);
 
   const {
     images,
@@ -49,17 +59,15 @@ export default ({ metadata, qualityZ, domObject }) => {
   );
 
   const dataResolution = [sliceWidth, sliceHeight, numberOfImages];
-  const { projection, opacity, intensity, threshold, size } = useRendering(
-    metadata,
-    PROJECTIONS
-  );
 
   const scale = calculateScale(voxelSize, dataResolution, size.value);
 
   useEffect(() => {
-    opacity.setVisible(projection.value === PROJECTIONS[0]); // This doesn't actually work yet!
-    // opacity.set(projection.value === PROJECTIONS[0] ? 0.1 : 5.7); // This works, but is useful for bookmarking - ie not here!
-  }, [projection.value]);
+    if (bookmark && bookmark.data){
+      setRendering(bookmark.data.rendering);
+      setRotation(bookmark.data.rotation);
+    }
+  }, [bookmark]);
 
   useRotationControls(objectRef.current, domObject);
 

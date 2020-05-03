@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from "react";
 import { useControl } from "../react-three-gui-fork";
+import {PROJECTIONS} from "../constants";
 
-export const useRendering = (metadata, projections = []) => {
+export const useRendering = (metadata) => {
   const [projectionValue, projectionSet, projectionSetVisible] = useControl("Projection", {
     type: "select",
-    items: projections,
-    value: projections[metadata.projection],
+    items: PROJECTIONS,
+    value: PROJECTIONS[metadata.projection],
     index: 0
   });
   const [opacityValue, opacitySet, opacitySetVisible] = useControl("Opacity", {
@@ -47,11 +47,21 @@ export const useRendering = (metadata, projections = []) => {
     visible: false // Seems a redundant control when users can zoom
   });
 
-  return {
+  const setRendering = rendering => {
+    const {projection, opacity, intensity, threshold, size} = rendering;
+    projection && projectionSet(PROJECTIONS[projection]);
+    opacity && opacitySet(opacity);
+    intensity && intensitySet(intensity);
+    threshold && thresholdSet(threshold);
+    size && sizeSet(size);
+  }
+
+  return [{
     projection: {value: projectionValue, set: projectionSet, setVisible: projectionSetVisible},
     opacity: {value: opacityValue, set: opacitySet, setVisible: opacitySetVisible},
     intensity: {value: intensityValue, set: intensitySet, setVisible: intensitySetVisible},
     threshold: {value: thresholdValue, set: thresholdSet, setVisible: thresholdSetVisible},
-    size: {value:sizeValue, set: sizeSet, setVisible: sizeSetVisible},
-  }
+    size: {value: sizeValue, set: sizeSet, setVisible: sizeSetVisible},
+  },
+  setRendering];
 }
