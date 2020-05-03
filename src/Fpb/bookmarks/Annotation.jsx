@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect} from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect } from "react";
+import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +13,7 @@ const AnnotationDiv = styled.div`
   backdrop-filter: blur(20px);
   border-radius: 8px;
   height: 100px;
-  bottom: ${p => p.open ? "65px" : "-165px"};
+  bottom: ${p => (p.open ? "65px" : "-165px")};
   width: 80vw;
   overflow: auto;
   left: 0;
@@ -27,7 +27,7 @@ const CloseButton = styled.button`
   position: absolute;
   font-size: 1.4rem;
   color: white;
-  bottom: ${p => p.open ? "141px" : "-96px"};
+  bottom: ${p => (p.open ? "141px" : "-96px")};
   right: calc(10vw - 24px);
   width: 48px;
   height: 48px;
@@ -47,41 +47,50 @@ const CloseButton = styled.button`
   transition: box-shadow 0.2s ease, background 0.2s ease, bottom 0.4s ease;
 `;
 
-export default ({useBookmarks}) => {
-  const {bookmark, addBookmark, restoreBookmark, bookmarkInCreation, saveBookmark, addToBookmark} = useBookmarks;
+export default ({ useBookmarks }) => {
+  const {
+    bookmark,
+    addBookmark,
+    restoreBookmark,
+    bookmarkInCreation,
+    saveBookmark,
+    addToBookmark
+  } = useBookmarks;
   const open = !!bookmark && !!bookmark.caption;
 
-  const handleUserKeyPress = (e) => {
-    if (bookmarkInCreation.idx !== null && e.key === "Enter"){
+  const handleUserKeyPress = e => {
+    if (bookmarkInCreation.idx !== null && e.key === "Enter") {
       addToBookmark("caption", "Test caption should come from input.");
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener('keypress', handleUserKeyPress);
-    return (() => {
-      window.removeEventListener('keypress', handleUserKeyPress);
-    }
-  )}, [bookmarkInCreation.idx]);
+    window.addEventListener("keypress", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keypress", handleUserKeyPress);
+    };
+  }, [bookmarkInCreation.idx]);
 
-  if (bookmarkInCreation.idx !== null){
-    console.log('should see annotation div now...');
+  if (bookmarkInCreation.idx !== null) {
+    console.log("should see annotation div now...");
     return (
       <AnnotationDiv open={true}>
-        Adding bookmark {bookmarkInCreation.idx}... Input box will go here. Just press enter to save with default caption.
+        Adding bookmark {bookmarkInCreation.idx}... Input box will go here. Just
+        press enter to save with default caption.
       </AnnotationDiv>
-    )
+    );
   }
 
   return (
     <>
-      <AnnotationDiv open={open}>
-        {open && bookmark.caption}
-      </AnnotationDiv>
-      <CloseButton onClick={() => restoreBookmark(null)} title="Hide" open={open}>
+      <AnnotationDiv open={open}>{open && bookmark.caption}</AnnotationDiv>
+      <CloseButton
+        onClick={() => restoreBookmark(null)}
+        title="Hide"
+        open={open}
+      >
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </CloseButton>
     </>
-  )
-
-}
+  );
+};

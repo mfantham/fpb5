@@ -7,7 +7,7 @@ import Annotation from "./bookmarks/Annotation";
 import FpbCanvas from "./FpbCanvas";
 import LoadingScreen from "../LoadingScreen";
 import RecordingControls from "./leftMenu/RecordingControls";
-import {useBookmarks} from "./hooks/useBookmarks";
+import { useBookmarks } from "./hooks/useBookmarks";
 
 const FPBioimageHolder = styled.div`
   position: absolute;

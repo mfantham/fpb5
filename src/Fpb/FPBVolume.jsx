@@ -5,7 +5,7 @@ import { DataTexture3D, Plane, Vector3 } from "three";
 import CuttingPlane from "./CuttingPlane";
 import FpbMaterial from "./FpbMaterial";
 
-import {useRotationControls} from "./hooks/useRotationControls";
+import { useRotationControls } from "./hooks/useRotationControls";
 import { useRendering } from "./hooks/useRendering";
 import { PROJECTIONS } from "./constants";
 
@@ -28,18 +28,18 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
     new Plane(new Vector3(0, 0, 0), 0)
   );
 
-  const {bookmark, addToBookmark, bookmarkInCreation} = useBookmarks;
+  const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
   const [setRotation] = useRotationControls(objectRef.current, domObject);
   const [rendering, setRendering] = useRendering(metadata, PROJECTIONS);
-  const {projection, opacity, intensity, threshold, size} = rendering;
+  const { projection, opacity, intensity, threshold, size } = rendering;
 
   useEffect(() => {
-    if (bookmarkInCreation.idx !== null){
+    if (bookmarkInCreation.idx !== null) {
       const value = {
         rotation: objectRef.current.rotation,
-        rendering: {projection, opacity, intensity, threshold}
+        rendering: { projection, opacity, intensity, threshold }
       };
-      addToBookmark('data', value);
+      addToBookmark("data", value);
     }
   }, [bookmarkInCreation.idx]);
 
@@ -63,7 +63,7 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
   const scale = calculateScale(voxelSize, dataResolution, size.value);
 
   useEffect(() => {
-    if (bookmark && bookmark.data){
+    if (bookmark && bookmark.data) {
       setRendering(bookmark.data.rendering);
       setRotation(bookmark.data.rotation);
     }

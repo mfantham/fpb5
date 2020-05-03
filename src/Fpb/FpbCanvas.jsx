@@ -42,7 +42,7 @@ export default ({ metadata, useBookmarks }) => {
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
         pixelRatio={xyQuality}
-        camera={{ position: [0, 1.6, 3] }}
+        camera={{ position: [0, 0, 3] }}
         gl={{ alpha: false, preserveDrawingBuffer: true }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}

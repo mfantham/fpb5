@@ -50,7 +50,11 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-export default ({ addBookmarkCallback, restoreBookmarkCallback, useBookmarks }) => {
+export default ({
+  addBookmarkCallback,
+  restoreBookmarkCallback,
+  useBookmarks
+}) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
