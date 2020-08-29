@@ -67,7 +67,7 @@ export default ({
             restoreBookmarkCallback={restoreBookmarkCallback}
             useBookmarks={useBookmarks}
           />
-          <Video />
+          {/*<Video />*/}
         </Items>
       </Float>
       <Toggle
