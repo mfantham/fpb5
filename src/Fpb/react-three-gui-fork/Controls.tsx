@@ -40,7 +40,6 @@ const Toggle = styled.button`
 
   :focus {
     outline: 0;
-    /*box-shadow: 0 0 10px 6px rgba(255, 255, 255, 0.3);*/ /* don't like it. */
   }
 
   transition: 0.2s ease;

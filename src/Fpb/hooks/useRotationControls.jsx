@@ -1,11 +1,18 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
 import { Vector3 } from "three";
-
-const OBJECT_ROTATE_SPEED = 0.01;
+import { OBJECT_ROTATE_SPEED } from "../constants";
 
 export const useRotationControls = (objectToRotate, domObject = window) => {
   const { camera } = useThree();
+
+  const setRotation = rotation => {
+    if (objectToRotate && rotation) {
+      objectToRotate.rotation.x = rotation.x;
+      objectToRotate.rotation.y = rotation.y;
+      objectToRotate.rotation.z = rotation.z;
+    }
+  };
 
   const handlePointerMove = useCallback(
     e => {
@@ -119,4 +126,6 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       domObject.removeEventListener("pointerdown", handlePointerDown);
     };
   }, [handlePointerDown, handlePointerUp, domObject]);
+
+  return [setRotation];
 };

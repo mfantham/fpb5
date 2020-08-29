@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Suspense } from "react";
 import styled from "styled-components";
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
-import { Canvas } from "react-three-fiber";
+import { Canvas, useThree } from "react-three-fiber";
 
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
@@ -15,16 +15,14 @@ const CanvasContainer = styled.div`
   z-index: 0;
 `;
 
-export default ({ metadata }) => {
+export default ({ metadata, useBookmarks }) => {
   if (metadata === null) {
     return null;
   }
 
   const [xyQuality, zQuality] = useQuality();
-  const pixelRatio = xyQuality;
 
   const canvasContainerRef = useRef(null);
-
   useEffect(() => {
     canvasContainerRef.current.focus();
   }, []);
@@ -43,21 +41,25 @@ export default ({ metadata }) => {
   return (
     <CanvasContainer ref={canvasContainerRef}>
       <Canvas
-        pixelRatio={pixelRatio}
+        pixelRatio={xyQuality}
         camera={{ position: [0, 0, 3] }}
-        gl={{ alpha: false }}
+        gl={{ alpha: false, preserveDrawingBuffer: true }}
         gl2
         vr={"xr" in navigator || "vr" in navigator}
         onCreated={setupXR}
       >
         <ambientLight />
-        <FPControls domObject={canvasContainerRef.current} />
+        <FPControls
+          domObject={canvasContainerRef.current}
+          useBookmarks={useBookmarks}
+        />
         <group position={shiftForVr}>
           <Suspense fallback={<mesh />}>
             <BoundaryCube />
           </Suspense>
           <Suspense fallback={<mesh />}>
             <FPBVolume
+              useBookmarks={useBookmarks}
               metadata={metadata}
               qualityZ={zQuality}
               domObject={canvasContainerRef.current}

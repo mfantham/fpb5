@@ -3,13 +3,36 @@ import { Vector3 } from "three";
 import { useThree } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
 
-const CAMERA_ROTATE_SPEED = -0.003;
-const SCROLL_ZOOM_SPEED = 0.1;
-const TOUCH_SPEED = -0.01;
-const PAN_SPEED = 0.005; // could multiply speed by distance from origin...
+import {
+  CAMERA_ROTATE_SPEED,
+  SCROLL_ZOOM_SPEED,
+  TOUCH_SPEED,
+  PAN_SPEED
+} from "./constants";
 
-export default ({ domObject }) => {
+export default ({ domObject, useBookmarks }) => {
   const { camera } = useThree();
+
+  const { bookmark, bookmarkInCreation, addToBookmark } = useBookmarks;
+
+  useEffect(() => {
+    if (bookmarkInCreation.idx !== null) {
+      console.log("adding camera info to bookmark");
+      const value = { position: camera.position, rotation: camera.rotation };
+      addToBookmark("camera", value);
+    }
+  }, [bookmarkInCreation.idx]);
+
+  useEffect(() => {
+    if (bookmark && bookmark.camera) {
+      camera.position.x = bookmark.camera.position.x;
+      camera.position.y = bookmark.camera.position.y;
+      camera.position.z = bookmark.camera.position.z;
+      camera.rotation.x = bookmark.camera.rotation.x;
+      camera.rotation.y = bookmark.camera.rotation.y;
+      camera.rotation.z = bookmark.camera.rotation.z;
+    }
+  }, [bookmark]);
 
   const [firstPersonMode] = useControl("First person mode", {
     type: "boolean",
@@ -38,8 +61,9 @@ export default ({ domObject }) => {
         }
       } else if (buttons === 2) {
         e.preventDefault();
-        camera.translateX(-PAN_SPEED * movementX);
-        camera.translateY(PAN_SPEED * movementY);
+        const d = camera.position.distanceTo(new Vector3(0, 0, 0));
+        camera.translateX(-PAN_SPEED * movementX * 0.1 * d);
+        camera.translateY(PAN_SPEED * movementY * 0.1 * d);
       }
     },
     [firstPersonMode]
@@ -148,7 +172,7 @@ export default ({ domObject }) => {
     e.preventDefault();
     e.stopPropagation();
     return false;
-  }, []);
+  });
 
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress, true);
