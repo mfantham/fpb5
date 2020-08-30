@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+
+const SLIDE_TIME = 400; // ms
 
 const AnnotationDiv = styled.div`
   position: absolute;
@@ -20,7 +22,7 @@ const AnnotationDiv = styled.div`
   right: 0;
   margin: auto;
 
-  transition: bottom 0.4s ease;
+  transition: bottom ${SLIDE_TIME}ms ease;
 `;
 
 const CloseButton = styled.button`
@@ -44,48 +46,71 @@ const CloseButton = styled.button`
     outline: 0;
   }
 
-  transition: box-shadow 0.2s ease, background 0.2s ease, bottom 0.4s ease;
+  transition: box-shadow 0.2s ease, background 0.2s ease, bottom ${SLIDE_TIME}ms ease;
 `;
 
-export default ({ useBookmarks }) => {
+const AnnotationTextArea = styled.textarea`
+  width: 100%;
+  background: transparent;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  font-family: inherit;
+  outline: 0;
+`;
+
+const AnnotationInput = ({useBookmarks}) => {
+  const inputRef = useRef(null);
   const {
-    bookmark,
-    addBookmark,
-    restoreBookmark,
     bookmarkInCreation,
     saveBookmark,
     addToBookmark
   } = useBookmarks;
-  const open = !!bookmark && !!bookmark.caption;
 
   const handleUserKeyPress = e => {
-    if (bookmarkInCreation.idx !== null && e.key === "Enter") {
-      addToBookmark("caption", "Test caption should come from input.");
+    e.stopPropagation();
+    if (e.key === "Enter" && inputRef.current) {
+      addToBookmark("caption", inputRef.current.value);
+      saveBookmark();
     }
   };
 
   useEffect(() => {
-    window.addEventListener("keypress", handleUserKeyPress);
+    if (inputRef.current) {
+      inputRef.current.addEventListener("keypress", handleUserKeyPress);
+      inputRef.current.addEventListener("keydown", e => e.stopPropagation());
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, SLIDE_TIME);
+    }
+
     return () => {
-      window.removeEventListener("keypress", handleUserKeyPress);
+      if (inputRef.current) {
+        inputRef.current.removeEventListener("keypress", handleUserKeyPress);
+        inputRef.current.removeEventListener("keydown", e => e.stopPropagation());
+      }
     };
   }, [bookmarkInCreation.idx]);
 
-  if (bookmarkInCreation.idx !== null) {
-    console.log("should see annotation div now...");
-    return (
-      <AnnotationDiv open={true}>
-        Adding bookmark {bookmarkInCreation.idx}... Input box will go here. Just
-        press enter to save with default caption.
-      </AnnotationDiv>
-    );
-  }
+  return <AnnotationTextArea ref={inputRef} type="text" placeholder={`Add a caption for bookmark ${bookmarkInCreation.idx}, press enter to save...`} />;
+}
 
+export default ({ useBookmarks }) => {
+  const {
+    bookmark,
+    restoreBookmark,
+    closeBookmark,
+    bookmarkInCreation,
+  } = useBookmarks;
+  const open = (!!bookmark && !!bookmark.caption) || !!bookmarkInCreation.idx;
+
+  const annotationContents = bookmarkInCreation.idx !== null ? <AnnotationInput useBookmarks={useBookmarks} /> : <>{open && bookmark.caption}</>;
   return (
     <>
-      <AnnotationDiv open={open}>{open && bookmark.caption}</AnnotationDiv>
+      <AnnotationDiv open={open}>{annotationContents}</AnnotationDiv>
       <CloseButton
-        onClick={() => restoreBookmark(null)}
+        onClick={() => closeBookmark()}
         title="Hide"
         open={open}
       >

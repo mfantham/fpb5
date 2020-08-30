@@ -4,7 +4,7 @@ import { Vector3 } from "three";
 import { OBJECT_ROTATE_SPEED } from "../constants";
 
 export const useRotationControls = (objectToRotate, domObject = window) => {
-  const { camera } = useThree();
+  const { camera, invalidate } = useThree();
 
   const setRotation = rotation => {
     if (objectToRotate && rotation) {
@@ -32,6 +32,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
           OBJECT_ROTATE_SPEED * movementY
         );
       }
+      invalidate();
     },
     [objectToRotate, camera.quaternion]
   );
@@ -68,6 +69,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
 
       objectToRotate.rotateOnWorldAxis(new Vector3(0, 1, 0), movementX);
       objectToRotate.rotateOnAxis(localAxisY, movementY);
+      invalidate();
     },
     [objectToRotate, camera.quaternion]
   );
@@ -98,6 +100,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       objectToRotate.rotateOnAxis(localAxisY, OBJECT_ROTATE_SPEED * movementY);
     }
     finger.current = touches;
+    invalidate();
   });
 
   const handlePointerUp = useCallback(() => {

@@ -11,7 +11,7 @@ import {
 } from "./constants";
 
 export default ({ domObject, useBookmarks }) => {
-  const { camera } = useThree();
+  const { camera, invalidate } = useThree();
 
   const { bookmark, bookmarkInCreation, addToBookmark } = useBookmarks;
 
@@ -59,11 +59,13 @@ export default ({ domObject, useBookmarks }) => {
             CAMERA_ROTATE_SPEED * movementY
           );
         }
+        invalidate();
       } else if (buttons === 2) {
         e.preventDefault();
         const d = camera.position.distanceTo(new Vector3(0, 0, 0));
         camera.translateX(-PAN_SPEED * movementX * 0.1 * d);
         camera.translateY(PAN_SPEED * movementY * 0.1 * d);
+        invalidate();
       }
     },
     [firstPersonMode]
@@ -97,6 +99,7 @@ export default ({ domObject, useBookmarks }) => {
       camera.translateY(-TOUCH_SPEED * movementY);
     }
     fingers.current = touches;
+    invalidate();
   };
 
   const handleTouchStart = e => {
@@ -130,6 +133,7 @@ export default ({ domObject, useBookmarks }) => {
   const handleScroll = useCallback(e => {
     const forward = e.deltaY > 0 ? 1 : -1;
     camera.translateZ(SCROLL_ZOOM_SPEED * forward);
+    invalidate();
   }, []);
 
   const handleUserKeyPress = useCallback(e => {
@@ -175,11 +179,11 @@ export default ({ domObject, useBookmarks }) => {
   });
 
   useEffect(() => {
-    window.addEventListener("keydown", handleUserKeyPress, true);
+    document.addEventListener("keydown", handleUserKeyPress);
     domObject.addEventListener("wheel", handleScroll);
     domObject.addEventListener("contextmenu", handleContextMenu);
     return () => {
-      window.removeEventListener("keydown", handleUserKeyPress);
+      document.removeEventListener("keydown", handleUserKeyPress);
       domObject.removeEventListener("wheel", handleScroll);
       domObject.removeEventListener("contextmenu", handleContextMenu);
     };

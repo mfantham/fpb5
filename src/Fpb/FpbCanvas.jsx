@@ -47,6 +47,7 @@ export default ({ metadata, useBookmarks }) => {
         gl2
         vr={"xr" in navigator || "vr" in navigator}
         onCreated={setupXR}
+        invalidateFrameloop
       >
         <ambientLight />
         <FPControls

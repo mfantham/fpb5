@@ -1,10 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { defaultBookmark } from "../bookmarks/bookmarkObject";
 
+const BOOKMARK_STATE = {
+  DEFAULT: 0,
+  CREATING: 1,
+  RESTORING: 2
+}
+
 export const useBookmarks = () => {
   const [bookmark, setBookmark] = useState(defaultBookmark);
   const [bookmarkInCreation, setBookmarkInCreation] = useState({ idx: null });
   const [arrayOfBookmarks, setArrayOfBookmarks] = useState([defaultBookmark]);
+
+  const [bookmarkingState, setBookmarkingState] = useState(BOOKMARK_STATE.DEFAULT);
 
   useEffect(() => {
     // Get bookmarks from browser
@@ -14,19 +22,23 @@ export const useBookmarks = () => {
 
   const restoreBookmark = useCallback(
     idx => {
+      setBookmarkInCreation({idx: null});
       if (idx === null || idx === undefined) {
         setBookmark(null);
+        setBookmarkingState(BOOKMARK_STATE.DEFAULT);
+      } else {
+        setBookmark(arrayOfBookmarks[idx]);
+        setBookmarkingState(BOOKMARK_STATE.RESTORING);
       }
-      setBookmark(arrayOfBookmarks[idx]);
     },
     [arrayOfBookmarks, setBookmark]
   );
 
   const addBookmark = () => {
-    console.log("addBookmark was called :)");
     const newBookmark = bookmarkInCreation;
     newBookmark.idx = arrayOfBookmarks.length;
     setBookmarkInCreation(newBookmark);
+    setBookmarkingState(BOOKMARK_STATE.CREATING);
   };
 
   const addToBookmark = (key, value) => {
@@ -39,8 +51,14 @@ export const useBookmarks = () => {
     const newArrayOfBookmarks = arrayOfBookmarks;
     newArrayOfBookmarks.push(bookmarkInCreation);
     setArrayOfBookmarks(newArrayOfBookmarks);
-    setBookmarkInCreation({ idx: null });
+    restoreBookmark(bookmarkInCreation.idx);
+    setBookmarkingState(BOOKMARK_STATE.RESTORING);
   };
+
+  const closeBookmark = () => {
+    setBookmarkInCreation({ idx: null});
+    restoreBookmark(null);
+  }
 
   return {
     bookmark,
@@ -49,7 +67,8 @@ export const useBookmarks = () => {
     arrayOfBookmarks,
     bookmarkInCreation,
     addToBookmark,
-    saveBookmark
+    saveBookmark,
+    closeBookmark
   };
 };
 
