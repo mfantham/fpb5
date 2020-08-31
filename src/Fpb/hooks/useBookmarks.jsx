@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useQuery } from "../../Website/useQuery";
 import { defaultBookmark } from "../bookmarks/bookmarkObject";
 
 const BOOKMARK_STATE = {
@@ -11,8 +12,9 @@ export const useBookmarks = () => {
   const [bookmark, setBookmark] = useState(defaultBookmark);
   const [bookmarkInCreation, setBookmarkInCreation] = useState({ idx: null });
   const [arrayOfBookmarks, setArrayOfBookmarks] = useState([defaultBookmark]);
-
   const [bookmarkingState, setBookmarkingState] = useState(BOOKMARK_STATE.DEFAULT);
+
+  const queryParams = useQuery();
 
   useEffect(() => {
     // Get bookmarks from browser
@@ -27,7 +29,11 @@ export const useBookmarks = () => {
         setBookmark(null);
         setBookmarkingState(BOOKMARK_STATE.DEFAULT);
       } else {
-        const decodedBookmark = JSON.parse(atob(arrayOfBookmarks[idx]));
+        const encodedBookmark = arrayOfBookmarks[idx];
+        queryParams.set("b", encodedBookmark);
+        window.history.replaceState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
+
+        const decodedBookmark = JSON.parse(atob(encodedBookmark));
         setBookmark(decodedBookmark);
         setBookmarkingState(BOOKMARK_STATE.RESTORING);
       }
@@ -73,66 +79,3 @@ export const useBookmarks = () => {
     closeBookmark
   };
 };
-
-// const bookmark1 = {
-//   // for testing
-//   camera: {
-//     position: {
-//       x: 1,
-//       y: 0,
-//       z: -3
-//     },
-//     rotation: {
-//       x: 0,
-//       y: -2.35,
-//       z: 0
-//     }
-//   },
-//   data: {
-//     rotation: {
-//       x: 0,
-//       y: 150,
-//       z: 0
-//     },
-//     rendering: {
-//       projection: 1,
-//       opacity: 0.5,
-//       intensity: 1,
-//       threshold: 0.2
-//     }
-//   },
-//   caption: "A bookmark for testing.",
-//   target: { moveTime: 0, moveType: "linear" }
-// };
-//
-// const bookmark2 = {
-//   // for testing
-//   camera: {
-//     position: {
-//       x: -0.2,
-//       y: 0,
-//       z: -3
-//     },
-//     rotation: {
-//       x: 0,
-//       y: 3.14159,
-//       z: 0
-//     }
-//   },
-//   data: {
-//     rotation: {
-//       x: 0,
-//       y: -3.14159 / 4,
-//       z: 0
-//     },
-//     rendering: {
-//       projection: 0,
-//       opacity: 1,
-//       intensity: 1.5,
-//       threshold: 0.1
-//     }
-//   },
-//   caption:
-//     "A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. A long interesting caption about this interesting data. ",
-//   target: { moveTime: 0, moveType: "linear" }
-// };

@@ -21,7 +21,7 @@ export default ({ domObject, useBookmarks }) => {
       const value = { position: camera.position, rotation: {x, y, z} };
       addToBookmark("camera", value);
     }
-  }, [bookmarkInCreation.idx]);
+  }, [bookmarkInCreation.idx, camera.rotation.x, camera.rotation.y, camera.rotation.z, camera.position.x, camera.position.y, camera.position.z]);
 
   useEffect(() => {
     if (bookmark && bookmark.camera) {

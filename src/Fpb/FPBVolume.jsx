@@ -47,7 +47,7 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
       };
       addToBookmark("data", value);
     }
-  }, [bookmarkInCreation.idx]);
+  }, [bookmarkInCreation.idx, objectRef.current?.rotation?.x, objectRef.current?.rotation?.y, objectRef.current?.rotation?.z, projection.value, opacity.value, intensity.value, threshold.value]);
 
   const {
     images,
