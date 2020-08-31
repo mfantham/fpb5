@@ -30,14 +30,20 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
 
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
   const [setRotation] = useRotationControls(objectRef.current, domObject);
-  const [rendering, setRendering] = useRendering(metadata, PROJECTIONS);
+  const [rendering, setRendering] = useRendering(metadata);
   const { projection, opacity, intensity, threshold, size } = rendering;
 
   useEffect(() => {
     if (bookmarkInCreation.idx !== null) {
+      const {x, y, z} = objectRef.current.rotation;
       const value = {
-        rotation: objectRef.current.rotation,
-        rendering: { projection, opacity, intensity, threshold }
+        rotation: {x, y, z},
+        rendering: {
+          projection: PROJECTIONS.indexOf(projection.value),
+          opacity: opacity.value,
+          intensity: intensity.value,
+          threshold: threshold.value
+        }
       };
       addToBookmark("data", value);
     }

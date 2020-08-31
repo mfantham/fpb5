@@ -58,11 +58,11 @@ export const useRendering = metadata => {
 
   const setRendering = rendering => {
     const { projection, opacity, intensity, threshold, size } = rendering;
-    projection && projectionSet(PROJECTIONS[projection]);
-    opacity && opacitySet(opacity);
-    intensity && intensitySet(intensity);
-    threshold && thresholdSet(threshold);
-    size && sizeSet(size);
+    projection >= 0 && projectionSet(PROJECTIONS[projection]);
+    opacity >= 0 && opacitySet(opacity);
+    intensity >= 0 && intensitySet(intensity);
+    threshold >= 0 && thresholdSet(threshold);
+    size >= 0 && sizeSet(size);
   };
 
   return [

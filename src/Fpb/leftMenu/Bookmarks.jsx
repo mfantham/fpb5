@@ -2,11 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "./Button";
 
-import { defaultBookmark } from "../bookmarks/bookmarkObject";
-
-const addBookmark = () => {
-  console.log("add a bookmark");
-};
+import { defaultBookmark } from "../bookmarks/bookmarkObject"
 
 export default ({
   addBookmarkCallback,
@@ -18,7 +14,7 @@ export default ({
     addBookmark,
     restoreBookmark,
     arrayOfBookmarks
-  } = useBookmarks; // maybe i can pass the usebookmarks in..? hmmm
+  } = useBookmarks;
 
   const bookmarkButtons = arrayOfBookmarks.map((bookmark, idx) => {
     return (

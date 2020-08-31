@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import { Vector3 } from "three";
+import { Vector3, Euler } from "three";
 import { useThree } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
 
@@ -17,22 +17,21 @@ export default ({ domObject, useBookmarks }) => {
 
   useEffect(() => {
     if (bookmarkInCreation.idx !== null) {
-      console.log("adding camera info to bookmark");
-      const value = { position: camera.position, rotation: camera.rotation };
+      const {x, y, z} = camera.rotation;
+      const value = { position: camera.position, rotation: {x, y, z} };
       addToBookmark("camera", value);
     }
   }, [bookmarkInCreation.idx]);
 
   useEffect(() => {
     if (bookmark && bookmark.camera) {
+      const {x, y, z} = bookmark.camera.rotation;
+      camera.setRotationFromEuler(new Euler(x, y, z, 'XYZ'));
       camera.position.x = bookmark.camera.position.x;
       camera.position.y = bookmark.camera.position.y;
       camera.position.z = bookmark.camera.position.z;
-      camera.rotation.x = bookmark.camera.rotation.x;
-      camera.rotation.y = bookmark.camera.rotation.y;
-      camera.rotation.z = bookmark.camera.rotation.z;
     }
-  }, [bookmark]);
+  }, [bookmark?.idx]);
 
   const [firstPersonMode] = useControl("First person mode", {
     type: "boolean",

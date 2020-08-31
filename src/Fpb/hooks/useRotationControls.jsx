@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
-import { Vector3 } from "three";
+import { Vector3, Euler } from "three";
 import { OBJECT_ROTATE_SPEED } from "../constants";
 
 export const useRotationControls = (objectToRotate, domObject = window) => {
@@ -8,6 +8,8 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
 
   const setRotation = rotation => {
     if (objectToRotate && rotation) {
+      const {x, y, z} = objectToRotate.rotation;
+      objectToRotate.setRotationFromEuler(new Euler(x, y, z, "XYZ"));
       objectToRotate.rotation.x = rotation.x;
       objectToRotate.rotation.y = rotation.y;
       objectToRotate.rotation.z = rotation.z;
