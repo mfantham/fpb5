@@ -79,6 +79,7 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
 
   return (
     <object3D ref={objectRef} scale={scale} renderOrder={2}>
+      <CuttingPlane callback={matrix => setClippingPlane(matrix)} parentQuaternion={objectRef.current?.quaternion} />
       <mesh>
         <boxBufferGeometry attach="geometry" args={[1, 1]} />
         <FpbMaterial
@@ -91,7 +92,6 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
           clippingPlane={clippingPlane}
         />
       </mesh>
-      <CuttingPlane callback={matrix => setClippingPlane(matrix)} />
     </object3D>
   );
 };

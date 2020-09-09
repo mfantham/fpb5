@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useControl } from "./react-three-gui-fork";
 
-import { Vector3, Matrix3, Plane } from "three";
+import { Vector3, Matrix3, Plane, Matrix4, Quaternion } from "three";
 
 export default ({ callback }) => {
   const delay = 2000;
   let timeout;
   const [showing, setShowing] = useState(false);
   const [plane, setPlane] = useState(new Plane());
+  const planeRef = useRef(null);
 
   const [{ enabled, x, y, z }] = useControl("Clipping plane", {
     type: "clipping",
@@ -28,8 +29,8 @@ export default ({ callback }) => {
 
     const c1 = Math.cos(y);
     const s1 = Math.sin(y);
-    const s2 = Math.sin(-x);
-    const c2 = Math.cos(-x);
+    const s2 = Math.sin(x);
+    const c2 = Math.cos(x);
 
     const mX = new Matrix3().set(1, 0, 0, 0, c1, s1, 0, -s1, c1);
     const mY = new Matrix3().set(c2, 0, -s2, 0, 1, 0, s2, 0, c2);
@@ -37,8 +38,19 @@ export default ({ callback }) => {
     const normal = new Vector3(0, 0, 1).applyMatrix3(mX).applyMatrix3(mY);
 
     const p = new Plane(normal, -z / 2);
-    setPlane(p);
     p.active = enabled;
+
+    if (planeRef.current){
+      // Align plane object with cutting plane
+      const point = new Vector3(0, 0, 0);
+      p.coplanarPoint(point);
+      const {x, y, z} = point;
+      planeRef.current.quaternion.setFromUnitVectors(new Vector3(0, 0, 1), p.normal);
+      planeRef.current.position.x = point.x;
+      planeRef.current.position.y = point.y;
+      planeRef.current.position.z = point.z;
+    }
+
     callback(p);
 
     return () => {
@@ -47,10 +59,15 @@ export default ({ callback }) => {
   }, [x, y, z, enabled]);
 
   return (
-    <object3D>
-      {enabled && showing && (
-        <planeHelper plane={plane} args={[plane, 1.5, "#777777"]} />
-      )}
-    </object3D>
+    <group ref={planeRef}>
+      <mesh>
+        <planeBufferGeometry args={[1, 1]} attach="geometry"/>
+        <meshBasicMaterial attach="material" color="white" side="both" transparent={true} opacity={0.5} />
+      </mesh>
+      <mesh rotation={[0, Math.PI, 0]}>
+        <planeBufferGeometry args={[1, 1]} attach="geometry"/>
+        <meshBasicMaterial attach="material" color="pink" transparent={true} opacity={0.5} />
+      </mesh>
+    </group>
   );
 };
