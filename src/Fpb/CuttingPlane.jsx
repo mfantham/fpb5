@@ -3,7 +3,7 @@ import { useControl } from "./react-three-gui-fork";
 
 import { Vector3, Matrix3, Plane, Matrix4, Quaternion } from "three";
 
-export default ({ callback }) => {
+export default ({ callback, parentQuaternion }) => {
   const delay = 2000;
   let timeout;
   const [showing, setShowing] = useState(false);
@@ -40,15 +40,22 @@ export default ({ callback }) => {
     const p = new Plane(normal, -z / 2);
     p.active = enabled;
 
-    if (planeRef.current){
+    if (planeRef.current && parentQuaternion){
       // Align plane object with cutting plane
       const point = new Vector3(0, 0, 0);
       p.coplanarPoint(point);
+      const normal2 = normal.clone();
+      normal2.applyQuaternion(parentQuaternion);
+
+      planeRef.current.position.x = 0;
+      planeRef.current.position.y = 0;
+      planeRef.current.position.z = 0;
+      planeRef.current.lookAt(normal2);
+
       const {x, y, z} = point;
-      planeRef.current.quaternion.setFromUnitVectors(new Vector3(0, 0, 1), p.normal);
-      planeRef.current.position.x = point.x;
-      planeRef.current.position.y = point.y;
-      planeRef.current.position.z = point.z;
+      planeRef.current.position.x = x;
+      planeRef.current.position.y = y;
+      planeRef.current.position.z = z;
     }
 
     callback(p);
@@ -62,11 +69,11 @@ export default ({ callback }) => {
     <group ref={planeRef}>
       <mesh>
         <planeBufferGeometry args={[1, 1]} attach="geometry"/>
-        <meshBasicMaterial attach="material" color="white" side="both" transparent={true} opacity={0.5} />
+        <meshBasicMaterial attach="material" color="white" side="both" transparent={true} opacity={showing ? 0.5 : 0} />
       </mesh>
       <mesh rotation={[0, Math.PI, 0]}>
         <planeBufferGeometry args={[1, 1]} attach="geometry"/>
-        <meshBasicMaterial attach="material" color="pink" transparent={true} opacity={0.5} />
+        <meshBasicMaterial attach="material" color="pink" transparent={true} opacity={showing ? 0.5 : 0} />
       </mesh>
     </group>
   );
