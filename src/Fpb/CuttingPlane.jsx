@@ -3,14 +3,15 @@ import { useControl } from "./react-three-gui-fork";
 
 import { Vector3, Matrix3, Plane, Matrix4, Quaternion } from "three";
 
-export default ({ callback, parentQuaternion }) => {
+export default ({ callback, parentQuaternion, useBookmarks }) => {
   const delay = 2000;
   let timeout;
   const [showing, setShowing] = useState(false);
   const [plane, setPlane] = useState(new Plane());
   const planeRef = useRef(null);
+  const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
 
-  const [{ enabled, x, y, z }] = useControl("Clipping plane", {
+  const [{ enabled, x, y, z }, setClippingControl] = useControl("Clipping plane", {
     type: "clipping",
     value: { enabled: false, x: 0, y: 0, z: 0 },
     distance: Math.PI,
@@ -21,11 +22,22 @@ export default ({ callback, parentQuaternion }) => {
   });
 
   useEffect(() => {
+    if (bookmark){
+      setClippingControl(bookmark.clipping ?? {enabled: false, x: 0, y: 0, z: 0});
+    }
+  }, [bookmark]);
+
+  useEffect(() => {
     if (timeout) {
       clearTimeout(timeout);
     }
-    setShowing(true);
+    setShowing(enabled);
     timeout = setTimeout(() => setShowing(false), delay);
+
+    if (bookmarkInCreation.idx !== null){
+      const clippingInfo = {enabled, x, y, z};
+      addToBookmark("clipping", clippingInfo);
+    }
 
     const c1 = Math.cos(y);
     const s1 = Math.sin(y);
@@ -63,7 +75,7 @@ export default ({ callback, parentQuaternion }) => {
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [x, y, z, enabled]);
+  }, [bookmarkInCreation.idx, x, y, z, enabled]);
 
   return (
     <group ref={planeRef}>
