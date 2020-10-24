@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import { DataTexture3D, Plane, Vector3 } from "three";
 
@@ -79,7 +79,9 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
 
   return (
     <object3D ref={objectRef} scale={scale} renderOrder={2}>
-      <CuttingPlane callback={matrix => setClippingPlane(matrix)} parentQuaternion={objectRef.current?.quaternion} useBookmarks={useBookmarks} />
+      <Suspense>
+        <CuttingPlane callback={matrix => setClippingPlane(matrix)} parentQuaternion={objectRef.current?.quaternion} useBookmarks={useBookmarks} />
+      </Suspense>
       <mesh>
         <boxBufferGeometry attach="geometry" args={[1, 1]} />
         <FpbMaterial

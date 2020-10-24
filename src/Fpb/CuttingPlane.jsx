@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useControl } from "./react-three-gui-fork";
+import { useLoader }  from "react-three-fiber"
+import clipMaskImage from "./clipMask.png";
 
-import { Vector3, Matrix3, Plane, Matrix4, Quaternion } from "three";
+import { Vector3, Matrix3, Plane, Matrix4, Quaternion, TextureLoader } from "three";
 
 export default ({ callback, parentQuaternion, useBookmarks }) => {
   const delay = 2000;
@@ -10,6 +12,7 @@ export default ({ callback, parentQuaternion, useBookmarks }) => {
   const [plane, setPlane] = useState(new Plane());
   const planeRef = useRef(null);
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
+  const clipMask = useLoader(TextureLoader, clipMaskImage);
 
   const [{ enabled, x, y, z }, setClippingControl] = useControl("Clipping plane", {
     type: "clipping",
@@ -81,11 +84,11 @@ export default ({ callback, parentQuaternion, useBookmarks }) => {
     <group ref={planeRef}>
       <mesh>
         <planeBufferGeometry args={[1, 1]} attach="geometry"/>
-        <meshBasicMaterial attach="material" color="white" side="both" transparent={true} opacity={showing ? 0.5 : 0} />
+        <meshBasicMaterial attach="material" map={clipMask} color="white" transparent={true} opacity={showing ? 0.7 : 0} />
       </mesh>
       <mesh rotation={[0, Math.PI, 0]}>
         <planeBufferGeometry args={[1, 1]} attach="geometry"/>
-        <meshBasicMaterial attach="material" color="pink" transparent={true} opacity={showing ? 0.5 : 0} />
+        <meshBasicMaterial attach="material" map={clipMask} color="#aaaaaa" transparent={true} opacity={showing ? 0.7 : 0} />
       </mesh>
     </group>
   );

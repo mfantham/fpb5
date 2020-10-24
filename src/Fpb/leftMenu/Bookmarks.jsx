@@ -17,16 +17,18 @@ export default ({
   } = useBookmarks;
 
   const bookmarkButtons = arrayOfBookmarks.map((bookmark, idx) => {
-    return (
-      <Button
-        key={idx}
-        onClick={() => {
-          restoreBookmark(idx);
-        }}
-      >
-        Restore bookmark {idx}
-      </Button>
-    );
+    if (!!bookmark) {
+      return (
+        <Button
+          key={idx}
+          onClick={() => {
+            restoreBookmark(idx);
+          }}
+        >
+          Restore bookmark {idx}
+        </Button>
+      );
+    }
   });
   return (
     <>

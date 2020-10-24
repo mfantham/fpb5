@@ -15,10 +15,24 @@ export const useBookmarks = () => {
   const [bookmarkingState, setBookmarkingState] = useState(BOOKMARK_STATE.DEFAULT);
 
   const queryParams = useQuery();
+  const storageName = queryParams.get("demo") + "-bookmarks";
 
   useEffect(() => {
-    // Get bookmarks from browser
-    const arrayOfBookmarks = [defaultBookmark];
+    let arrayOfBookmarks = [];
+
+    // Get bookmark from URL
+    const urlBookmark = (queryParams.get('b'));
+    if (urlBookmark) {
+      arrayOfBookmarks.push(urlBookmark);
+      setBookmark(JSON.parse(atob(urlBookmark)));
+    } else {
+      arrayOfBookmarks.push(""); // So that bookmark 0 is reserved for url bookmark
+    }
+
+    const localBookmarks = JSON.parse(atob(localStorage.getItem(storageName)));
+    localBookmarks.forEach(b => arrayOfBookmarks.push(b));
+
+    // Then get bookmarks from browser localStorage...
     setArrayOfBookmarks(arrayOfBookmarks);
   }, []);
 
@@ -59,6 +73,9 @@ export const useBookmarks = () => {
     const newArrayOfBookmarks = arrayOfBookmarks;
     newArrayOfBookmarks.push(encodedBookmark);
     setArrayOfBookmarks(newArrayOfBookmarks);
+
+    localStorage.setItem(storageName, btoa(JSON.stringify(newArrayOfBookmarks)));
+
     restoreBookmark(bookmarkInCreation.idx);
     setBookmarkingState(BOOKMARK_STATE.RESTORING);
   };
