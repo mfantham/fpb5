@@ -14,5 +14,5 @@ const takeScreenshot = () => {
 };
 
 export default () => {
-  return <Button onClick={() => takeScreenshot()}>Screenshot</Button>;
+  return <Button onClick={() => takeScreenshot()} style={{width: "50%", marginRight: "4px"}}>Screenshot</Button>;
 };

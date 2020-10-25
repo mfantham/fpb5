@@ -2,8 +2,10 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import {ButtonHolder} from "./Button";
 import Screenshot from "./Screenshot";
 import Bookmarks from "./Bookmarks";
+import LiveVideo from "./LiveVideo";
 import Video from "./Video";
 
 const Float = styled.div`
@@ -50,21 +52,18 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-export default ({
-  addBookmarkCallback,
-  restoreBookmarkCallback,
-  useBookmarks
-}) => {
+export default ({ useBookmarks }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
     <>
       <Float style={{ height: 400 }} open={open}>
         <Items>
-          <Screenshot />
+          <ButtonHolder>
+            <Screenshot />
+            <LiveVideo />
+          </ButtonHolder>
           <Bookmarks
-            addBookmarkCallback={addBookmarkCallback}
-            restoreBookmarkCallback={restoreBookmarkCallback}
             useBookmarks={useBookmarks}
           />
           {/*<Video />*/}

@@ -1,38 +1,42 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import { defaultBookmark } from "../bookmarks/bookmarkObject"
+import Button, { ButtonHolder } from "./Button";
 
-export default ({
-  addBookmarkCallback,
-  restoreBookmarkCallback,
-  useBookmarks
-}) => {
+export default ({ useBookmarks }) => {
   const {
     bookmark,
     addBookmark,
     restoreBookmark,
+    deleteBookmark,
     arrayOfBookmarks
   } = useBookmarks;
 
   const bookmarkButtons = arrayOfBookmarks.map((bookmark, idx) => {
     if (!!bookmark) {
       return (
-        <Button
-          key={idx}
-          onClick={() => {
-            restoreBookmark(idx);
-          }}
-        >
-          Restore bookmark {idx}
-        </Button>
+        <ButtonHolder key={idx}>
+          <Button
+            onClick={() => {
+              restoreBookmark(idx);
+            }}
+          >
+            Restore bookmark {idx}
+          </Button>
+          <Button onClick={() => deleteBookmark(idx)} circular style={{marginLeft: "8px"}}>
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+        </ButtonHolder>
       );
     }
   });
   return (
     <>
-      <Button onClick={() => addBookmark()}>Add bookmark</Button>
+      <ButtonHolder>
+        <Button onClick={() => addBookmark()}>Add bookmark</Button>
+      </ButtonHolder>
       {bookmarkButtons}
     </>
   );

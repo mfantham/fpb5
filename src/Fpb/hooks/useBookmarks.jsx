@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "../../Website/useQuery";
 import { defaultBookmark } from "../bookmarks/bookmarkObject";
 
+const fillCount = (array) => array.filter(e => !!e).length;
+
 const BOOKMARK_STATE = {
   DEFAULT: 0,
   CREATING: 1,
@@ -13,37 +15,39 @@ export const useBookmarks = () => {
   const [bookmarkInCreation, setBookmarkInCreation] = useState({ idx: null });
   const [arrayOfBookmarks, setArrayOfBookmarks] = useState([defaultBookmark]);
   const [bookmarkingState, setBookmarkingState] = useState(BOOKMARK_STATE.DEFAULT);
+  const [nBookmarks, setNBookmarks] = useState(0);
 
   const queryParams = useQuery();
   const storageName = queryParams.get("demo") + "-bookmarks";
 
   useEffect(() => {
-    let arrayOfBookmarks = [];
+    let newArrayOfBookmarks = [];
 
     // Get bookmark from URL
     const urlBookmark = (queryParams.get('b'));
     if (urlBookmark) {
-      arrayOfBookmarks.push(urlBookmark);
+      newArrayOfBookmarks.push(urlBookmark);
       setBookmark(JSON.parse(atob(urlBookmark)));
     } else {
-      arrayOfBookmarks.push(""); // So that bookmark 0 is reserved for url bookmark
+      newArrayOfBookmarks.push(""); // So that bookmark 0 is reserved for url bookmark
     }
 
-    const localBookmarks = JSON.parse(atob(localStorage.getItem(storageName)));
-    localBookmarks.forEach(b => arrayOfBookmarks.push(b));
+    // Then get bookmarks from browser localStorage
+    const localBookmarks = JSON.parse(atob(localStorage.getItem(storageName) ?? "W10="));
+    localBookmarks.forEach(b => newArrayOfBookmarks.push(b));
 
-    // Then get bookmarks from browser localStorage...
-    setArrayOfBookmarks(arrayOfBookmarks);
-  }, []);
+    setArrayOfBookmarks(newArrayOfBookmarks);
+    setNBookmarks(fillCount(newArrayOfBookmarks));
+  }, [storageName]);
 
   const restoreBookmark = useCallback(
-    idx => {
+    (idx, arrayOverwrite) => {
       setBookmarkInCreation({idx: null});
       if (idx === null || idx === undefined) {
         setBookmark(null);
         setBookmarkingState(BOOKMARK_STATE.DEFAULT);
       } else {
-        const encodedBookmark = arrayOfBookmarks[idx];
+        const encodedBookmark = !!arrayOverwrite ? arrayOverwrite[idx] : arrayOfBookmarks[idx];
         queryParams.set("b", encodedBookmark);
         window.history.replaceState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
 
@@ -52,7 +56,7 @@ export const useBookmarks = () => {
         setBookmarkingState(BOOKMARK_STATE.RESTORING);
       }
     },
-    [arrayOfBookmarks, setBookmark]
+    [arrayOfBookmarks, setBookmark, nBookmarks]
   );
 
   const addBookmark = () => {
@@ -68,16 +72,20 @@ export const useBookmarks = () => {
     setBookmarkInCreation(newBookmark);
   };
 
+  const putBookmarksInStorage = (bookmarksToStore) => {
+    localStorage.setItem(storageName, btoa(JSON.stringify(bookmarksToStore)));
+  }
+
   const saveBookmark = () => {
     const encodedBookmark = btoa(JSON.stringify(bookmarkInCreation));
-    const newArrayOfBookmarks = arrayOfBookmarks;
+    const newArrayOfBookmarks = [...arrayOfBookmarks];
     newArrayOfBookmarks.push(encodedBookmark);
     setArrayOfBookmarks(newArrayOfBookmarks);
+    putBookmarksInStorage(newArrayOfBookmarks);
 
-    localStorage.setItem(storageName, btoa(JSON.stringify(newArrayOfBookmarks)));
-
-    restoreBookmark(bookmarkInCreation.idx);
+    restoreBookmark(bookmarkInCreation.idx, newArrayOfBookmarks);
     setBookmarkingState(BOOKMARK_STATE.RESTORING);
+    setNBookmarks(fillCount(newArrayOfBookmarks));
   };
 
   const closeBookmark = () => {
@@ -85,14 +93,24 @@ export const useBookmarks = () => {
     restoreBookmark(null);
   }
 
+  const deleteBookmark = idx => {
+    const newArrayOfBookmarks = [...arrayOfBookmarks];
+    newArrayOfBookmarks[idx] = "";
+    setArrayOfBookmarks(newArrayOfBookmarks);
+    putBookmarksInStorage(newArrayOfBookmarks);
+    setNBookmarks(fillCount(newArrayOfBookmarks));
+  }
+
   return {
     bookmark,
     addBookmark,
     restoreBookmark,
+    deleteBookmark,
     arrayOfBookmarks,
     bookmarkInCreation,
     addToBookmark,
     saveBookmark,
-    closeBookmark
+    closeBookmark,
+    nBookmarks,
   };
 };
