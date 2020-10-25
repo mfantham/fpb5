@@ -1,10 +1,18 @@
 import React, { useRef, useState } from "react";
+
+import Spinner from "../common/Spinner";
 import Button from "./Button";
 
+const RECORDING_STATES = {
+  DEFAULT: 0,
+  RECORDING: 1,
+  SAVING: 2
+}
 
 const startRecording = (mediaRecorder, blobs) => {
+  blobs.current = [];
   const chunkTime = 2000; // Recording will be saved in 2-second blobs
-  const canvas = document.querySelector("canvas"); // very unreactful :( useThree() ? nop. not in canvas. move to canvas?
+  const canvas = document.querySelector("canvas");
   const stream = canvas.captureStream(30);
 
   /* From https://github.com/webrtc/samples/blob/gh-pages/src/content/capture/canvas-record/js/main.js */
@@ -36,14 +44,13 @@ const startRecording = (mediaRecorder, blobs) => {
       blobs.current.push(e.data);
     }
   }
-  mediaRecorder.current.onstop = ee => {console.log("Recording finished; offering download")}
+  mediaRecorder.current.onstop = () => {console.log("Recording finished; offering download")}
   mediaRecorder.current.start(chunkTime);
 
 }
 
-const stopRecording = (mediaRecorder, blobs) => {
+const stopRecording = async (mediaRecorder, blobs) => {
   mediaRecorder.current.stop();
-  console.log(blobs.current);
   const superBlob = new Blob(blobs.current, {type: 'video/webm'});
   const videoUrl = URL.createObjectURL(superBlob);
 
@@ -57,23 +64,25 @@ const stopRecording = (mediaRecorder, blobs) => {
 
 export default () => {
   // This will have to be pulled up sometime
-  const [isRecording, setIsRecording] = useState(false);
+  const [recordingState, setRecordingState] = useState(RECORDING_STATES.DEFAULT);
   const mediaRecorder = useRef(null);
   const videoBlobs = useRef([]);
 
   const toggleLiveRecording = () => {
-    if (!isRecording){
-      setIsRecording(true);
+    if (recordingState === RECORDING_STATES.DEFAULT) {
+      setRecordingState(RECORDING_STATES.RECORDING);
       startRecording(mediaRecorder, videoBlobs);
-    } else {
-      setIsRecording(false);
-      stopRecording(mediaRecorder, videoBlobs);
+    } else if (recordingState === RECORDING_STATES.RECORDING) {
+      setRecordingState(RECORDING_STATES.SAVING);
+      stopRecording(mediaRecorder, videoBlobs).then(() => {
+        setRecordingState(RECORDING_STATES.DEFAULT);
+      });
     }
   }
 
   return (
-    <Button onClick={() => toggleLiveRecording()} style={{width: "50%", marginLeft: "4px"}}>
-      {isRecording ? "Stop" : "Start"} recording
+    <Button onClick={() => toggleLiveRecording()} style={{width: "50%", marginLeft: "4px"}} disabled={recordingState === RECORDING_STATES.SAVING}>
+      {recordingState === RECORDING_STATES.SAVING ? <Spinner /> : recordingState === RECORDING_STATES.RECORDING ? "Stop" : "Start"} recording
     </Button>
   );
 };
