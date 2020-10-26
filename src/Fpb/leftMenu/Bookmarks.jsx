@@ -25,7 +25,11 @@ export default ({ useBookmarks }) => {
           >
             Restore bookmark {idx}
           </Button>
-          <Button onClick={() => deleteBookmark(idx)} circular style={{marginLeft: "8px"}}>
+          <Button
+            onClick={() => deleteBookmark(idx)}
+            circular
+            style={{ marginLeft: "8px" }}
+          >
             <FontAwesomeIcon icon={faTrash} />
           </Button>
         </ButtonHolder>

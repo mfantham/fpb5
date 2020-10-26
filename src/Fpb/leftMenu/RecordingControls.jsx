@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import {ButtonHolder} from "./Button";
+import { ButtonHolder } from "./Button";
 import Screenshot from "./Screenshot";
 import Bookmarks from "./Bookmarks";
 import LiveVideo from "./LiveVideo";
@@ -63,9 +63,7 @@ export default ({ useBookmarks }) => {
             <Screenshot />
             <LiveVideo />
           </ButtonHolder>
-          <Bookmarks
-            useBookmarks={useBookmarks}
-          />
+          <Bookmarks useBookmarks={useBookmarks} />
           {/*<Video />*/}
         </Items>
       </Float>

@@ -17,16 +17,24 @@ export default ({ domObject, useBookmarks }) => {
 
   useEffect(() => {
     if (bookmarkInCreation.idx !== null) {
-      const {x, y, z} = camera.rotation;
-      const value = { position: camera.position, rotation: {x, y, z} };
+      const { x, y, z } = camera.rotation;
+      const value = { position: camera.position, rotation: { x, y, z } };
       addToBookmark("camera", value);
     }
-  }, [bookmarkInCreation.idx, camera.rotation.x, camera.rotation.y, camera.rotation.z, camera.position.x, camera.position.y, camera.position.z]);
+  }, [
+    bookmarkInCreation.idx,
+    camera.rotation.x,
+    camera.rotation.y,
+    camera.rotation.z,
+    camera.position.x,
+    camera.position.y,
+    camera.position.z
+  ]);
 
   useEffect(() => {
     if (bookmark && bookmark.camera) {
-      const {x, y, z} = bookmark.camera.rotation;
-      camera.setRotationFromEuler(new Euler(x, y, z, 'XYZ'));
+      const { x, y, z } = bookmark.camera.rotation;
+      camera.setRotationFromEuler(new Euler(x, y, z, "XYZ"));
       camera.position.x = bookmark.camera.position.x;
       camera.position.y = bookmark.camera.position.y;
       camera.position.z = bookmark.camera.position.z;

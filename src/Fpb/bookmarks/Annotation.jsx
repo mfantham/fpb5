@@ -46,7 +46,8 @@ const CloseButton = styled.button`
     outline: 0;
   }
 
-  transition: box-shadow 0.2s ease, background 0.2s ease, bottom ${SLIDE_TIME}ms ease;
+  transition: box-shadow 0.2s ease, background 0.2s ease,
+    bottom ${SLIDE_TIME}ms ease;
 `;
 
 const AnnotationTextArea = styled.textarea`
@@ -60,13 +61,9 @@ const AnnotationTextArea = styled.textarea`
   outline: 0;
 `;
 
-const AnnotationInput = ({useBookmarks}) => {
+const AnnotationInput = ({ useBookmarks }) => {
   const inputRef = useRef(null);
-  const {
-    bookmarkInCreation,
-    saveBookmark,
-    addToBookmark
-  } = useBookmarks;
+  const { bookmarkInCreation, saveBookmark, addToBookmark } = useBookmarks;
 
   const handleUserKeyPress = e => {
     e.stopPropagation();
@@ -88,32 +85,41 @@ const AnnotationInput = ({useBookmarks}) => {
     return () => {
       if (inputRef.current) {
         inputRef.current.removeEventListener("keypress", handleUserKeyPress);
-        inputRef.current.removeEventListener("keydown", e => e.stopPropagation());
+        inputRef.current.removeEventListener("keydown", e =>
+          e.stopPropagation()
+        );
       }
     };
   }, [bookmarkInCreation.idx]);
 
-  return <AnnotationTextArea ref={inputRef} type="text" placeholder={`Add a caption for bookmark ${bookmarkInCreation.idx}, press enter to save...`} />;
-}
+  return (
+    <AnnotationTextArea
+      ref={inputRef}
+      type="text"
+      placeholder={`Add a caption for bookmark ${bookmarkInCreation.idx}, press enter to save...`}
+    />
+  );
+};
 
 export default ({ useBookmarks }) => {
   const {
     bookmark,
     restoreBookmark,
     closeBookmark,
-    bookmarkInCreation,
+    bookmarkInCreation
   } = useBookmarks;
   const open = (!!bookmark && !!bookmark.caption) || !!bookmarkInCreation.idx;
 
-  const annotationContents = bookmarkInCreation.idx !== null ? <AnnotationInput useBookmarks={useBookmarks} /> : <>{open && bookmark.caption}</>;
+  const annotationContents =
+    bookmarkInCreation.idx !== null ? (
+      <AnnotationInput useBookmarks={useBookmarks} />
+    ) : (
+      <>{open && bookmark.caption}</>
+    );
   return (
     <>
       <AnnotationDiv open={open}>{annotationContents}</AnnotationDiv>
-      <CloseButton
-        onClick={() => closeBookmark()}
-        title="Hide"
-        open={open}
-      >
+      <CloseButton onClick={() => closeBookmark()} title="Hide" open={open}>
         <FontAwesomeIcon icon={faTimes} size="lg" />
       </CloseButton>
     </>

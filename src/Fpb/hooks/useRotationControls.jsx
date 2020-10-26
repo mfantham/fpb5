@@ -8,7 +8,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
 
   const setRotation = rotation => {
     if (objectToRotate && rotation) {
-      const {x, y, z} = objectToRotate.rotation;
+      const { x, y, z } = objectToRotate.rotation;
       objectToRotate.setRotationFromEuler(new Euler(x, y, z, "XYZ"));
       objectToRotate.rotation.x = rotation.x;
       objectToRotate.rotation.y = rotation.y;

@@ -17,7 +17,13 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({ metadata, qualityZ, interpolateZ, domObject, useBookmarks }) => {
+export default ({
+  metadata,
+  qualityZ,
+  interpolateZ,
+  domObject,
+  useBookmarks
+}) => {
   if (metadata === null) {
     return null;
   }
@@ -35,9 +41,9 @@ export default ({ metadata, qualityZ, interpolateZ, domObject, useBookmarks }) =
 
   useEffect(() => {
     if (bookmarkInCreation.idx !== null) {
-      const {x, y, z} = objectRef.current.rotation;
+      const { x, y, z } = objectRef.current.rotation;
       const value = {
-        rotation: {x, y, z},
+        rotation: { x, y, z },
         rendering: {
           projection: PROJECTIONS.indexOf(projection.value),
           opacity: opacity.value,
@@ -47,7 +53,16 @@ export default ({ metadata, qualityZ, interpolateZ, domObject, useBookmarks }) =
       };
       addToBookmark("data", value);
     }
-  }, [bookmarkInCreation.idx, objectRef.current?.rotation?.x, objectRef.current?.rotation?.y, objectRef.current?.rotation?.z, projection.value, opacity.value, intensity.value, threshold.value]);
+  }, [
+    bookmarkInCreation.idx,
+    objectRef.current?.rotation?.x,
+    objectRef.current?.rotation?.y,
+    objectRef.current?.rotation?.z,
+    projection.value,
+    opacity.value,
+    intensity.value,
+    threshold.value
+  ]);
 
   const {
     images,
@@ -80,7 +95,11 @@ export default ({ metadata, qualityZ, interpolateZ, domObject, useBookmarks }) =
   return (
     <object3D ref={objectRef} scale={scale} renderOrder={2}>
       <Suspense>
-        <CuttingPlane callback={matrix => setClippingPlane(matrix)} parentQuaternion={objectRef.current?.quaternion} useBookmarks={useBookmarks} />
+        <CuttingPlane
+          callback={matrix => setClippingPlane(matrix)}
+          parentQuaternion={objectRef.current?.quaternion}
+          useBookmarks={useBookmarks}
+        />
       </Suspense>
       <mesh>
         <boxBufferGeometry attach="geometry" args={[1, 1]} />

@@ -10,7 +10,7 @@ export const useQuality = () => {
   }, []);
   const lsZInterp = useMemo(() => {
     return localStorage.getItem("zInterp") == "true" || false;
-  })
+  });
 
   const [xyQuality] = useControl("Quality-XY", {
     type: "number",
@@ -30,7 +30,7 @@ export const useQuality = () => {
     type: "boolean",
     value: !!lsZInterp,
     index: 7.5
-  })
+  });
 
   useEffect(() => {
     localStorage.setItem("xyQuality", xyQuality);
