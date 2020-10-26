@@ -20,7 +20,7 @@ export default ({ metadata, useBookmarks }) => {
     return null;
   }
 
-  const [xyQuality, zQuality] = useQuality();
+  const [xyQuality, qualityZ, interpolateZ] = useQuality();
 
   const canvasContainerRef = useRef(null);
   useEffect(() => {
@@ -62,7 +62,8 @@ export default ({ metadata, useBookmarks }) => {
             <FPBVolume
               useBookmarks={useBookmarks}
               metadata={metadata}
-              qualityZ={zQuality}
+              qualityZ={qualityZ}
+              interpolateZ={interpolateZ}
               domObject={canvasContainerRef.current}
             />
           </Suspense>

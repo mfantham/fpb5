@@ -42,7 +42,7 @@ export const Checkbox = styled.input`
 `;
 
 export function BooleanControl({ control, value }: any) {
-  const { toggle } = control.config.keys;
+  const toggle = control?.config?.keys?.toggle;
   const handleUserKeyPress = useCallback(
     e => {
       const { code } = e;

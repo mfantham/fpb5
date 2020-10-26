@@ -6,6 +6,7 @@ import { useUniform } from "./hooks/useUniform";
 export default ({
   texture3d,
   steps,
+  interpolation,
   projection,
   opacity,
   intensity,
@@ -17,6 +18,7 @@ export default ({
   let shader = FpbShader;
   shader.uniforms = {
     u_steps: { value: steps },
+    u_interpolation: { value: interpolation },
     u_projection: { value: projection },
     u_opacity: { value: opacity },
     u_intensity: { value: intensity },
@@ -28,6 +30,7 @@ export default ({
   };
 
   useUniform("u_steps", steps, materialRef);
+  useUniform("u_interpolation", interpolation, materialRef);
   useUniform("u_projection", projection, materialRef);
   useUniform("u_opacity", opacity, materialRef);
   useUniform("u_intensity", intensity, materialRef);

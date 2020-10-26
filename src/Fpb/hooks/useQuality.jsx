@@ -3,11 +3,14 @@ import { useControl } from "../react-three-gui-fork";
 
 export const useQuality = () => {
   const lsXYQuality = useMemo(() => {
-    return Number(localStorage.getItem("xyQuality"));
+    return Number(localStorage.getItem("xyQuality") || 0.4);
   }, []);
   const lsZQuality = useMemo(() => {
-    return Number(localStorage.getItem("zQuality"));
+    return Number(localStorage.getItem("zQuality") || 0.4);
   }, []);
+  const lsZInterp = useMemo(() => {
+    return localStorage.getItem("zInterp") == "true" || false;
+  })
 
   const [xyQuality] = useControl("Quality-XY", {
     type: "number",
@@ -23,11 +26,17 @@ export const useQuality = () => {
     max: 1.5,
     index: 7
   });
+  const [zInterp] = useControl("Interpolate-Z", {
+    type: "boolean",
+    value: !!lsZInterp,
+    index: 7.5
+  })
 
   useEffect(() => {
     localStorage.setItem("xyQuality", xyQuality);
     localStorage.setItem("zQuality", zQuality);
-  }, [xyQuality, zQuality]);
+    localStorage.setItem("zInterp", !!zInterp ? true : false);
+  }, [xyQuality, zQuality, zInterp]);
 
-  return [xyQuality, zQuality];
+  return [xyQuality, zQuality, zInterp];
 };

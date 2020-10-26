@@ -4,6 +4,7 @@ precision mediump sampler3D;
 
 uniform sampler3D u_texture3d;
 uniform int u_steps;
+uniform int u_interpolation;
 uniform int u_projection;
 uniform float u_opacity;
 uniform float u_intensity;
@@ -26,7 +27,23 @@ float meanColor(vec3 rgbPixel){
 
 vec4 sample3D(vec3 rayTip) {
   rayTip.y = 1.0 - rayTip.y;
-  return texture(u_texture3d, rayTip);
+  if (u_interpolation > 0) {
+    vec3 rayTip1 = rayTip;
+    vec3 rayTip2 = rayTip;
+
+    rayTip1.z = floor(rayTip1.z * float(u_interpolation)) / float(u_interpolation);
+    rayTip2.z = ceil(rayTip2.z * float(u_interpolation)) / float(u_interpolation);
+
+    vec4 pixel1 = texture(u_texture3d, rayTip1);
+    vec4 pixel2 = texture(u_texture3d, rayTip2);
+    float lerp = (rayTip2.z - rayTip.z) / (rayTip2.z - rayTip1.z);
+    if (rayTip1.z == rayTip2.z){
+      lerp = 1.0;
+    }
+    return mix(pixel2, pixel1, lerp);
+  } else {
+    return texture(u_texture3d, rayTip);
+  }
 }
 
 vec2 volumeIntersects(vec3 rayOrigin, vec3 rayDirection){

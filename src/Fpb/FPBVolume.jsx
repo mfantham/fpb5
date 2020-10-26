@@ -17,7 +17,7 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
+export default ({ metadata, qualityZ, interpolateZ, domObject, useBookmarks }) => {
   if (metadata === null) {
     return null;
   }
@@ -87,6 +87,7 @@ export default ({ metadata, qualityZ, domObject, useBookmarks }) => {
         <FpbMaterial
           texture3d={texture3d}
           steps={512 * qualityZ}
+          interpolation={interpolateZ ? numberOfImages : 0}
           projection={PROJECTIONS.indexOf(projection.value)}
           opacity={opacity.value}
           intensity={intensity.value}
