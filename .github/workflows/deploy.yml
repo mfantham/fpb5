@@ -14,9 +14,9 @@ jobs:
         env:
           CI: false
 
-      - uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      - uses: sebastianpopp/ftp-action@v2.0.0
         with:
-          ftp-server: ftp.fantham.co.uk
-          ftp-username: fpb
-          ftp-password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: build
+          host: ftp.fantham.co.uk
+          user: fpb
+          password: ${{ secrets.FTP_PASSWORD }}
+          localDir: build
