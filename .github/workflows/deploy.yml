@@ -2,19 +2,19 @@ on: workflow_dispatch
 name: Depoloy FPB5
 jobs:
   build-and-publish:
-  name: Build and publish
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: npm-build
+      - name: npm-build
       run: |
         npm install
         npm run build
 
-    - uses: SamKirkland/FTP-Deploy-Action@3.1.1
-      with:
-        ftp-server: ftp.fantham.co.uk
-        ftp-username: fpb
-        ftp-password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: build
+      - uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        with:
+          ftp-server: ftp.fantham.co.uk
+          ftp-username: fpb
+          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: build
