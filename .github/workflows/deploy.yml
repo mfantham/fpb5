@@ -7,10 +7,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: npm-build
-      run: |
-        npm install
-        npm run build
+      - name: NPM Build
+        run: |
+          npm install
+          npm run build
 
       - uses: SamKirkland/FTP-Deploy-Action@3.1.1
         with:
