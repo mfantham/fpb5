@@ -16,7 +16,7 @@ jobs:
 
       - uses: sebastianpopp/ftp-action@v2.0.0
         with:
-          host: ftp.fantham.co.uk
+          host: 160.153.132.207
           user: fpb
           password: ${{ secrets.FTP_PASSWORD }}
           localDir: build
