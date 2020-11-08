@@ -41,6 +41,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
 
   const handleUserKeyPress = useCallback(
     e => {
+      e.preventDefault();
       const { code } = e;
       let movementX = 0;
       let movementY = 0;
