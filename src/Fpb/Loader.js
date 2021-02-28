@@ -118,7 +118,7 @@ export default ({ datasetUrl, setMetadataCallback }) => {
         dirname(relative(location.pathname, datasetUrl)),
         pathToImages
       );
-      const baseUrl = `${imageDirectory}/${imagePrefix}`;
+      const baseUrl = join(imageDirectory, imagePrefix);
 
       const fetchComponents = [...Array(numAtlases).keys()].map(idx => {
         const i = String(idx).padStart(numberingFormat.length, "0");
