@@ -29,4 +29,6 @@ jobs:
           export_default_credentials: true
 
       - name: Deploy app to GCP
-        run: gcloud app deploy
+        run: |
+          gcloud config set project fpbioimage
+          gcloud app deploy

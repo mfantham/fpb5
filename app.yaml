@@ -1,0 +1,17 @@
+runtime: nodejs14
+env: standard
+instance_class: B2
+handlers:
+  - url: /(.*\..+)$
+    static_files: build/\1
+    require_matching_file: false
+    upload: build/(.*\..+)$
+  - url: /.*
+    static_files: build/index.html
+    require_matching_file: false
+    upload: build/index.html
+  - url: .*
+    script: auto
+manual_scaling:
+  instances: 1
+network: {}
