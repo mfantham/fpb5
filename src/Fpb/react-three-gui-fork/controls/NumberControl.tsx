@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { clamp, map } from "../utils";
 import { BaseControl } from "./BaseControl";
@@ -49,7 +49,7 @@ export function NumberControl({ control, value }: any) {
     max = config.scrub ? Infinity : Math.PI,
     up,
     down,
-    visible = true
+    visible = true,
   } = config;
 
   let distance = config.distance;
@@ -67,7 +67,7 @@ export function NumberControl({ control, value }: any) {
   }, [value, val]);
 
   const handleUserKeyPress = useCallback(
-    e => {
+    (e) => {
       const { code } = e;
       if (code === up || code === down) {
         const direction = code === down ? -1 : 1;
@@ -123,7 +123,7 @@ export function NumberControl({ control, value }: any) {
         value={val}
         min={0}
         max={PRECISION}
-        onChange={e => {
+        onChange={(e) => {
           const num = Number(e.currentTarget.value);
           setVal(num);
           if (stage.current === null) {

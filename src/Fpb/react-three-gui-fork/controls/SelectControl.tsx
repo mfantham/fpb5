@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { BaseControl } from "./BaseControl";
 
@@ -33,7 +32,7 @@ export function SelectControl({ control, value }: any) {
       <Select
         style={{ padding: "0 0 8px 0", marginRight: "-8px" }}
         value={value}
-        onChange={e => control.set(e.currentTarget.value)}
+        onChange={(e) => control.set(e.currentTarget.value)}
       >
         {control.config.items.map((item: string, i: number) => (
           <Option key={i}>{item}</Option>
