@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { BaseControl } from "./BaseControl";
 
@@ -44,7 +44,7 @@ export const Checkbox = styled.input`
 export function BooleanControl({ control, value }: any) {
   const toggle = control?.config?.keys?.toggle;
   const handleUserKeyPress = useCallback(
-    e => {
+    (e) => {
       const { code } = e;
       if (code === toggle) {
         control.set(!value);
@@ -67,7 +67,7 @@ export function BooleanControl({ control, value }: any) {
         id={htmlFor}
         type="checkbox"
         checked={value}
-        onChange={e => control.set(e.currentTarget.checked)}
+        onChange={(e) => control.set(e.currentTarget.checked)}
       />
       <FakeCheckbox htmlFor={htmlFor} />
     </BaseControl>

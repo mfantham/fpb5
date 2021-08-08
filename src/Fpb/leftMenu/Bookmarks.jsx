@@ -41,7 +41,9 @@ export default ({ useBookmarks }) => {
       <ButtonHolder>
         <Button onClick={() => addBookmark()}>Add bookmark</Button>
       </ButtonHolder>
-      {bookmarkButtons}
+      <div style={{overflowY: "auto", maxHeight: 200}}>
+        {bookmarkButtons}
+      </div>
     </>
   );
 };

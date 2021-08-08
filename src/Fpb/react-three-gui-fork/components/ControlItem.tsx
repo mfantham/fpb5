@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BooleanControl } from "../controls/BooleanControl";
 import { ButtonControl } from "../controls/ButtonControl";
 import { ColorControl } from "../controls/ColorControl";
@@ -17,7 +17,7 @@ const ControlType = {
   string: StringControl,
   button: ButtonControl,
   xypad: XYPadControl,
-  clipping: ClippingControl
+  clipping: ClippingControl,
 };
 
 export function ControlItem({ control }: any) {
