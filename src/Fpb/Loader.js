@@ -6,7 +6,7 @@ import { useFetch } from "loti-request";
 
 import { PNG } from "pngjs";
 
-const ceil2 = v => {
+const ceil2 = (v) => {
   v--;
   v |= v >> 1;
   v |= v >> 2;
@@ -38,7 +38,7 @@ const FetchImage = ({ url, fetchCallback }) => {
   const fetchHook = useFetch({
     url: url,
     withProgress: true,
-    responseType: "arraybuffer"
+    responseType: "arraybuffer",
   });
   const { status, progress, data } = fetchHook;
   let image = null;
@@ -49,7 +49,7 @@ const FetchImage = ({ url, fetchCallback }) => {
   fetchCallback({
     progress: progress.loaded / progress.total,
     status,
-    image
+    image,
   });
   return null;
 };
@@ -73,18 +73,18 @@ const imageReducer = (state, action) => {
   return {
     progresses: newProgresses,
     statuses: newStatuses,
-    images: newImages
+    images: newImages,
   };
 };
 
-const initialReducerState = numAtlases => {
+const initialReducerState = (numAtlases) => {
   const initialProgresses = new Array(numAtlases).fill(0);
   const initialStatuses = new Array(numAtlases).fill("NOT_SEND");
   const initialImages = new Array(numAtlases).fill(null);
   return {
     progresses: initialProgresses,
     statuses: initialStatuses,
-    images: initialImages
+    images: initialImages,
   };
 };
 
@@ -104,7 +104,7 @@ export default ({ datasetUrl, setMetadataCallback }) => {
     setFetches(
       <FetchParameters
         datasetUrl={datasetUrl}
-        fetchCallback={pData => setParameterData(pData)}
+        fetchCallback={(pData) => setParameterData(pData)}
       />
     );
   }, [datasetUrl]);
@@ -118,16 +118,16 @@ export default ({ datasetUrl, setMetadataCallback }) => {
         dirname(relative(location.pathname, datasetUrl)),
         pathToImages
       );
-      const baseUrl = `${imageDirectory}/${imagePrefix}`;
+      const baseUrl = join(imageDirectory, imagePrefix);
 
-      const fetchComponents = [...Array(numAtlases).keys()].map(idx => {
+      const fetchComponents = [...Array(numAtlases).keys()].map((idx) => {
         const i = String(idx).padStart(numberingFormat.length, "0");
         const url = `${baseUrl}${i}.png`;
         return (
           <FetchImage
             key={i}
             url={url}
-            fetchCallback={fetchInfo =>
+            fetchCallback={(fetchInfo) =>
               dispatch({ value: fetchInfo, index: idx })
             }
           />
@@ -192,10 +192,10 @@ export default ({ datasetUrl, setMetadataCallback }) => {
                 converted[i] = true;
                 dispatch({ value: { progress: 1 }, index: i });
 
-                if (converted.every(done => done)) {
+                if (converted.every((done) => done)) {
                   setMetadataCallback({
                     images: dataImage3d,
-                    ...parameterData
+                    ...parameterData,
                   });
                 }
               }
@@ -213,10 +213,10 @@ export default ({ datasetUrl, setMetadataCallback }) => {
   let progressText = "";
 
   const downloadsFinished =
-    imagesState.statuses.every(status => status === "SUCCESS") &&
+    imagesState.statuses.every((status) => status === "SUCCESS") &&
     parameterData !== null;
 
-  if (imagesState.statuses.some(status => status === "FAILED")) {
+  if (imagesState.statuses.some((status) => status === "FAILED")) {
     statusText = "A fetch error occured. Please try refreshing the page!";
     progressText = ":(";
   } else if (downloadsFinished) {
