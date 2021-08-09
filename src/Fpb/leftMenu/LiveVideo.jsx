@@ -88,7 +88,6 @@ export default () => {
   return (
     <Button
       onClick={() => toggleLiveRecording()}
-      style={{ width: "50%", marginLeft: "4px" }}
       disabled={recordingState === RECORDING_STATES.SAVING}
     >
       {recordingState === RECORDING_STATES.SAVING ? (

@@ -8,7 +8,7 @@ import Bookmarks from "./Bookmarks";
 import LiveVideo from "./LiveVideo";
 import Video from "./Video";
 
-const Float = styled.div`
+const FloatingLeftMenu = styled.div`
   display: block;
   position: fixed;
   top: 50px;
@@ -57,16 +57,18 @@ export default ({ useBookmarks }) => {
 
   return (
     <>
-      <Float style={{ height: 400 }} open={open}>
+      <FloatingLeftMenu style={{ height: 400 }} open={open}>
         <Items>
           <ButtonHolder>
             <Screenshot />
             <LiveVideo />
           </ButtonHolder>
           <Bookmarks useBookmarks={useBookmarks} />
-          {/*<Video />*/}
+          <ButtonHolder>
+            <Video />
+          </ButtonHolder>
         </Items>
-      </Float>
+      </FloatingLeftMenu>
       <Toggle
         title={open ? "Hide" : "Screenshots, videos, bookmarks"}
         onClick={() => {

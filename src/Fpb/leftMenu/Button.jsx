@@ -17,7 +17,6 @@ const ButtonStyled = styled.button`
   background-color: rgba(255, 255, 255, 0.1);
 
   border-radius: 16px;
-  padding: 0 4px;
 
   :disabled {
     color: rgba(128, 128, 128, 0.75);
@@ -33,6 +32,9 @@ export default ({ onClick, children, ...props }) => {
 };
 
 export const ButtonHolder = styled.div`
-  display: flex;
-  padding: 8px 0;
+  margin: 8px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 32px;
+  grid-gap: 8px;
 `;
