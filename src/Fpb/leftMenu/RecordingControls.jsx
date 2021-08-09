@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { ButtonHolder } from "./Button";
@@ -8,7 +8,7 @@ import Bookmarks from "./Bookmarks";
 import LiveVideo from "./LiveVideo";
 import Video from "./Video";
 
-const Float = styled.div`
+const FloatingLeftMenu = styled.div`
   display: block;
   position: fixed;
   top: 50px;
@@ -52,21 +52,23 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-export default ({ useBookmarks }) => {
+const RecordingControls = ({ useBookmarks }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
     <>
-      <Float style={{ height: 400 }} open={open}>
+      <FloatingLeftMenu style={{ height: 400 }} open={open}>
         <Items>
           <ButtonHolder>
             <Screenshot />
             <LiveVideo />
           </ButtonHolder>
           <Bookmarks useBookmarks={useBookmarks} />
-          {/*<Video />*/}
+          <ButtonHolder>
+            <Video />
+          </ButtonHolder>
         </Items>
-      </Float>
+      </FloatingLeftMenu>
       <Toggle
         title={open ? "Hide" : "Screenshots, videos, bookmarks"}
         onClick={() => {
@@ -78,3 +80,5 @@ export default ({ useBookmarks }) => {
     </>
   );
 };
+
+export default RecordingControls;

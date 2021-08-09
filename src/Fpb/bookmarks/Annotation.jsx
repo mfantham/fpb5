@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -101,7 +101,7 @@ const AnnotationInput = ({ useBookmarks }) => {
   );
 };
 
-export default ({ useBookmarks }) => {
+const Annotation = ({ useBookmarks }) => {
   const {
     bookmark,
     restoreBookmark,
@@ -125,3 +125,5 @@ export default ({ useBookmarks }) => {
     </>
   );
 };
+
+export default Annotation;

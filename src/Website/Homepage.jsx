@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -7,7 +6,7 @@ const ExampleLink = styled(Link)`
   text-decoration: none;
 `;
 
-export default () => {
+const Homepage = () => {
   return (
     <div>
       <h1>FPBioimage Demo Site</h1>
@@ -31,3 +30,5 @@ export default () => {
     </div>
   );
 };
+
+export default Homepage;

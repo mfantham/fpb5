@@ -1,9 +1,8 @@
-import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import styled from "styled-components";
 import RouteManager from "./Website/RouteManager";
 
-const App = styled.div`
+const AppPageHolder = styled.div`
   background-color: #222;
   height: 100vh;
   overflow: hidden;
@@ -15,12 +14,14 @@ const App = styled.div`
   font-size: calc(10px + 2vmin);
 `;
 
-export default () => {
+const App = () => {
   return (
     <BrowserRouter>
-      <App>
+      <AppPageHolder>
         <RouteManager />
-      </App>
+      </AppPageHolder>
     </BrowserRouter>
   );
 };
+
+export default App;

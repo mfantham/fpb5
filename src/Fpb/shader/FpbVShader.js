@@ -1,4 +1,4 @@
-export default `
+const FpbVShader = `
 varying vec3 v_rayO;
 varying vec3 v_rayD;
 
@@ -70,3 +70,5 @@ vec4 objectToClipPosition(vec3 v, mat4 objectToWorld) {
 
  }
 `;
+
+export default FpbVShader;

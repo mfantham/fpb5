@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useControl } from "../react-three-gui-fork";
 
 export const useQuality = () => {
@@ -9,8 +9,8 @@ export const useQuality = () => {
     return Number(localStorage.getItem("zQuality") || 0.4);
   }, []);
   const lsZInterp = useMemo(() => {
-    return localStorage.getItem("zInterp") == "true" || false;
-  });
+    return localStorage.getItem("zInterp") === "true" || false;
+  }, []);
 
   const [xyQuality] = useControl("Quality-XY", {
     type: "number",

@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { extend, useThree, useFrame } from "react-three-fiber";
 import { OrbitControls } from "./three-full-shaken/OrbitControls";
 
 extend({ OrbitControls });
 
-export default ({ target, domReference }) => {
+const TestControls = ({ target, domReference }) => {
   const ref = useRef();
   const { camera } = useThree();
   useFrame(() => ref.current.update());
@@ -19,3 +19,5 @@ export default ({ target, domReference }) => {
     />
   );
 };
+
+export default TestControls;

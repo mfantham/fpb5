@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 import { DataTexture3D, Plane, Vector3 } from "three";
 
@@ -17,17 +17,13 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({
+const FPBVolume = ({
   metadata,
   qualityZ,
   interpolateZ,
   domObject,
   useBookmarks,
 }) => {
-  if (metadata === null) {
-    return null;
-  }
-
   const objectRef = useRef(null);
 
   const [clippingPlane, setClippingPlane] = useState(
@@ -117,3 +113,5 @@ export default ({
     </object3D>
   );
 };
+
+export default FPBVolume;

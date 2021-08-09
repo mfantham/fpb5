@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -72,7 +72,7 @@ const Example = styled(Link)`
   }
 `;
 
-export default () => {
+const Navigation = () => {
   const [touchable, setTouchable] = useState(false);
   const [touched, setTouched] = useState(false);
 
@@ -115,3 +115,5 @@ export default () => {
     </Header>
   );
 };
+
+export default Navigation;

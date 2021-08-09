@@ -1,5 +1,3 @@
-import React from "react";
-import { useThree } from "react-three-fiber";
 import Button from "./Button";
 
 const takeScreenshot = () => {
@@ -15,13 +13,8 @@ const takeScreenshot = () => {
   }, "image/png");
 };
 
-export default () => {
-  return (
-    <Button
-      onClick={() => takeScreenshot()}
-      style={{ width: "50%", marginRight: "4px" }}
-    >
-      Screenshot
-    </Button>
-  );
+const Screenshot = () => {
+  return <Button onClick={() => takeScreenshot()}>Screenshot</Button>;
 };
+
+export default Screenshot;

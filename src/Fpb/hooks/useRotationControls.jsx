@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
 import { Vector3, Euler } from "three";
 import { OBJECT_ROTATE_SPEED } from "../constants";
@@ -104,7 +104,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
     }
     finger.current = touches;
     invalidate();
-  });
+  }, []);
 
   const handlePointerUp = useCallback(() => {
     domObject.removeEventListener("pointermove", handlePointerMove);

@@ -1,11 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import { Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Button, { ButtonHolder } from "./Button";
 
-export default ({ useBookmarks }) => {
+const Bookmarks = ({ useBookmarks }) => {
   const {
     bookmark,
     addBookmark,
@@ -17,7 +16,7 @@ export default ({ useBookmarks }) => {
   const bookmarkButtons = arrayOfBookmarks.map((bookmark, idx) => {
     if (!!bookmark) {
       return (
-        <ButtonHolder key={idx}>
+        <Fragment key={idx}>
           <Button
             onClick={() => {
               restoreBookmark(idx);
@@ -25,23 +24,32 @@ export default ({ useBookmarks }) => {
           >
             Restore bookmark {idx}
           </Button>
-          <Button
-            onClick={() => deleteBookmark(idx)}
-            circular
-            style={{ marginLeft: "8px" }}
-          >
+          <Button onClick={() => deleteBookmark(idx)} circular>
             <FontAwesomeIcon icon={faTrash} />
           </Button>
-        </ButtonHolder>
+        </Fragment>
       );
     }
+    return null;
   });
   return (
     <>
       <ButtonHolder>
-        <Button onClick={() => addBookmark()}>Add bookmark</Button>
+        <Button onClick={() => addBookmark()} style={{ gridColumn: "span 2" }}>
+          Add bookmark
+        </Button>
       </ButtonHolder>
-      <div style={{ overflowY: "auto", maxHeight: 200 }}>{bookmarkButtons}</div>
+      <ButtonHolder
+        style={{
+          gridTemplateColumns: "1fr 32px",
+          overflowY: "auto",
+          maxHeight: 220,
+        }}
+      >
+        {bookmarkButtons}
+      </ButtonHolder>
     </>
   );
 };
+
+export default Bookmarks;

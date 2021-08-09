@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import styled from "styled-components";
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
-import { Canvas, useThree } from "react-three-fiber";
+import { Canvas } from "react-three-fiber";
 
 import BoundaryCube from "./BoundaryCube";
 import FPBVolume from "./FPBVolume";
@@ -15,11 +15,7 @@ const CanvasContainer = styled.div`
   z-index: 0;
 `;
 
-export default ({ metadata, useBookmarks }) => {
-  if (metadata === null) {
-    return null;
-  }
-
+const FpbCanvas = ({ metadata, useBookmarks }) => {
   const [xyQuality, qualityZ, interpolateZ] = useQuality();
 
   const canvasContainerRef = useRef(null);
@@ -59,16 +55,20 @@ export default ({ metadata, useBookmarks }) => {
             <BoundaryCube />
           </Suspense>
           <Suspense fallback={<mesh />}>
-            <FPBVolume
-              useBookmarks={useBookmarks}
-              metadata={metadata}
-              qualityZ={qualityZ}
-              interpolateZ={interpolateZ}
-              domObject={canvasContainerRef.current}
-            />
+            {!!metadata && (
+              <FPBVolume
+                useBookmarks={useBookmarks}
+                metadata={metadata}
+                qualityZ={qualityZ}
+                interpolateZ={interpolateZ}
+                domObject={canvasContainerRef.current}
+              />
+            )}
           </Suspense>
         </group>
       </Canvas>
     </CanvasContainer>
   );
 };
+
+export default FpbCanvas;

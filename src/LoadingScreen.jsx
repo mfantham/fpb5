@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Logo3D from "./Logo3D";
 import Loader from "./Fpb/Loader";
@@ -17,7 +16,7 @@ const LoadingHolder = styled.div`
   pointer-events: none;
 `;
 
-export default ({ datasetUrl, setMetadataCallback }) => {
+const LoadingScreen = ({ datasetUrl, setMetadataCallback }) => {
   return (
     <LoadingHolder>
       <Logo3D />
@@ -28,3 +27,5 @@ export default ({ datasetUrl, setMetadataCallback }) => {
     </LoadingHolder>
   );
 };
+
+export default LoadingScreen;

@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "./Button";
 
 const newSequence = () => {
@@ -9,7 +8,7 @@ const recordSequence = () => {
   console.log("Record a sequence");
 };
 
-export default () => {
+const Video = () => {
   return (
     <>
       <Button
@@ -29,3 +28,5 @@ export default () => {
     </>
   );
 };
+
+export default Video;

@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { keyframes } from "styled-components";
 
 import logo from "./logo-1000.png";
@@ -50,7 +49,7 @@ const Bottom = styled(CubeFace)`
   transform: rotateX(-90deg) translateZ(100px);
 `;
 
-export default () => {
+const Logo3D = () => {
   return (
     <CubeHolder>
       <Cube>
@@ -64,3 +63,5 @@ export default () => {
     </CubeHolder>
   );
 };
+
+export default Logo3D;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Vector3, Euler } from "three";
 import { useThree } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
@@ -10,7 +10,7 @@ import {
   PAN_SPEED,
 } from "./constants";
 
-export default ({ domObject, useBookmarks }) => {
+const FPControls = ({ domObject, useBookmarks }) => {
   const { camera, invalidate } = useThree();
 
   const { bookmark, bookmarkInCreation, addToBookmark } = useBookmarks;
@@ -198,3 +198,5 @@ export default ({ domObject, useBookmarks }) => {
 
   return null;
 };
+
+export default FPControls;

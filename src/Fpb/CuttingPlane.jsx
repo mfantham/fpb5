@@ -1,22 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useControl } from "./react-three-gui-fork";
 import { useLoader } from "react-three-fiber";
 import clipMaskImage from "./clipMask.png";
 
-import {
-  Vector3,
-  Matrix3,
-  Plane,
-  Matrix4,
-  Quaternion,
-  TextureLoader,
-} from "three";
+import { Vector3, Matrix3, Plane, TextureLoader } from "three";
 
-export default ({ callback, parentQuaternion, useBookmarks }) => {
+const CuttingPlane = ({ callback, parentQuaternion, useBookmarks }) => {
   const delay = 2000;
   let timeout;
   const [showing, setShowing] = useState(false);
-  const [plane, setPlane] = useState(new Plane());
   const planeRef = useRef(null);
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
   const clipMask = useLoader(TextureLoader, clipMaskImage);
@@ -117,3 +109,5 @@ export default ({ callback, parentQuaternion, useBookmarks }) => {
     </group>
   );
 };
+
+export default CuttingPlane;

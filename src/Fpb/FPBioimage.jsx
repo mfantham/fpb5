@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Controls } from "./react-three-gui-fork";
@@ -35,7 +35,9 @@ const FPBioimageApp = ({ datasetUrl }) => {
 
   return (
     <>
-      <FpbCanvas metadata={metadata} useBookmarks={useBookmarksHook} />
+      {!!metadata && (
+        <FpbCanvas metadata={metadata} useBookmarks={useBookmarksHook} />
+      )}
       <RecordingControls useBookmarks={useBookmarksHook} />
       <Controls />
       <Annotation useBookmarks={useBookmarksHook} />
@@ -43,10 +45,12 @@ const FPBioimageApp = ({ datasetUrl }) => {
   );
 };
 
-export default ({ style, datasetUrl }) => {
+const FPBioimage = ({ style, datasetUrl }) => {
   return (
     <FPBioimageHolder style={style}>
       <FPBioimageApp datasetUrl={datasetUrl} />
     </FPBioimageHolder>
   );
 };
+
+export default FPBioimage;

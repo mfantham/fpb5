@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Spinner from "../common/Spinner";
 import Button from "./Button";
@@ -65,7 +65,7 @@ const stopRecording = async (mediaRecorder, blobs) => {
   URL.revokeObjectURL(videoUrl);
 };
 
-export default () => {
+const LiveVideo = () => {
   // This will have to be pulled up sometime
   const [recordingState, setRecordingState] = useState(
     RECORDING_STATES.DEFAULT
@@ -88,7 +88,6 @@ export default () => {
   return (
     <Button
       onClick={() => toggleLiveRecording()}
-      style={{ width: "50%", marginLeft: "4px" }}
       disabled={recordingState === RECORDING_STATES.SAVING}
     >
       {recordingState === RECORDING_STATES.SAVING ? (
@@ -102,3 +101,5 @@ export default () => {
     </Button>
   );
 };
+
+export default LiveVideo;
