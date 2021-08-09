@@ -2,7 +2,7 @@ export const PROJECTIONS = [
   "Transparency",
   "Max. projection",
   "Max. RGB average",
-  "Iso-surface"
+  "Iso-surface",
 ];
 export const CAMERA_ROTATE_SPEED = -0.003;
 export const SCROLL_ZOOM_SPEED = 0.1;

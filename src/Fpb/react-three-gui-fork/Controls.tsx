@@ -10,7 +10,7 @@ const Float = styled.div<{ open: boolean }>`
   display: block;
   position: fixed;
   top: 50px;
-  right: ${p => (p.open ? 0 : "-300px")};
+  right: ${(p) => (p.open ? 0 : "-300px")};
   width: 300px;
   max-width: 100vw;
   background-color: #2228;
@@ -67,7 +67,7 @@ export const Controls = React.memo(() => {
 
   useEffect(() => {
     controlsEmitter.update = () => {
-      set(n => n + 1);
+      set((n) => n + 1);
       return null;
     };
   }, []);

@@ -10,7 +10,7 @@ export default ({ boxSize = 10 }) => {
   const [boundaryColor, setBoundaryColor] = useControl("Boundary", {
     type: "color",
     value: "#7f7f7f",
-    index: 5
+    index: 5,
   });
 
   const faces = [
@@ -19,7 +19,7 @@ export default ({ boxSize = 10 }) => {
     { position: [boxSize / 2, 0, 0], rotation: [0, -PI / 2, 0] },
     { position: [-boxSize / 2, 0, 0], rotation: [0, PI / 2, 0] },
     { position: [0, boxSize / 2, 0], rotation: [PI / 2, 0, 0] },
-    { position: [0, -boxSize / 2, 0], rotation: [-PI / 2, 0, 0] }
+    { position: [0, -boxSize / 2, 0], rotation: [-PI / 2, 0, 0] },
   ];
 
   const texture = useLoader(TextureLoader, wall);

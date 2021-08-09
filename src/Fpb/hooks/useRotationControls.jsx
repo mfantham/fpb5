@@ -6,7 +6,7 @@ import { OBJECT_ROTATE_SPEED } from "../constants";
 export const useRotationControls = (objectToRotate, domObject = window) => {
   const { camera, invalidate } = useThree();
 
-  const setRotation = rotation => {
+  const setRotation = (rotation) => {
     if (objectToRotate && rotation) {
       const { x, y, z } = objectToRotate.rotation;
       objectToRotate.setRotationFromEuler(new Euler(x, y, z, "XYZ"));
@@ -17,7 +17,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
   };
 
   const handlePointerMove = useCallback(
-    e => {
+    (e) => {
       const { movementX, movementY, buttons, pointerType } = e;
       if (pointerType !== "mouse" || buttons === 1) {
         const worldAxisY = new Vector3(1, 0, 0).applyQuaternion(
@@ -40,7 +40,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
   );
 
   const handleUserKeyPress = useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
       const { code } = e;
       let movementX = 0;
@@ -85,7 +85,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
   }, [handleUserKeyPress, objectToRotate, camera.quaternion]);
 
   const finger = useRef(null);
-  const handleTouchMove = useCallback(e => {
+  const handleTouchMove = useCallback((e) => {
     const { touches } = e;
     if (touches.length < 2 && finger.current && finger.current.length < 2) {
       const movementX = touches[0].clientX - finger.current[0].clientX;
@@ -114,7 +114,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
   }, [handlePointerMove, handleTouchMove, domObject]);
 
   const handlePointerDown = useCallback(
-    e => {
+    (e) => {
       if (e.pointerType !== "touch") {
         domObject.addEventListener("pointermove", handlePointerMove);
       } else {

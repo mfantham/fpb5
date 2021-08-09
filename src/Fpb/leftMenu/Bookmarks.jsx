@@ -11,7 +11,7 @@ export default ({ useBookmarks }) => {
     addBookmark,
     restoreBookmark,
     deleteBookmark,
-    arrayOfBookmarks
+    arrayOfBookmarks,
   } = useBookmarks;
 
   const bookmarkButtons = arrayOfBookmarks.map((bookmark, idx) => {
@@ -41,9 +41,7 @@ export default ({ useBookmarks }) => {
       <ButtonHolder>
         <Button onClick={() => addBookmark()}>Add bookmark</Button>
       </ButtonHolder>
-      <div style={{overflowY: "auto", maxHeight: 200}}>
-        {bookmarkButtons}
-      </div>
+      <div style={{ overflowY: "auto", maxHeight: 200 }}>{bookmarkButtons}</div>
     </>
   );
 };

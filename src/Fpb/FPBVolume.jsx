@@ -13,7 +13,7 @@ const calculateScale = (voxelSize, res, size) => {
   const { x, y, z } = voxelSize;
   const rawScale = [x * res[0], y * res[1], z * res[2]];
   const maxScale = Math.max(...rawScale);
-  const scale = rawScale.map(v => (v * size) / maxScale);
+  const scale = rawScale.map((v) => (v * size) / maxScale);
   return scale;
 };
 
@@ -22,7 +22,7 @@ export default ({
   qualityZ,
   interpolateZ,
   domObject,
-  useBookmarks
+  useBookmarks,
 }) => {
   if (metadata === null) {
     return null;
@@ -48,8 +48,8 @@ export default ({
           projection: PROJECTIONS.indexOf(projection.value),
           opacity: opacity.value,
           intensity: intensity.value,
-          threshold: threshold.value
-        }
+          threshold: threshold.value,
+        },
       };
       addToBookmark("data", value);
     }
@@ -61,7 +61,7 @@ export default ({
     projection.value,
     opacity.value,
     intensity.value,
-    threshold.value
+    threshold.value,
   ]);
 
   const {
@@ -69,7 +69,7 @@ export default ({
     voxelSize,
     sliceWidth,
     sliceHeight,
-    numberOfImages
+    numberOfImages,
   } = metadata;
 
   const texture3d = new DataTexture3D(
@@ -96,7 +96,7 @@ export default ({
     <object3D ref={objectRef} scale={scale} renderOrder={2}>
       <Suspense>
         <CuttingPlane
-          callback={matrix => setClippingPlane(matrix)}
+          callback={(matrix) => setClippingPlane(matrix)}
           parentQuaternion={objectRef.current?.quaternion}
           useBookmarks={useBookmarks}
         />

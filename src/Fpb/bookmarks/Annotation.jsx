@@ -15,7 +15,7 @@ const AnnotationDiv = styled.div`
   backdrop-filter: blur(20px);
   border-radius: 8px;
   height: 100px;
-  bottom: ${p => (p.open ? "65px" : "-165px")};
+  bottom: ${(p) => (p.open ? "65px" : "-165px")};
   width: 80vw;
   overflow: auto;
   left: 0;
@@ -29,7 +29,7 @@ const CloseButton = styled.button`
   position: absolute;
   font-size: 1.4rem;
   color: white;
-  bottom: ${p => (p.open ? "141px" : "-96px")};
+  bottom: ${(p) => (p.open ? "141px" : "-96px")};
   right: calc(10vw - 24px);
   width: 48px;
   height: 48px;
@@ -65,7 +65,7 @@ const AnnotationInput = ({ useBookmarks }) => {
   const inputRef = useRef(null);
   const { bookmarkInCreation, saveBookmark, addToBookmark } = useBookmarks;
 
-  const handleUserKeyPress = e => {
+  const handleUserKeyPress = (e) => {
     e.stopPropagation();
     if (e.key === "Enter" && inputRef.current) {
       addToBookmark("caption", inputRef.current.value);
@@ -76,7 +76,7 @@ const AnnotationInput = ({ useBookmarks }) => {
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.addEventListener("keypress", handleUserKeyPress);
-      inputRef.current.addEventListener("keydown", e => e.stopPropagation());
+      inputRef.current.addEventListener("keydown", (e) => e.stopPropagation());
       setTimeout(() => {
         inputRef.current.focus();
       }, SLIDE_TIME);
@@ -85,7 +85,7 @@ const AnnotationInput = ({ useBookmarks }) => {
     return () => {
       if (inputRef.current) {
         inputRef.current.removeEventListener("keypress", handleUserKeyPress);
-        inputRef.current.removeEventListener("keydown", e =>
+        inputRef.current.removeEventListener("keydown", (e) =>
           e.stopPropagation()
         );
       }
@@ -106,7 +106,7 @@ export default ({ useBookmarks }) => {
     bookmark,
     restoreBookmark,
     closeBookmark,
-    bookmarkInCreation
+    bookmarkInCreation,
   } = useBookmarks;
   const open = (!!bookmark && !!bookmark.caption) || !!bookmarkInCreation.idx;
 

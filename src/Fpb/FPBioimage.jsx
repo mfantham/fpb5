@@ -28,7 +28,7 @@ const FPBioimageApp = ({ datasetUrl }) => {
     return (
       <LoadingScreen
         datasetUrl={datasetUrl}
-        setMetadataCallback={d => setMetadata(d)}
+        setMetadataCallback={(d) => setMetadata(d)}
       />
     );
   }
