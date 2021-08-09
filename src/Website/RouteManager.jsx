@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "./useQuery";
 import Navigation from "./Navigation";
 import Homepage from "./Homepage";

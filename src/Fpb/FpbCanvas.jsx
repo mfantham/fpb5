@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import styled from "styled-components";
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
 import { Canvas } from "react-three-fiber";

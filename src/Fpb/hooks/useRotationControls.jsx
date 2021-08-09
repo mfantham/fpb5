@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
 import { Vector3, Euler } from "three";
 import { OBJECT_ROTATE_SPEED } from "../constants";

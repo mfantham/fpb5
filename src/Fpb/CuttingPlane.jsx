@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useControl } from "./react-three-gui-fork";
 import { useLoader } from "react-three-fiber";
 import clipMaskImage from "./clipMask.png";

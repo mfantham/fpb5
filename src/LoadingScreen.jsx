@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Logo3D from "./Logo3D";
 import Loader from "./Fpb/Loader";

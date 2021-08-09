@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import path from "path";

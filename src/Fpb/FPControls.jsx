@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Vector3, Euler } from "three";
 import { useThree } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
