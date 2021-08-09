@@ -5,6 +5,7 @@ import path from "path";
 import { useFetch } from "loti-request";
 
 import { PNG } from "pngjs";
+import Spinner from "./common/Spinner";
 
 const ceil2 = (v) => {
   v--;
@@ -88,7 +89,7 @@ const initialReducerState = (numAtlases) => {
   };
 };
 
-export default ({ datasetUrl, setMetadataCallback }) => {
+const Loader = ({ datasetUrl, setMetadataCallback }) => {
   const numAtlases = 8;
 
   const location = useLocation();
@@ -221,13 +222,17 @@ export default ({ datasetUrl, setMetadataCallback }) => {
     progressText = ":(";
   } else if (downloadsFinished) {
     statusText = "Converting slices to 3D volume";
-    progressText = "...";
+    progressText = <Spinner />;
     if (!converting) {
       setConverting(true);
     }
   } else {
     statusText = "Downloading 3D dataset image slices";
-    progressText = `${totalProgress.toFixed(1)}%`;
+    progressText = isFinite(totalProgress) ? (
+      `${totalProgress.toFixed(1)}%`
+    ) : (
+      <Spinner />
+    );
   }
 
   return (
@@ -238,3 +243,5 @@ export default ({ datasetUrl, setMetadataCallback }) => {
     </>
   );
 };
+
+export default Loader;
