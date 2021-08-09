@@ -12,7 +12,7 @@ const Float = styled.div`
   display: block;
   position: fixed;
   top: 50px;
-  left: ${p => (p.open ? 0 : "-300px")};
+  left: ${(p) => (p.open ? 0 : "-300px")};
   width: 300px;
   max-width: 100vw;
   background-color: #2228;

@@ -24,17 +24,17 @@ const Heading = styled.h2`
     /* transition: transform 0.25s ease-out; */
   }
   &:before {
-    transform: rotate(${props => (props.open ? 0 : 90)}deg);
+    transform: rotate(${(props) => (props.open ? 0 : 90)}deg);
   }
 
   &:after {
-    transform: rotate(${props => (props.open ? 0 : 180)}deg);
+    transform: rotate(${(props) => (props.open ? 0 : 180)}deg);
   }
 `;
 
 const Container = styled.div`
   padding: 16px;
-  display: ${props => (props.open ? "block" : "none")};
+  display: ${(props) => (props.open ? "block" : "none")};
   max-height: calc(100vh - 190px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -53,7 +53,7 @@ export const ControlGroup = ({ title, controls }) => {
   return (
     <div>
       {isDefault && (
-        <Heading open={open} onClick={() => setOpen(o => !o)}>
+        <Heading open={open} onClick={() => setOpen((o) => !o)}>
           {title}
         </Heading>
       )}

@@ -9,7 +9,7 @@ import {
   Plane,
   Matrix4,
   Quaternion,
-  TextureLoader
+  TextureLoader,
 } from "three";
 
 export default ({ callback, parentQuaternion, useBookmarks }) => {
@@ -30,7 +30,7 @@ export default ({ callback, parentQuaternion, useBookmarks }) => {
       scrub: true,
       min: { z: -1 },
       max: { z: 1 },
-      index: 4
+      index: 4,
     }
   );
 

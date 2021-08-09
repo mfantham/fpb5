@@ -26,7 +26,7 @@ const Input = styled.input`
 export const StringControl = React.memo(({ control, value }: any) => {
   return (
     <BaseControl label={control.name}>
-      <Input value={value} onChange={e => control.set(e.target.value)} />
+      <Input value={value} onChange={(e) => control.set(e.target.value)} />
     </BaseControl>
   );
 });

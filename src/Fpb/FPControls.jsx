@@ -7,7 +7,7 @@ import {
   CAMERA_ROTATE_SPEED,
   SCROLL_ZOOM_SPEED,
   TOUCH_SPEED,
-  PAN_SPEED
+  PAN_SPEED,
 } from "./constants";
 
 export default ({ domObject, useBookmarks }) => {
@@ -28,7 +28,7 @@ export default ({ domObject, useBookmarks }) => {
     camera.rotation.z,
     camera.position.x,
     camera.position.y,
-    camera.position.z
+    camera.position.z,
   ]);
 
   useEffect(() => {
@@ -45,11 +45,11 @@ export default ({ domObject, useBookmarks }) => {
     type: "boolean",
     value: false,
     index: 10,
-    keys: { toggle: "KeyF" }
+    keys: { toggle: "KeyF" },
   });
 
   const handlePointerMove = useCallback(
-    e => {
+    (e) => {
       const { movementX, movementY, buttons } = e;
       if (firstPersonMode && buttons === 0) {
         camera.rotateOnWorldAxis(
@@ -80,7 +80,7 @@ export default ({ domObject, useBookmarks }) => {
 
   const fingers = useRef(null);
 
-  const handleDoubleTouchMove = e => {
+  const handleDoubleTouchMove = (e) => {
     const { touches } = e;
     if (fingers.current) {
       const o0 = fingers.current[0];
@@ -109,7 +109,7 @@ export default ({ domObject, useBookmarks }) => {
     invalidate();
   };
 
-  const handleTouchStart = e => {
+  const handleTouchStart = (e) => {
     e.preventDefault();
     if (e.touches.length === 2) {
       window.addEventListener("touchmove", handleDoubleTouchMove);
@@ -137,13 +137,13 @@ export default ({ domObject, useBookmarks }) => {
     };
   }, []);
 
-  const handleScroll = useCallback(e => {
+  const handleScroll = useCallback((e) => {
     const forward = e.deltaY > 0 ? 1 : -1;
     camera.translateZ(SCROLL_ZOOM_SPEED * forward);
     invalidate();
   }, []);
 
-  const handleUserKeyPress = useCallback(e => {
+  const handleUserKeyPress = useCallback((e) => {
     const { code } = e;
     let right = 0;
     let forward = 0;
@@ -179,7 +179,7 @@ export default ({ domObject, useBookmarks }) => {
     camera.translateZ(forward);
   }, []);
 
-  const handleContextMenu = useCallback(e => {
+  const handleContextMenu = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     return false;

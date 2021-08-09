@@ -7,7 +7,7 @@ const takeScreenshot = () => {
   const link = document.createElement("a");
   link.download = "screenshot.png";
 
-  canvas.toBlob(blob => {
+  canvas.toBlob((blob) => {
     const screenshotUrl = URL.createObjectURL(blob);
     link.href = screenshotUrl;
     link.click();

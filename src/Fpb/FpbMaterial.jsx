@@ -11,7 +11,7 @@ export default ({
   opacity,
   intensity,
   threshold,
-  clippingPlane
+  clippingPlane,
 }) => {
   const materialRef = useRef();
 
@@ -26,7 +26,7 @@ export default ({
     u_texture3d: { value: texture3d },
     u_clipping_on: { value: clippingPlane.active },
     u_clipping_normal: { value: clippingPlane.normal },
-    u_clipping_offset: { value: clippingPlane.constant }
+    u_clipping_offset: { value: clippingPlane.constant },
   };
 
   useUniform("u_steps", steps, materialRef);

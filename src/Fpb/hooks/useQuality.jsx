@@ -17,19 +17,19 @@ export const useQuality = () => {
     value: lsXYQuality || 0.4,
     min: 0.1,
     max: 1.1,
-    index: 6
+    index: 6,
   });
   const [zQuality] = useControl("Quality-Z", {
     type: "number",
     value: lsZQuality || 0.4,
     min: 0.1,
     max: 1.5,
-    index: 7
+    index: 7,
   });
   const [zInterp] = useControl("Interpolate-Z", {
     type: "boolean",
     value: !!lsZInterp,
-    index: 7.5
+    index: 7.5,
   });
 
   useEffect(() => {

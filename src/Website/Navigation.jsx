@@ -38,7 +38,7 @@ const ExamplesHolder = styled(NavLink)`
   position: relative;
   cursor: default;
 
-  ${p =>
+  ${(p) =>
     !p.touchable
       ? `:hover div {
     visibility: visible;

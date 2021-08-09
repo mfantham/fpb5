@@ -23,7 +23,7 @@ const LabelHolder = styled.div`
 const ControlHolder = styled.div<{ open: boolean }>`
   display: flex;
   flex-direction: row;
-  height: ${p => (p.open ? "155px" : "0px")};
+  height: ${(p) => (p.open ? "155px" : "0px")};
   overflow: hidden;
   transition: all 0.4s ease;
 `;
@@ -75,7 +75,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
   const [cursor, setCursor] = useSpring(() => ({
     from: {
       x: value.x,
-      y: value.y
+      y: value.y,
     },
     onFrame({ x, y }: any) {
       if (!scrub) {
@@ -87,10 +87,10 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
           x: vx < THRESHOLD && vx > -THRESHOLD ? 0 : vx,
           y: vy < THRESHOLD && vy > -THRESHOLD ? 0 : vy,
           z: value.z,
-          enabled: value.enabled
+          enabled: value.enabled,
         }));
       }
-    }
+    },
   }));
 
   const bind = useDrag(({ down, movement }) => {
@@ -109,7 +109,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
           (stage as any).current.y +
           map(movement[1], 0, height / 2, 0, distance),
         z: value.z,
-        enabled: value.enabled
+        enabled: value.enabled,
       }));
     }
   });
@@ -119,7 +119,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
       x: value.x,
       y: value.y,
       z: v,
-      enabled: value.enabled
+      enabled: value.enabled,
     }));
   };
 
@@ -128,7 +128,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
       x: value.x,
       y: value.y,
       z: value.z,
-      enabled: v
+      enabled: v,
     }));
   };
 
@@ -148,7 +148,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
             id={checkboxId}
             type="checkbox"
             checked={value.enabled}
-            onChange={e => handleToggle(e.currentTarget.checked)}
+            onChange={(e) => handleToggle(e.currentTarget.checked)}
           />
           <FakeCheckbox htmlFor={checkboxId} />
         </CheckboxHolder>
@@ -160,7 +160,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
             userSelect: "none",
             touchAction: "none",
             borderRadius: 8,
-            border: "1px solid #f0f0f0"
+            border: "1px solid #f0f0f0",
           }}
           width={width}
           height={height}
@@ -175,7 +175,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
               transform: interpolate(
                 [x, y],
                 (x, y) => `translate(${x}px, ${y}px)`
-              )
+              ),
             }}
           >
             <circle r={8} fill="#ccc" />
@@ -186,7 +186,7 @@ export const ClippingControl = React.memo(({ control, value }: any) => {
           <VerticalSlider
             type="range"
             step={0.01}
-            onChange={e => handleZ(parseFloat(e.target.value))}
+            onChange={(e) => handleZ(parseFloat(e.target.value))}
             value={value.z}
             min={min.z}
             max={max.z}

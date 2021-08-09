@@ -6,7 +6,7 @@ import Button from "./Button";
 const RECORDING_STATES = {
   DEFAULT: 0,
   RECORDING: 1,
-  SAVING: 2
+  SAVING: 2,
 };
 
 const startRecording = (mediaRecorder, blobs) => {
@@ -41,7 +41,7 @@ const startRecording = (mediaRecorder, blobs) => {
     }
   }
 
-  mediaRecorder.current.ondataavailable = e => {
+  mediaRecorder.current.ondataavailable = (e) => {
     if (e?.data?.size > 0) {
       blobs.current.push(e.data);
     }
