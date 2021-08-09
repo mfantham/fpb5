@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import FpbShader from "./shader/FpbShader";
 import { useUniform } from "./hooks/useUniform";
 
-export default ({
+const FpbMaterial = ({
   texture3d,
   steps,
   interpolation,
@@ -42,3 +42,5 @@ export default ({
 
   return <shaderMaterial attach="material" ref={materialRef} args={[shader]} />;
 };
+
+export default FpbMaterial;

@@ -9,7 +9,7 @@ const recordSequence = () => {
   console.log("Record a sequence");
 };
 
-export default () => {
+const Video = () => {
   return (
     <>
       <Button
@@ -29,3 +29,5 @@ export default () => {
     </>
   );
 };
+
+export default Video;

@@ -10,7 +10,7 @@ import {
   PAN_SPEED,
 } from "./constants";
 
-export default ({ domObject, useBookmarks }) => {
+const FPControls = ({ domObject, useBookmarks }) => {
   const { camera, invalidate } = useThree();
 
   const { bookmark, bookmarkInCreation, addToBookmark } = useBookmarks;
@@ -198,3 +198,5 @@ export default ({ domObject, useBookmarks }) => {
 
   return null;
 };
+
+export default FPControls;

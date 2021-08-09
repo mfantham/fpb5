@@ -7,9 +7,11 @@ const uniforms = {
   u_textures: { value: [] },
 };
 
-export default {
+const FpbShader = {
   uniforms,
   vertexShader: VertexShader,
   fragmentShader: FragmentShader,
   side: BackSide,
 };
+
+export default FpbShader;

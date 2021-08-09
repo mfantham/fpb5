@@ -17,17 +17,13 @@ const calculateScale = (voxelSize, res, size) => {
   return scale;
 };
 
-export default ({
+const FPBVolume = ({
   metadata,
   qualityZ,
   interpolateZ,
   domObject,
   useBookmarks,
 }) => {
-  if (metadata === null) {
-    return null;
-  }
-
   const objectRef = useRef(null);
 
   const [clippingPlane, setClippingPlane] = useState(
@@ -117,3 +113,5 @@ export default ({
     </object3D>
   );
 };
+
+export default FPBVolume;

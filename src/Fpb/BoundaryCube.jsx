@@ -6,7 +6,7 @@ import wall from "./grid.png";
 
 const { PI } = Math;
 
-export default ({ boxSize = 10 }) => {
+const BoundaryCube = ({ boxSize = 10 }) => {
   const [boundaryColor, setBoundaryColor] = useControl("Boundary", {
     type: "color",
     value: "#7f7f7f",
@@ -48,3 +48,5 @@ export default ({ boxSize = 10 }) => {
 
   return <object3D>{meshes}</object3D>;
 };
+
+export default BoundaryCube;

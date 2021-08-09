@@ -104,7 +104,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
     }
     finger.current = touches;
     invalidate();
-  });
+  }, []);
 
   const handlePointerUp = useCallback(() => {
     domObject.removeEventListener("pointermove", handlePointerMove);

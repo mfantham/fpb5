@@ -23,7 +23,7 @@ const ButtonStyled = styled.button`
   }
 `;
 
-export default ({ onClick, children, ...props }) => {
+const Button = ({ onClick, children, ...props }) => {
   return (
     <ButtonStyled onClick={onClick} {...props}>
       {children}
@@ -38,3 +38,5 @@ export const ButtonHolder = styled.div`
   grid-template-rows: 32px;
   grid-gap: 8px;
 `;
+
+export default Button;

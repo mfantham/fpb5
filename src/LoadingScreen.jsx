@@ -17,7 +17,7 @@ const LoadingHolder = styled.div`
   pointer-events: none;
 `;
 
-export default ({ datasetUrl, setMetadataCallback }) => {
+const LoadingScreen = ({ datasetUrl, setMetadataCallback }) => {
   return (
     <LoadingHolder>
       <Logo3D />
@@ -28,3 +28,5 @@ export default ({ datasetUrl, setMetadataCallback }) => {
     </LoadingHolder>
   );
 };
+
+export default LoadingScreen;

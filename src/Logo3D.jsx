@@ -50,7 +50,7 @@ const Bottom = styled(CubeFace)`
   transform: rotateX(-90deg) translateZ(100px);
 `;
 
-export default () => {
+const Logo3D = () => {
   return (
     <CubeHolder>
       <Cube>
@@ -64,3 +64,5 @@ export default () => {
     </CubeHolder>
   );
 };
+
+export default Logo3D;

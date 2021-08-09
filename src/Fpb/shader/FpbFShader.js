@@ -1,4 +1,4 @@
-export default `
+const FpbFShader = `
 precision highp float;
 precision mediump sampler3D;
 
@@ -119,3 +119,5 @@ void main() {
   gl_FragColor = rayColor * u_intensity;
 }
 `;
+
+export default FpbFShader;

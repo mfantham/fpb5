@@ -4,7 +4,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Button, { ButtonHolder } from "./Button";
 
-export default ({ useBookmarks }) => {
+const Bookmarks = ({ useBookmarks }) => {
   const {
     bookmark,
     addBookmark,
@@ -30,6 +30,7 @@ export default ({ useBookmarks }) => {
         </Fragment>
       );
     }
+    return null;
   });
   return (
     <>
@@ -50,3 +51,5 @@ export default ({ useBookmarks }) => {
     </>
   );
 };
+
+export default Bookmarks;

@@ -52,7 +52,7 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-export default ({ useBookmarks }) => {
+const RecordingControls = ({ useBookmarks }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
@@ -80,3 +80,5 @@ export default ({ useBookmarks }) => {
     </>
   );
 };
+
+export default RecordingControls;

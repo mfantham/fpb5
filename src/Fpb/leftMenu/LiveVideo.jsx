@@ -65,7 +65,7 @@ const stopRecording = async (mediaRecorder, blobs) => {
   URL.revokeObjectURL(videoUrl);
 };
 
-export default () => {
+const LiveVideo = () => {
   // This will have to be pulled up sometime
   const [recordingState, setRecordingState] = useState(
     RECORDING_STATES.DEFAULT
@@ -101,3 +101,5 @@ export default () => {
     </Button>
   );
 };
+
+export default LiveVideo;
