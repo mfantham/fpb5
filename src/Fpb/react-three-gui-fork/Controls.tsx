@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ControlGroup } from "./components/ControlGroup";
 import { controls, controlsEmitter } from "./index";
@@ -61,7 +61,7 @@ const groupByGroup = (items: any): any => {
   }, {} as { [key: string]: any });
 };
 
-export const Controls = React.memo(() => {
+export const Controls = memo(() => {
   const [open, setOpen] = useState<boolean>(window.innerWidth > 600);
   const [, set] = useState<number>(0);
 
