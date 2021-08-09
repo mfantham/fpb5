@@ -29,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "gcp-build": "npm run build",
-    "deploy": "gcloud config set account marcusfantham@gmail.com && gcloud config set project fpbioimage && gcloud app deploy"
+    "deploy": "gcloud app deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
