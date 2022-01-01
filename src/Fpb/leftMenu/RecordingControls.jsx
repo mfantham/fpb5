@@ -52,7 +52,7 @@ const Items = styled.div`
   padding: 58px 16px 16px 16px;
 `;
 
-const RecordingControls = ({ useBookmarks }) => {
+const RecordingControls = ({ useBookmarks, useSequence }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
 
   return (
@@ -65,7 +65,7 @@ const RecordingControls = ({ useBookmarks }) => {
           </ButtonHolder>
           <Bookmarks useBookmarks={useBookmarks} />
           <ButtonHolder>
-            <Video />
+            <Video useSequence={useSequence} />
           </ButtonHolder>
         </Items>
       </FloatingLeftMenu>

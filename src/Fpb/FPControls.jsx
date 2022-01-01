@@ -10,10 +10,11 @@ import {
   PAN_SPEED,
 } from "./constants";
 
-const FPControls = ({ domObject, useBookmarks }) => {
+const FPControls = ({ domObject, useBookmarks, useSequence }) => {
   const { camera, invalidate } = useThree();
 
   const { bookmark, bookmarkInCreation, addToBookmark } = useBookmarks;
+  const { stepInCreation, addToStep } = useSequence;
 
   useEffect(() => {
     if (bookmarkInCreation.idx !== null) {
@@ -21,8 +22,14 @@ const FPControls = ({ domObject, useBookmarks }) => {
       const value = { position: camera.position, rotation: { x, y, z } };
       addToBookmark("camera", value);
     }
+    if (stepInCreation?.idx !== null) {
+      const { x, y, z } = camera.rotation;
+      const value = { position: camera.position, rotation: { x, y, z } };
+      addToStep("camera", value);
+    }
   }, [
     bookmarkInCreation.idx,
+    stepInCreation.idx,
     camera.rotation.x,
     camera.rotation.y,
     camera.rotation.z,

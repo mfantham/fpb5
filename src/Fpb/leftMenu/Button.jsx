@@ -31,7 +31,7 @@ const Button = ({ onClick, children, ...props }) => {
 };
 
 export const ButtonHolder = styled.div`
-  margin: 8px 0;
+  margin: 16px 0 8px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 32px;

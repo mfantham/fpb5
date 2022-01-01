@@ -23,6 +23,7 @@ const FPBVolume = ({
   interpolateZ,
   domObject,
   useBookmarks,
+  useSequence,
 }) => {
   const objectRef = useRef(null);
 
@@ -31,12 +32,13 @@ const FPBVolume = ({
   );
 
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
+  const { addToStep, stepInCreation } = useSequence;
   const [setRotation] = useRotationControls(objectRef.current, domObject);
   const [rendering, setRendering] = useRendering(metadata);
   const { projection, opacity, intensity, threshold, size } = rendering;
 
   useEffect(() => {
-    if (bookmarkInCreation.idx !== null) {
+    if (bookmarkInCreation.idx !== null || stepInCreation.idx !== null) {
       const { x, y, z } = objectRef.current.rotation;
       const value = {
         rotation: { x, y, z },
@@ -47,10 +49,16 @@ const FPBVolume = ({
           threshold: threshold.value,
         },
       };
-      addToBookmark("data", value);
+      if (bookmarkInCreation.idx !== null) {
+        addToBookmark("data", value);
+      }
+      if (stepInCreation.idx !== null) {
+        addToStep("data", value);
+      }
     }
   }, [
     bookmarkInCreation.idx,
+    stepInCreation.idx,
     objectRef.current?.rotation?.x,
     objectRef.current?.rotation?.y,
     objectRef.current?.rotation?.z,
@@ -95,6 +103,7 @@ const FPBVolume = ({
           callback={(matrix) => setClippingPlane(matrix)}
           parentQuaternion={objectRef.current?.quaternion}
           useBookmarks={useBookmarks}
+          useSequence={useSequence}
         />
       </Suspense>
       <mesh>

@@ -15,7 +15,7 @@ const CanvasContainer = styled.div`
   z-index: 0;
 `;
 
-const FpbCanvas = ({ metadata, useBookmarks }) => {
+const FpbCanvas = ({ metadata, useBookmarks, useSequence }) => {
   const [xyQuality, qualityZ, interpolateZ] = useQuality();
 
   const canvasContainerRef = useRef(null);
@@ -49,6 +49,7 @@ const FpbCanvas = ({ metadata, useBookmarks }) => {
         <FPControls
           domObject={canvasContainerRef.current}
           useBookmarks={useBookmarks}
+          useSequence={useSequence}
         />
         <group position={shiftForVr}>
           <Suspense fallback={<mesh />}>
@@ -58,6 +59,7 @@ const FpbCanvas = ({ metadata, useBookmarks }) => {
             {!!metadata && (
               <FPBVolume
                 useBookmarks={useBookmarks}
+                useSequence={useSequence}
                 metadata={metadata}
                 qualityZ={qualityZ}
                 interpolateZ={interpolateZ}

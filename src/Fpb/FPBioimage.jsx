@@ -8,6 +8,8 @@ import FpbCanvas from "./FpbCanvas";
 import LoadingScreen from "../LoadingScreen";
 import RecordingControls from "./leftMenu/RecordingControls";
 import { useBookmarks } from "./hooks/useBookmarks";
+import { EditSequence } from "./bookmarks/EditSequence";
+import { useSequence } from "./hooks/useSequence";
 
 const FPBioimageHolder = styled.div`
   position: absolute;
@@ -19,6 +21,7 @@ const FPBioimageHolder = styled.div`
 const FPBioimageApp = ({ datasetUrl }) => {
   const [metadata, setMetadata] = useState(null);
   const useBookmarksHook = useBookmarks();
+  const useSequenceHook = useSequence();
 
   useEffect(() => {
     setMetadata(null);
@@ -36,11 +39,19 @@ const FPBioimageApp = ({ datasetUrl }) => {
   return (
     <>
       {!!metadata && (
-        <FpbCanvas metadata={metadata} useBookmarks={useBookmarksHook} />
+        <FpbCanvas
+          metadata={metadata}
+          useBookmarks={useBookmarksHook}
+          useSequence={useSequenceHook}
+        />
       )}
-      <RecordingControls useBookmarks={useBookmarksHook} />
+      <RecordingControls
+        useBookmarks={useBookmarksHook}
+        useSequence={useSequenceHook}
+      />
       <Controls />
       <Annotation useBookmarks={useBookmarksHook} />
+      <EditSequence useSequence={useSequenceHook} />
     </>
   );
 };

@@ -5,12 +5,18 @@ import clipMaskImage from "./clipMask.png";
 
 import { Vector3, Matrix3, Plane, TextureLoader } from "three";
 
-const CuttingPlane = ({ callback, parentQuaternion, useBookmarks }) => {
+const CuttingPlane = ({
+  callback,
+  parentQuaternion,
+  useBookmarks,
+  useSequence,
+}) => {
   const delay = 2000;
   let timeout;
   const [showing, setShowing] = useState(false);
   const planeRef = useRef(null);
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
+  const { addToStep, stepInCreation } = useSequence;
   const clipMask = useLoader(TextureLoader, clipMaskImage);
 
   const [{ enabled, x, y, z }, setClippingControl] = useControl(
@@ -44,6 +50,10 @@ const CuttingPlane = ({ callback, parentQuaternion, useBookmarks }) => {
     if (bookmarkInCreation.idx !== null) {
       const clippingInfo = { enabled, x, y, z };
       addToBookmark("clipping", clippingInfo);
+    }
+    if (stepInCreation.idx !== null) {
+      const clippingInfo = { enabled, x, y, z };
+      addToStep("clipping", clippingInfo);
     }
 
     const c1 = Math.cos(y);
@@ -82,7 +92,7 @@ const CuttingPlane = ({ callback, parentQuaternion, useBookmarks }) => {
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [bookmarkInCreation.idx, x, y, z, enabled]);
+  }, [bookmarkInCreation.idx, stepInCreation.idx, x, y, z, enabled]);
 
   return (
     <group ref={planeRef}>
