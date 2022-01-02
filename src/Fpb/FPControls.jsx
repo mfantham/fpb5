@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
 import { Vector3, Euler } from "three";
-import { useThree } from "react-three-fiber";
+import { useThree, useFrame } from "react-three-fiber";
 import { useControl } from "./react-three-gui-fork";
+import TWEEN from "@tweenjs/tween.js";
 
 import {
   CAMERA_ROTATE_SPEED,
@@ -14,7 +15,12 @@ const FPControls = ({ domObject, useBookmarks, useSequence }) => {
   const { camera, invalidate } = useThree();
 
   const { bookmark, bookmarkInCreation, addToBookmark } = useBookmarks;
-  const { stepInCreation, addToStep } = useSequence;
+  const { stepInCreation, addToStep, playbackState } = useSequence;
+
+  useFrame(({ clock }) => {
+    const time = clock.getElapsedTime();
+    TWEEN.update(time * 1000);
+  });
 
   useEffect(() => {
     if (bookmarkInCreation.idx !== null) {
@@ -47,6 +53,16 @@ const FPControls = ({ domObject, useBookmarks, useSequence }) => {
       camera.position.z = bookmark.camera.position.z;
     }
   }, [bookmark?.idx]);
+
+  useEffect(() => {
+    if (playbackState && playbackState.camera) {
+      const { x, y, z } = playbackState.camera.rotation;
+      camera.setRotationFromEuler(new Euler(x, y, z, "XYZ"));
+      camera.position.x = playbackState.camera.position.x;
+      camera.position.y = playbackState.camera.position.y;
+      camera.position.z = playbackState.camera.position.z;
+    }
+  }, [playbackState?.hash]);
 
   const [firstPersonMode] = useControl("First person mode", {
     type: "boolean",

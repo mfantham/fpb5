@@ -16,7 +16,7 @@ const CuttingPlane = ({
   const [showing, setShowing] = useState(false);
   const planeRef = useRef(null);
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
-  const { addToStep, stepInCreation } = useSequence;
+  const { addToStep, stepInCreation, playbackState } = useSequence;
   const clipMask = useLoader(TextureLoader, clipMaskImage);
 
   const [{ enabled, x, y, z }, setClippingControl] = useControl(
@@ -39,6 +39,12 @@ const CuttingPlane = ({
       );
     }
   }, [bookmark]);
+
+  useEffect(() => {
+    if (playbackState?.clipping) {
+      setClippingControl(playbackState.clipping);
+    }
+  }, [playbackState.hash]);
 
   useEffect(() => {
     if (timeout) {

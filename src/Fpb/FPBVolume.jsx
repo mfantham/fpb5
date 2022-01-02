@@ -32,7 +32,7 @@ const FPBVolume = ({
   );
 
   const { bookmark, addToBookmark, bookmarkInCreation } = useBookmarks;
-  const { addToStep, stepInCreation } = useSequence;
+  const { addToStep, stepInCreation, playbackState } = useSequence;
   const [setRotation] = useRotationControls(objectRef.current, domObject);
   const [rendering, setRendering] = useRendering(metadata);
   const { projection, opacity, intensity, threshold, size } = rendering;
@@ -93,6 +93,13 @@ const FPBVolume = ({
       setRotation(bookmark.data.rotation);
     }
   }, [bookmark]);
+
+  useEffect(() => {
+    if (playbackState?.data) {
+      setRendering(playbackState.data.rendering);
+      setRotation(playbackState.data.rotation);
+    }
+  }, [playbackState.hash]);
 
   useRotationControls(objectRef.current, domObject);
 
