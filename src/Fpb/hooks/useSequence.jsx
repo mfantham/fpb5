@@ -30,6 +30,10 @@ const calculateSmoothRotation = (from, to, t) => {
     datarotationx: dataCurrentE.x,
     datarotationy: dataCurrentE.y,
     datarotationz: dataCurrentE.z,
+    datarenderingprojection: Math.floor(
+      t === 1 ? to.datarenderingprojection : from.datarenderingprojection
+    ),
+    clippingenabled: t === 1 ? to.clippingenabled : from.clippingenabled,
   };
 };
 
