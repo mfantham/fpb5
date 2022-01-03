@@ -38,4 +38,12 @@ export const ButtonHolder = styled.div`
   grid-gap: 8px;
 `;
 
+export const ListHolder = styled(ButtonHolder)`
+  margin: 0;
+  grid-template-columns: 1fr 32px;
+  grid-column-end: span 2;
+  max-height: 140px;
+  overflow-y: auto;
+`;
+
 export default Button;

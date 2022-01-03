@@ -1,4 +1,4 @@
-import Button, { ButtonHolder } from "./Button";
+import Button, { ButtonHolder, ListHolder } from "./Button";
 import { Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
@@ -36,7 +36,7 @@ const Video = ({ useSequence }) => {
   });
 
   return (
-    <>
+    <ButtonHolder>
       <Button
         onClick={() => {
           newSequence();
@@ -45,18 +45,8 @@ const Video = ({ useSequence }) => {
       >
         New sequence
       </Button>
-      <ButtonHolder
-        style={{
-          gridTemplateColumns: "1fr 32px",
-          gridColumnEnd: "span 2",
-          overflowY: "auto",
-          maxHeight: 220,
-          marginTop: 0,
-        }}
-      >
-        {sequenceButtons}
-      </ButtonHolder>
-    </>
+      <ListHolder>{sequenceButtons}</ListHolder>
+    </ButtonHolder>
   );
 };
 

@@ -7,6 +7,7 @@ import Screenshot from "./Screenshot";
 import Bookmarks from "./Bookmarks";
 import LiveVideo from "./LiveVideo";
 import Video from "./Video";
+import { clamp } from "../react-three-gui-fork/utils";
 
 const FloatingLeftMenu = styled.div`
   display: block;
@@ -14,12 +15,13 @@ const FloatingLeftMenu = styled.div`
   top: 50px;
   left: ${(p) => (p.open ? 0 : "-300px")};
   width: 300px;
+  overflow: hidden;
   max-width: 100vw;
   background-color: #2228;
   backdrop-filter: blur(20px);
   border-radius: 8px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
-  transition: left 0.4s ease;
+  transition: left 0.4s ease, height 0.4s ease;
 `;
 
 const Toggle = styled.button`
@@ -49,24 +51,35 @@ const Toggle = styled.button`
 `;
 
 const Items = styled.div`
-  padding: 58px 16px 16px 16px;
+  padding: 42px 16px 16px 16px;
 `;
+
+const calculateMenuHeight = (nBookmarks, nSequences) => {
+  let baseHeight = 42 + 16 + 32 + 16 + 16 + 32 + 16 + 32 + 16;
+  let bookmarksHeight = clamp(nBookmarks * 40 - 8, 32, 140);
+  let sequencesHeight = clamp(nSequences * 40 - 8, -8, 140);
+
+  console.log(nBookmarks, nSequences);
+  return baseHeight + bookmarksHeight + sequencesHeight;
+};
 
 const RecordingControls = ({ useBookmarks, useSequence }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
+  const menuHeight = calculateMenuHeight(
+    useBookmarks.arrayOfBookmarks.filter((v) => v).length,
+    useSequence.arrayOfSequences.length
+  );
 
   return (
     <>
-      <FloatingLeftMenu style={{ height: 400 }} open={open}>
+      <FloatingLeftMenu style={{ height: menuHeight }} open={open}>
         <Items>
           <ButtonHolder>
             <Screenshot />
             <LiveVideo />
           </ButtonHolder>
           <Bookmarks useBookmarks={useBookmarks} />
-          <ButtonHolder>
-            <Video useSequence={useSequence} />
-          </ButtonHolder>
+          <Video useSequence={useSequence} />
         </Items>
       </FloatingLeftMenu>
       <Toggle
