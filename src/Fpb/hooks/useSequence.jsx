@@ -109,8 +109,10 @@ export const useSequence = () => {
     stepIdx: null,
   });
 
-  const addStep = () => {
-    const newStep = { idx: arrayOfSequences[editingSequence].sequence.length };
+  const addStep = (idx) => {
+    const newStep = {
+      idx: idx ?? arrayOfSequences[editingSequence].sequence.length,
+    };
     setStepInCreation(newStep);
   };
 
@@ -128,9 +130,17 @@ export const useSequence = () => {
     if (readyForSave) {
       const stepIndex =
         stepInCreation.idx ?? arrayOfSequences[editingSequence].sequence.length;
-      arrayOfSequences[editingSequence].sequence[stepIndex] = toShallowObject(
-        stepInCreation
-      );
+      const stepToSave = toShallowObject(stepInCreation);
+
+      let sequence = [...arrayOfSequences[editingSequence].sequence];
+      sequence.splice(stepIndex, 0, stepToSave);
+      sequence = sequence.map((step, idx) => ({ ...step, idx: idx }));
+
+      setArrayOfSequences((s) => {
+        s[editingSequence].sequence = sequence;
+        return s;
+      });
+
       setStepInCreation({ idx: null });
     }
   };
@@ -141,6 +151,20 @@ export const useSequence = () => {
     newArrayOfSequences.push({ idx: newIdx, sequence: [] });
     setArrayOfSequences(newArrayOfSequences);
     setEditingSequence(newIdx);
+  };
+
+  const viewStep = (stepIdx) => {
+    const stepState = arrayOfSequences?.[editingSequence]?.sequence?.[stepIdx];
+
+    const hash = JSON.stringify(stepState);
+    const deepState = toDeepObject(stepState);
+    const newPlaybackState = {
+      hash,
+      sequenceIdx: editingSequence,
+      stepIdx: stepIdx,
+      ...deepState,
+    };
+    setPlaybackState(newPlaybackState);
   };
 
   const playSequence = (idx) => {
@@ -200,6 +224,7 @@ export const useSequence = () => {
     playSequence,
     stopSequence,
     playbackState,
+    viewStep,
     stepInCreation,
   };
 };

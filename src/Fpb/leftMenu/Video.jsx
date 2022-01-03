@@ -3,10 +3,6 @@ import { Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
-const recordSequence = () => {
-  console.log("Record a sequence");
-};
-
 const Video = ({ useSequence }) => {
   const {
     arrayOfSequences,

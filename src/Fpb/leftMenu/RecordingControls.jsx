@@ -1,7 +1,8 @@
-import styled from "styled-components";
 import { useState } from "react";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+
 import { ButtonHolder } from "./Button";
 import Screenshot from "./Screenshot";
 import Bookmarks from "./Bookmarks";
@@ -59,7 +60,6 @@ const calculateMenuHeight = (nBookmarks, nSequences) => {
   let bookmarksHeight = clamp(nBookmarks * 40 - 8, 32, 140);
   let sequencesHeight = clamp(nSequences * 40 - 8, -8, 140);
 
-  console.log(nBookmarks, nSequences);
   return baseHeight + bookmarksHeight + sequencesHeight;
 };
 
@@ -67,7 +67,7 @@ const RecordingControls = ({ useBookmarks, useSequence }) => {
   const [open, setOpen] = useState(window.innerWidth > 600);
   const menuHeight = calculateMenuHeight(
     useBookmarks.arrayOfBookmarks.filter((v) => v).length,
-    useSequence.arrayOfSequences.length
+    useSequence.arrayOfSequences.filter((v) => v).length
   );
 
   return (
