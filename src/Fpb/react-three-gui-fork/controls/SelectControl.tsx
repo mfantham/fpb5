@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BaseControl } from "./BaseControl";
 
-const Select = styled.select`
+export const Select = styled.select`
   display: block;
 
   font-family: sans-serif;
@@ -22,7 +22,7 @@ const Select = styled.select`
   padding: 0 4px;
 `;
 
-const Option = styled.option`
+export const Option = styled.option`
   background-color: black;
 `;
 

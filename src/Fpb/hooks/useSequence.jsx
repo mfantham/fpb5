@@ -2,6 +2,27 @@ import { useState } from "react";
 import TWEEN from "@tweenjs/tween.js";
 import { Quaternion, Euler } from "three";
 
+export const TRANSITION_OPTIONS = [
+  { label: "Linear", value: "linear" },
+  { label: "Smooth", value: "inout" },
+  { label: "S → L", value: "in" },
+  { label: "L → S", value: "out" },
+];
+
+const transitionToEasing = (transitionValue) => {
+  switch (transitionValue) {
+    case "inout":
+      return TWEEN.Easing.Quadratic.InOut;
+    case "in":
+      return TWEEN.Easing.Quadratic.In;
+    case "out":
+      return TWEEN.Easing.Quadratic.Out;
+    case "linear":
+    default:
+      return TWEEN.Easing.Linear.None;
+  }
+};
+
 const calculateSmoothRotation = (from, to, t) => {
   // Urgh, rotations are ugly
   const cameraStartQ = new Quaternion().setFromEuler(
@@ -40,6 +61,8 @@ const calculateSmoothRotation = (from, to, t) => {
 const toShallowObject = (deepObject) => {
   return {
     idx: deepObject.idx,
+    duration: deepObject.duration,
+    transition: deepObject.transition,
     camerapositionx: deepObject.camera.position.x,
     camerapositiony: deepObject.camera.position.y,
     camerapositionz: deepObject.camera.position.z,
@@ -63,6 +86,8 @@ const toShallowObject = (deepObject) => {
 const toDeepObject = (shallowObject) => {
   return {
     idx: shallowObject.idx,
+    duration: shallowObject.duration,
+    transition: shallowObject.transition,
     camera: {
       position: {
         x: shallowObject.camerapositionx,
@@ -112,12 +137,23 @@ export const useSequence = () => {
   const addStep = (idx) => {
     const newStep = {
       idx: idx ?? arrayOfSequences[editingSequence].sequence.length,
+      duration: 2,
+      transition: "linear",
     };
     setStepInCreation(newStep);
   };
 
+  const updateStep = (key, value, sequenceIdx, stepIdx) => {
+    setArrayOfSequences((s) => {
+      if (s?.[sequenceIdx]?.sequence?.[stepIdx]) {
+        s[sequenceIdx].sequence[stepIdx][key] = value;
+      }
+      return s;
+    });
+  };
+
   const addToStep = (key, value) => {
-    const updatedStep = stepInCreation;
+    let updatedStep = stepInCreation;
     updatedStep[key] = value;
     setStepInCreation(updatedStep);
     saveStep();
@@ -169,7 +205,6 @@ export const useSequence = () => {
 
   const playSequence = (idx) => {
     // do something
-    const duration = 2000; // should come from sequence 0 (or 1??)
     const mutatedState = { ...arrayOfSequences[idx].sequence[0] };
 
     const initialTween = new TWEEN.Tween(mutatedState).to(
@@ -181,9 +216,12 @@ export const useSequence = () => {
     let tweens = [initialTween];
     for (let n = 1; n < nSteps; n++) {
       const step = arrayOfSequences[idx].sequence[n];
+      const duration =
+        1000 * Number(arrayOfSequences[idx].sequence[n].duration);
+      const transition = arrayOfSequences[idx].sequence[n].transition;
       const stepTween = new TWEEN.Tween(mutatedState)
         .to(step, duration)
-        .easing(TWEEN.Easing.Quadratic.InOut)
+        .easing(transitionToEasing(transition))
         .onUpdate(() => {
           const progress = mutatedState.idx === n ? 1 : mutatedState.idx % 1;
           const smoothRotations = calculateSmoothRotation(
@@ -220,6 +258,7 @@ export const useSequence = () => {
     setEditingSequence,
     addStep,
     addToStep,
+    updateStep,
     newSequence,
     playSequence,
     stopSequence,
