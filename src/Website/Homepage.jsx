@@ -12,7 +12,10 @@ const Homepage = () => {
       <h1>FPBioimage Demo Site</h1>
       <ul>
         <li>
-          <ExampleLink to="?demo=brain">MRI Brain</ExampleLink>
+          <ExampleLink to="?demo=brain">MRI brain</ExampleLink>
+        </li>
+        <li>
+          <ExampleLink to="?demo=cthead">CT scan</ExampleLink>
         </li>
         <li>
           <ExampleLink to="?demo=mouse">Mouse embryo</ExampleLink>

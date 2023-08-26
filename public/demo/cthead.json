@@ -1,0 +1,18 @@
+{
+  "atlasMode": "true",
+  "imageAlpha": "true",
+  "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4",
+  "pathToImages": "./cthead-images/",
+  "uniqueName": "cthead",
+  "imagePrefix": "cthead_z",
+  "numberingFormat": "0000",
+  "fileType": "png",
+  "voxelSize": { "x": 1.0, "y": 1.0, "z": 2.0 },
+  "numberOfImages": 99,
+  "sliceWidth": 256,
+  "sliceHeight": 256,
+  "opacity": 4.64,
+  "intensity": 1.4,
+  "threshold": 0.21,
+  "projection": 0
+}
