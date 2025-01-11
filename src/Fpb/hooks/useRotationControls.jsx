@@ -36,7 +36,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       }
       invalidate();
     },
-    [objectToRotate, camera.quaternion]
+    [invalidate, camera.quaternion, objectToRotate]
   );
 
   const handleUserKeyPress = useCallback(
@@ -74,7 +74,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       objectToRotate.rotateOnAxis(localAxisY, movementY);
       invalidate();
     },
-    [objectToRotate, camera.quaternion]
+    [camera.quaternion, objectToRotate, invalidate]
   );
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
     }
     finger.current = touches;
     invalidate();
-  }, []);
+  }, [camera.quaternion, invalidate, objectToRotate]);
 
   const handlePointerUp = useCallback(() => {
     domObject.removeEventListener("pointermove", handlePointerMove);
@@ -118,6 +118,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       if (e.pointerType !== "touch") {
         domObject.addEventListener("pointermove", handlePointerMove);
       } else {
+        finger.current = e.touches;
         domObject.addEventListener("touchmove", handleTouchMove);
       }
       domObject.addEventListener("pointerup", handlePointerUp);

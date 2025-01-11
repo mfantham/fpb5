@@ -1,0 +1,21 @@
+{
+  "uniqueName": "ct-scan1",
+  "numberOfImages": 500,
+  "sliceWidth": 500,
+  "sliceHeight": 251,
+  "imagePrefix": "atlas_",
+  "numberingFormat": "0000",
+  "pathToImages": "../katie/ct-scan1/",
+  "voxelSize": {
+    "x": 793.4959716796875,
+    "y": 781.0,
+    "z": 1081.5999755859375
+  },
+  "opacity": 7.668992042541504,
+  "intensity": 1.8454482555389405,
+  "threshold": 0.10000000149011612,
+  "projection": 1,
+  "atlasMode": "true",
+  "imageAlpha": "false",
+  "pathToFPBioimage": "https://fpb.ceb.cam.ac.uk/4"
+}
