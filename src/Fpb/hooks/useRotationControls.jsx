@@ -118,6 +118,7 @@ export const useRotationControls = (objectToRotate, domObject = window) => {
       if (e.pointerType !== "touch") {
         domObject.addEventListener("pointermove", handlePointerMove);
       } else {
+        finger.current = e.touches;
         domObject.addEventListener("touchmove", handleTouchMove);
       }
       domObject.addEventListener("pointerup", handlePointerUp);
