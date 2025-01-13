@@ -85,7 +85,10 @@ void main() {
       vec3 rayPosition = startPoint + float(s) * rayStep;
       bool clip = u_clipping_on && dot(rayPosition, u_clipping_normal) < -u_clipping_offset;
       if (!clip && all(lessThan(rayPosition, vec3(0.5))) && all(greaterThan(rayPosition, vec3(-0.5)))) {
-        vec4 voxelColor = sample3D(rayPosition + 0.5);
+        // Flip y to align with browser axis direction
+        vec3 sampleVoxel = rayPosition + 0.5;
+        sampleVoxel.y = 1.0 + sampleVoxel.y * -1.0;
+        vec4 voxelColor = sample3D(sampleVoxel);
         float voxelGray = meanColor(voxelColor.rgb);
         if (voxelGray < threshold) continue;
 
